@@ -12,24 +12,12 @@ vimrc
 ## Getting Started
 
 ```
-git clone https://github.com/guodongq/vimrc ~/.vimrc
+git clone https://github.com/guodongq/dotfiles ~/.dotfiles
 ```
 
 ## Vim Integrated
 ```
-ln -sv ~/.vimrc ~/.vim
-```
-
-## NeoVim Integrated
-
-```
-ln -sv ~/.vimrc ~/.config/nvim
-```
-
-## Tmux Integrated
-
-```
-ln -sv ~/.vimrc/.tmux.conf ~/.tmux.conf
+ln -sv ~/.dotfiles/vim ~/.vim
 ```
 
 ## Shortcuts
