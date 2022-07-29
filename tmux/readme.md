@@ -1,2 +1,2 @@
-Tmux
+tmux
 ===

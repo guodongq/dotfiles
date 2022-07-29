@@ -1,7 +1,7 @@
-vimrc
+vim
 ====
 
-## Prequirement
+## Prerequisite
 
 - git
 - curl
@@ -16,6 +16,7 @@ git clone https://github.com/guodongq/dotfiles ~/.dotfiles
 ```
 
 ## Vim Integrated
+
 ```
 ln -sv ~/.dotfiles/vim ~/.vim
 ```

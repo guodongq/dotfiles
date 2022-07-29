@@ -1,6 +1,6 @@
 # dotfiles
 🏡 It's personal
 
-- [Neovim](nvim)
-- [Vim](vim)
-- [Tmux](tmux)
+- [neovim](nvim)
+- [vim](vim)
+- [tmux](tmux)
