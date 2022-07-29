@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 -- when enter terminal, go to insert mode directly
-auvim.api.nvim_create_autocmd("TermOpen", {
+vim.api.nvim_create_autocmd("TermOpen", {
   group = myAutoGroup,
   command = "startinsert",
 })
