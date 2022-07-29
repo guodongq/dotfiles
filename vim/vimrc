@@ -1,0 +1,36 @@
+"==========================================
+" Author: Guodong Qian
+" Version: v1.0.1
+" Email: qgd365@126.com
+" LastModify: 2021-11-23
+" Sections:
+"        -> general.vim 基础设置
+"        -> optional.vim 可选设置
+"        -> plugin.vim 插件设置
+"        -> mapping.vim 快捷键设置
+"        -> theme.vim 主题设置
+"
+" Note: Don't put anything in your .vimrc you don't understand!
+"==========================================
+
+let g:home = fnamemodify(resolve(expand('<sfile>:p')), ':h')
+
+" Loading basic configuration
+let configs = [
+                        \ 'general.vim',
+                        \ 'optional.vim',
+                        \ 'plugin.vim',
+                        \ 'mapping.vim',
+                        \ 'theme.vim'
+                        \ ]
+
+for config in configs
+    execute printf('source %s/config/%s', g:home, config)
+endfor
+
+
+" Loading plugin configuration
+let settings = split(globpath(g:home.'/setting', '*.vim'), '\n')
+for setting in settings
+    exec 'source' fnameescape(setting)
+endfor

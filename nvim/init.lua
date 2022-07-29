@@ -1,0 +1,28 @@
+-- Basic
+require("options")
+require("keymaps")
+require("plugins")
+require("colorscheme")
+require("autocommands")
+-- Plugins
+require("plug.nvim-tree")
+require("plug.bufferline")
+require("plug.lualine")
+require("plug.telescope")
+require("plug.project")
+require("plug.dashboard")
+require("plug.treesitter")
+require("plug.indent_blankline")
+require("plug.toggleterm")
+require("plug.surround")
+require("plug.comment")
+require("plug.gitsigns")
+require("plug.nvim-autopairs")
+require("plug.fidget")
+require("plug.impatient")
+require("plug.illuminate")
+require("plug.alpha")
+-- LSP
+require("lsp.complete")
+-- DAP
+require("dap.init")
