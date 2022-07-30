@@ -23,6 +23,7 @@ neovim
 - [启动界面Dashboard](lua/plug/startup.lua)
 - [语法管理](lua/plug/nvim-treesitter.lua)
 - [友好的代码展示Indent](lua/plug/indent_blankline.lua)
+- [命令行](lua/plug/toggleterm.lua)
 
 ### LSP
 
