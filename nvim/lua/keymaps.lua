@@ -49,6 +49,7 @@ keymap("n", "<leader>s", "<cmd>sp<CR>", opts)
 
 -- Close the windows
 keymap("n", "<leader>q", "<C-W>q<CR>", opts)
+keymap("n", "<leader>Q", "<cmd>wqa!<CR>", opts)
 
 -- Press jk fast to enter
 keymap("i", "jk", "<ESC>", opts)
