@@ -3,16 +3,7 @@ local myAutoGroup = vim.api.nvim_create_augroup("myAutoGroup", {
 })
 
 
--- nvim-tree close automatically when no buffers
-vim.api.nvim_create_autocmd("BufEnter", {
-  nested = true,
-  group = myAutoGroup,
-  callback = function ()
-    if #vim.api.nvim_list_wins() == 1 and vim.api.nvim_buf_get_name(0):match("NvimTree_") ~= nil then
-      vim.cmd("quit")
-    end
-  end,
-})
+
 
 -- when enter terminal, go to insert mode directly
 vim.api.nvim_create_autocmd("TermOpen", {

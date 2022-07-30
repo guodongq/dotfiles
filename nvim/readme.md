@@ -16,7 +16,12 @@ neovim
 ### 插件配置
 
 - [目录树](lua/plug/nvim-tree.lua)
-- 
+- [Buffer](lua/plug/bufferline.lua) 
+- [状态栏](lua/plug/lualine.lua)
+- [模糊查找](lua/plug/telescope.lua)
+- [项目管理](lua/plug/project.lua)
+- [启动界面Dashboard](lua/plug/startup.lua)
+- [语法管理](lua/plug/nvim-treesitter.lua)
 
 ### LSP
 
