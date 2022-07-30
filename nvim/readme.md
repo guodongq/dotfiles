@@ -26,6 +26,7 @@ neovim
 - [命令行](lua/plug/toggleterm.lua)
 - [注释](lua/plug/comment.lua)
 - [显示Git状态](lua/plug/gitsigns.lua)
+- [自动匹配括号](lua/plug/nvim-autopairs.lua)
 
 ### LSP
 
