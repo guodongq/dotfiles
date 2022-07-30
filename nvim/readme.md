@@ -27,6 +27,8 @@ neovim
 - [注释](lua/plug/comment.lua)
 - [显示Git状态](lua/plug/gitsigns.lua)
 - [自动匹配括号](lua/plug/nvim-autopairs.lua)
+- [文字环绕](lua/plug/nvim-surround.lua)
+- [加载Lua模块以缩短启动时间](lua/plug/impatient.lua)
 
 ### LSP
 

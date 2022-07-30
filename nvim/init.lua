@@ -17,10 +17,10 @@ require("plug.toggleterm")
 require("plug.comment")
 require("plug.gitsigns")
 require("plug.nvim-autopairs")
--- require("plug.surround")
+require("plug.nvim-surround")
+require("plug.illuminate")
+require("plug.impatient")
 -- require("plug.fidget")
--- require("plug.impatient")
--- require("plug.illuminate")
 -- LSP
 -- require("lsp.complete")
 -- DAP
