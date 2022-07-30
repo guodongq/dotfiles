@@ -20,8 +20,9 @@ require("plug.nvim-autopairs")
 require("plug.nvim-surround")
 require("plug.illuminate")
 require("plug.impatient")
--- require("plug.fidget")
 -- LSP
--- require("lsp.complete")
+require("lsp")
+-- require("lsp.cmp")
+-- require("lsp.ui")
 -- DAP
 -- require("dap.init")
