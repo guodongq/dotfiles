@@ -24,6 +24,8 @@ neovim
 - [语法管理](lua/plug/nvim-treesitter.lua)
 - [友好的代码展示Indent](lua/plug/indent_blankline.lua)
 - [命令行](lua/plug/toggleterm.lua)
+- [注释](lua/plug/comment.lua)
+- [显示Git状态](lua/plug/gitsigns.lua)
 
 ### LSP
 
