@@ -15,7 +15,10 @@ return require('packer').startup(function(use)
     ---------------------
     -- Package Manager --
     ---------------------
-    use('wbthomason/packer.nvim')
+    use({
+	 'wbthomason/packer.nvim',
+	 commit = '14571611c06e757f4f5fe46b82657417645c74dc',
+    })
     use('nvim-lua/plenary.nvim')
 
 
@@ -370,19 +373,19 @@ return require('packer').startup(function(use)
     -----------------------------------
     -- Debugs --
     -----------------------------------
-    use({
-        {
-            'rcarriga/nvim-dap-ui',
-            config = function()
-                require('plugins.debug.dap')
-            end,
-            requires = {
-                {
-                    'mfussenegger/nvim-dap',
-                },
-            },
-        }
-    })
+    --use({
+    --    {
+    --        'rcarriga/nvim-dap-ui',
+    --        config = function()
+    --            require('plugins.debug.dap')
+    --        end,
+    --        requires = {
+    --            {
+    --                'mfussenegger/nvim-dap',
+    --            },
+    --        },
+    --    }
+    --})
 
 
 
