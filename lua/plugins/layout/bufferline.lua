@@ -11,7 +11,7 @@ require("bufferline").setup {
         enforce_regular_tabs = true,
         offsets = {
             {
-                text = 'EXPLORER',
+                text = 'FILE EXPLORER',
                 filetype = 'NvimTree',
                 highlight = 'PanelHeading',
                 text_align = 'left',
