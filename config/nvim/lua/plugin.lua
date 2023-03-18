@@ -1,7 +1,7 @@
 -- Automatically run :PackerCompile whenever plugins.lua is updated with an autocommand:
 vim.api.nvim_create_autocmd('BufWritePost', {
     group = vim.api.nvim_create_augroup('PACKER', { clear = true }),
-    pattern = 'plugins.lua',
+    pattern = 'plugin.lua',
     command = 'source <afile> | PackerCompile',
 })
 
@@ -44,7 +44,7 @@ return require('packer').startup({
         use({
             'folke/tokyonight.nvim',
             config = function()
-                require('user.colorscheme')
+                require('theme')
             end,
         })
 
@@ -52,7 +52,7 @@ return require('packer').startup({
             'nvim-lualine/lualine.nvim',
             event = 'VimEnter',
             config = function()
-                require('user.plugins.lualine')
+                require('plugin.lualine')
             end,
             requires = {
                 { 'nvim-tree/nvim-web-devicons' }
@@ -65,7 +65,7 @@ return require('packer').startup({
             event = 'VimEnter',
             after = { 'tokyonight.nvim' },
             config = function()
-                require('user.plugins.bufferline')
+                require('plugin.bufferline')
             end,
             requires = {
                 { 'moll/vim-bbye' },
@@ -78,7 +78,7 @@ return require('packer').startup({
             'goolord/alpha-nvim',
             event = 'VimEnter',
             config = function()
-                require("user.plugins.dashboard")
+                require("plugin.dashboard")
             end,
         })
 
@@ -88,7 +88,7 @@ return require('packer').startup({
         use({
             'nvim-tree/nvim-tree.lua',
             config = function()
-                require('user.plugins.nvim-tree')
+                require('plugin.nvim-tree')
             end,
             after = { 'tokyonight.nvim' },
             requires = {
@@ -101,7 +101,7 @@ return require('packer').startup({
                 'nvim-telescope/telescope.nvim',
                 event = 'CursorHold',
                 config = function()
-                    require('user.plugins.telescope')
+                    require('plugin.telescope')
                 end,
                 requires = {
                     { 'nvim-lua/plenary.nvim' },
@@ -133,7 +133,7 @@ return require('packer').startup({
             branch = 'v2',
             event = 'BufReadPost',
             config = function()
-                require('user.plugins.hop')
+                require('plugin.hop')
             end,
         })
 
@@ -141,7 +141,7 @@ return require('packer').startup({
             'numToStr/Navigator.nvim',
             event = 'CursorHold',
             config = function()
-                require('user.plugins.navigator')
+                require('plugin.navigator')
             end,
         })
 
@@ -161,7 +161,7 @@ return require('packer').startup({
                 'nvim-treesitter/nvim-treesitter',
                 run = ':TSUpdate',
                 config = function()
-                    require('user.plugins.treesitter')
+                    require('plugin.treesitter')
                 end,
             },
             { 'nvim-treesitter/playground', requires = { 'nvim-treesitter/nvim-treesitter' } },
@@ -180,7 +180,7 @@ return require('packer').startup({
             'lukas-reineke/indent-blankline.nvim',
             event = 'BufRead',
             config = function()
-                require('user.plugins.indentline')
+                require('plugin.indentline')
             end,
         })
 
@@ -207,7 +207,7 @@ return require('packer').startup({
             'rhysd/git-messenger.vim',
             event = 'BufRead',
             config = function()
-                require('user.plugins.git-messenger')
+                require('plugin.git-messenger')
             end,
         })
 
@@ -215,7 +215,7 @@ return require('packer').startup({
             'sindrets/diffview.nvim',
             event = 'BufRead',
             config = function()
-                require('user.plugins.diffview')
+                require('plugin.diffview')
             end,
         })
 
@@ -226,12 +226,12 @@ return require('packer').startup({
             'numToStr/Comment.nvim',
             event = 'BufRead',
             config = function()
-                require('user.plugins.comment')
+                require('plugin.comment')
             end,
             after = 'nvim-ts-context-commentstring',
         })
 
-        use('numToStr/prettierrc.nvim')
+        -- use('numToStr/prettierrc.nvim')
 
         use({
             'tpope/vim-surround',
@@ -263,7 +263,7 @@ return require('packer').startup({
             tag = '*',
             event = 'UIEnter',
             config = function()
-                require('user.plugins.toggleterm')
+                require('plugin.toggleterm')
             end,
         })
 
@@ -275,7 +275,7 @@ return require('packer').startup({
             event = 'VimEnter',
             after = { 'mason.nvim', 'nvim-lspconfig' },
             config = function()
-                require('user.plugins.lsp.mason')
+                require('plugin.lsp.mason')
             end,
             requires = {
                 { 'williamboman/mason.nvim' },
@@ -286,7 +286,7 @@ return require('packer').startup({
             {
                 'neovim/nvim-lspconfig',
                 config = function()
-                    require('user.plugins.lsp.servers')
+                    require('plugin.lsp.servers')
                 end,
                 after = 'cmp-nvim-lsp',
                 requires = {
@@ -300,7 +300,7 @@ return require('packer').startup({
                 'jose-elias-alvarez/null-ls.nvim',
                 event = 'BufRead',
                 config = function()
-                    require('user.plugins.lsp.null-ls')
+                    require('plugin.lsp.null-ls')
                 end,
             },
             {
@@ -319,14 +319,14 @@ return require('packer').startup({
                 'hrsh7th/nvim-cmp',
                 event = { 'InsertEnter', 'CmdlineEnter' },
                 config = function()
-                    require('user.plugins.lsp.nvim-cmp')
+                    require('plugin.lsp.nvim-cmp')
                 end,
                 requires = {
                     {
                         'L3MON4D3/LuaSnip',
                         event = { 'InsertEnter', 'CmdlineEnter' },
                         config = function()
-                            require('user.plugins.lsp.luasnip')
+                            require('plugin.lsp.luasnip')
                         end,
                         requires = {
                             { 'rafamadriz/friendly-snippets' },
@@ -348,7 +348,7 @@ return require('packer').startup({
             event = 'InsertCharPre',
             after = 'nvim-cmp',
             config = function()
-                require('user.plugins.pairs')
+                require('plugin.pairs')
             end,
         })
 
@@ -367,14 +367,14 @@ return require('packer').startup({
         use {
             'folke/which-key.nvim',
             config = function()
-                require('user.plugins.which-key')
+                require('plugin.which-key')
             end,
         }
 
         use {
             'eduardomillans/maximizer.nvim',
             config = function()
-                require('user.plugins.maximizer')
+                require('plugin.maximizer')
             end,
             event = 'VimEnter',
         }
@@ -382,7 +382,7 @@ return require('packer').startup({
         use {
             'kowsmo7/window-picker.nvim',
             config = function()
-                require('user.plugins.window-picker')
+                require('plugin.window-picker')
             end,
             event = 'VimEnter',
         }
@@ -407,7 +407,7 @@ return require('packer').startup({
                 'haydenmeade/neotest-jest',
             },
             config = function()
-                require('user.plugins.neotest')
+                require('plugin.neotest')
             end,
         })
 
@@ -444,7 +444,7 @@ return require('packer').startup({
                 { 'kevinhwang91/promise-async' },
             },
             config = function()
-                require('user.plugins.ufo')
+                require('plugin.ufo')
             end,
         })
 
@@ -473,7 +473,7 @@ return require('packer').startup({
         use({
             'rcarriga/nvim-dap-ui',
             config = function()
-                require('user.plugins.dap')
+                require('plugin.dap')
             end,
             event = 'CursorHold',
             requires = {

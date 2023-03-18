@@ -10,3 +10,4 @@
     ~/.config:
       force: true
       path: config
+    ~/.zprofile: zprofile

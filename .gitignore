@@ -1,1 +1,5 @@
 config/clash
+.idea
+config/fish
+config/htop
+config/iterm2
