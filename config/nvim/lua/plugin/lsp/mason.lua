@@ -2,7 +2,7 @@ require('mason').setup()
 
 require('mason-lspconfig').setup({
     ensure_installed = {
-        "sumneko_lua",
+        -- "sumneko_lua",
         "gopls",
         "clangd",
         "bashls",

@@ -33,35 +33,35 @@ vim.diagnostic.config({
 })
 
 -- Lua
-lsp.sumneko_lua.setup({
-    flags = flags,
-    capabilities = capabilities,
-    on_attach = on_attach,
-    settings = {
-        Lua = {
-            completion = {
-                enable = true,
-                showWord = 'Disable',
-                -- keywordSnippet = 'Disable',
-            },
-            runtime = {
-                -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-                version = 'LuaJIT',
-            },
-            diagnostics = {
-                globals = { 'vim' },
-            },
-            workspace = {
-                -- Make the server aware of Neovim runtime files
-                library = { os.getenv('VIMRUNTIME') },
-            },
-            -- Do not send telemetry data containing a randomized but unique identifier
-            telemetry = {
-                enable = false,
-            },
-        },
-    },
-})
+-- lsp.sumneko_lua.setup({
+--     flags = flags,
+--     capabilities = capabilities,
+--     on_attach = on_attach,
+--     settings = {
+--         Lua = {
+--             completion = {
+--                 enable = true,
+--                 showWord = 'Disable',
+--                 -- keywordSnippet = 'Disable',
+--             },
+--             runtime = {
+--                 -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+--                 version = 'LuaJIT',
+--             },
+--             diagnostics = {
+--                 globals = { 'vim' },
+--             },
+--             workspace = {
+--                 -- Make the server aware of Neovim runtime files
+--                 library = { os.getenv('VIMRUNTIME') },
+--             },
+--             -- Do not send telemetry data containing a randomized but unique identifier
+--             telemetry = {
+--                 enable = false,
+--             },
+--         },
+--     },
+-- })
 
 -- Rust
 --lsp.rust_analyzer.setup({
