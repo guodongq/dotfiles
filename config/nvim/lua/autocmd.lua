@@ -80,7 +80,12 @@ vim.api.nvim_create_autocmd("BufReadPre", {
 -- })
 
 -- Highlight on yank
-vim.cmd("au TextYankPost * lua vim.highlight.on_yank {}")
+vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+    pattern = { "*" },
+    callback = function()
+        vim.highlight.on_yank()
+    end
+})
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
     pattern = {
