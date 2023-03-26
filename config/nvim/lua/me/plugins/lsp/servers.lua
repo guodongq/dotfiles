@@ -1,5 +1,5 @@
 local lsp = require('lspconfig')
-local U = require('plugin.lsp.utils')
+local U = require('me.plugins.lsp.utils')
 
 ---Common perf related flags for all the LSP servers
 local flags = {

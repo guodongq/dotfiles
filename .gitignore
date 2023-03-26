@@ -3,3 +3,5 @@ config/clash
 config/fish
 config/htop
 config/iterm2
+config/archive
+config/lvim

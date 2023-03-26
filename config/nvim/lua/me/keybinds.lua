@@ -11,7 +11,7 @@ local function map(m, k, v)
 end
 
 --Remap space as leader key
-map("", "<Space>", "<Nop>", opts)
+map("", "<Space>", "<Nop>")
 map("i", "jk", "<ESC>")
 
 vim.g.mapleader = [[ ]]
