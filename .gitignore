@@ -5,3 +5,5 @@ config/htop
 config/iterm2
 config/archive
 config/lvim
+config/nvim_spacevim
+config/hpoczone

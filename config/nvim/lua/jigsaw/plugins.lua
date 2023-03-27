@@ -44,7 +44,7 @@ return require('packer').startup({
         use({
             'folke/tokyonight.nvim',
             config = function()
-                require('me.plugins.colors')
+                require('jigsaw.plugins.colors')
             end,
         })
 
@@ -52,7 +52,7 @@ return require('packer').startup({
             'nvim-lualine/lualine.nvim',
             event = 'VimEnter',
             config = function()
-                require('me.plugins.lualine')
+                require('jigsaw.plugins.lualine')
             end,
             requires = {
                 { 'nvim-tree/nvim-web-devicons' }
@@ -65,7 +65,7 @@ return require('packer').startup({
             event = 'VimEnter',
             after = { 'tokyonight.nvim' },
             config = function()
-                require('me.plugins.bufferline')
+                require('jigsaw.plugins.bufferline')
             end,
             requires = {
                 { 'moll/vim-bbye' },
@@ -78,7 +78,7 @@ return require('packer').startup({
             'goolord/alpha-nvim',
             event = 'VimEnter',
             config = function()
-                require("me.plugins.dashboard")
+                require("jigsaw.plugins.dashboard")
             end,
         })
 
@@ -88,7 +88,7 @@ return require('packer').startup({
         use({
             'nvim-tree/nvim-tree.lua',
             config = function()
-                require('me.plugins.nvim-tree')
+                require('jigsaw.plugins.nvim-tree')
             end,
             after = { 'tokyonight.nvim' },
             requires = {
@@ -101,7 +101,7 @@ return require('packer').startup({
                 'nvim-telescope/telescope.nvim',
                 event = 'CursorHold',
                 config = function()
-                    require('me.plugins.telescope')
+                    require('jigsaw.plugins.telescope')
                 end,
                 requires = {
                     { 'nvim-lua/plenary.nvim' },
@@ -133,7 +133,7 @@ return require('packer').startup({
             branch = 'v2',
             event = 'BufReadPost',
             config = function()
-                require('me.plugins.hop')
+                require('jigsaw.plugins.hop')
             end,
         })
 
@@ -141,7 +141,7 @@ return require('packer').startup({
             'numToStr/Navigator.nvim',
             event = 'CursorHold',
             config = function()
-                require('me.plugins.navigator')
+                require('jigsaw.plugins.navigator')
             end,
         })
 
@@ -161,7 +161,7 @@ return require('packer').startup({
                 'nvim-treesitter/nvim-treesitter',
                 run = ':TSUpdate',
                 config = function()
-                    require('me.plugins.treesitter')
+                    require('jigsaw.plugins.treesitter')
                 end,
             },
             { 'nvim-treesitter/playground', requires = { 'nvim-treesitter/nvim-treesitter' } },
@@ -180,7 +180,7 @@ return require('packer').startup({
             'lukas-reineke/indent-blankline.nvim',
             event = 'BufRead',
             config = function()
-                require('me.plugins.indentline')
+                require('jigsaw.plugins.indentline')
             end,
         })
 
@@ -207,7 +207,7 @@ return require('packer').startup({
             'rhysd/git-messenger.vim',
             event = 'BufRead',
             config = function()
-                require('me.plugins.git-messenger')
+                require('jigsaw.plugins.git-messenger')
             end,
         })
 
@@ -215,7 +215,7 @@ return require('packer').startup({
             'sindrets/diffview.nvim',
             event = 'BufRead',
             config = function()
-                require('me.plugins.diffview')
+                require('jigsaw.plugins.diffview')
             end,
         })
 
@@ -226,7 +226,7 @@ return require('packer').startup({
             'numToStr/Comment.nvim',
             event = 'BufRead',
             config = function()
-                require('me.plugins.comment')
+                require('jigsaw.plugins.comment')
             end,
             after = 'nvim-ts-context-commentstring',
         })
@@ -263,7 +263,7 @@ return require('packer').startup({
             tag = '*',
             event = 'UIEnter',
             config = function()
-                require('me.plugins.toggleterm')
+                require('jigsaw.plugins.toggleterm')
             end,
         })
 
@@ -275,7 +275,7 @@ return require('packer').startup({
             event = 'VimEnter',
             after = { 'mason.nvim', 'nvim-lspconfig' },
             config = function()
-                require('me.plugins.lsp.mason')
+                require('jigsaw.plugins.lsp.mason')
             end,
             requires = {
                 { 'williamboman/mason.nvim' },
@@ -286,7 +286,7 @@ return require('packer').startup({
             {
                 'neovim/nvim-lspconfig',
                 config = function()
-                    require('me.plugins.lsp.servers')
+                    require('jigsaw.plugins.lsp.servers')
                 end,
                 after = 'cmp-nvim-lsp',
                 requires = {
@@ -300,7 +300,7 @@ return require('packer').startup({
                 'jose-elias-alvarez/null-ls.nvim',
                 event = 'BufRead',
                 config = function()
-                    require('me.plugins.lsp.null-ls')
+                    require('jigsaw.plugins.lsp.null-ls')
                 end,
             },
             {
@@ -319,14 +319,14 @@ return require('packer').startup({
                 'hrsh7th/nvim-cmp',
                 event = { 'InsertEnter', 'CmdlineEnter' },
                 config = function()
-                    require('me.plugins.lsp.nvim-cmp')
+                    require('jigsaw.plugins.lsp.nvim-cmp')
                 end,
                 requires = {
                     {
                         'L3MON4D3/LuaSnip',
                         event = { 'InsertEnter', 'CmdlineEnter' },
                         config = function()
-                            require('me.plugins.lsp.luasnip')
+                            require('jigsaw.plugins.lsp.luasnip')
                         end,
                         requires = {
                             { 'rafamadriz/friendly-snippets' },
@@ -348,7 +348,7 @@ return require('packer').startup({
             event = 'InsertCharPre',
             after = 'nvim-cmp',
             config = function()
-                require('me.plugins.pairs')
+                require('jigsaw.plugins.pairs')
             end,
         })
 
@@ -367,14 +367,14 @@ return require('packer').startup({
         use {
             'folke/which-key.nvim',
             config = function()
-                require('me.plugins.which-key')
+                require('jigsaw.plugins.which-key')
             end,
         }
 
         use {
             'eduardomillans/maximizer.nvim',
             config = function()
-                require('me.plugins.maximizer')
+                require('jigsaw.plugins.maximizer')
             end,
             event = 'VimEnter',
         }
@@ -382,7 +382,7 @@ return require('packer').startup({
         use {
             'kowsmo7/window-picker.nvim',
             config = function()
-                require('me.plugins.window-picker')
+                require('jigsaw.plugins.window-picker')
             end,
             event = 'VimEnter',
         }
@@ -407,7 +407,7 @@ return require('packer').startup({
                 'haydenmeade/neotest-jest',
             },
             config = function()
-                require('me.plugins.neotest')
+                require('jigsaw.plugins.neotest')
             end,
         })
 
@@ -444,7 +444,7 @@ return require('packer').startup({
                 { 'kevinhwang91/promise-async' },
             },
             config = function()
-                require('me.plugins.ufo')
+                require('jigsaw.plugins.ufo')
             end,
         })
 
@@ -473,7 +473,7 @@ return require('packer').startup({
         use({
             'rcarriga/nvim-dap-ui',
             config = function()
-                require('me.plugins.dap')
+                require('jigsaw.plugins.dap')
             end,
             event = 'CursorHold',
             requires = {
