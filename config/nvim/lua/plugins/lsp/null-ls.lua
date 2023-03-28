@@ -1,5 +1,5 @@
 local nls = require('null-ls')
-local U = require('jigsaw.plugins.lsp.utils')
+local U = require('plugins.lsp.utils')
 
 local fmt = nls.builtins.formatting
 local dgn = nls.builtins.diagnostics

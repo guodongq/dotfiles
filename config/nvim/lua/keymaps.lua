@@ -6,6 +6,9 @@
 --   term_mode = "t",
 --   command_mode = "c",
 
+vim.g.mapleader = [[ ]]
+vim.g.maplocalleader = [[,]]
+
 local function map(m, k, v)
     vim.keymap.set(m, k, v, { noremap = true, silent = true })
 end
@@ -13,9 +16,6 @@ end
 --Remap space as leader key
 map("", "<Space>", "<Nop>")
 map("i", "jk", "<ESC>")
-
-vim.g.mapleader = [[ ]]
-vim.g.maplocalleader = [[,]]
 
 -- Fix * (Keep the cursor position, don't move to next match)
 map('n', '*', '*N')

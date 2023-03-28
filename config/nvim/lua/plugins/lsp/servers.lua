@@ -1,5 +1,5 @@
 local lsp = require('lspconfig')
-local U = require('jigsaw.plugins.lsp.utils')
+local U = require('plugins.lsp.utils')
 
 ---Common perf related flags for all the LSP servers
 local flags = {
