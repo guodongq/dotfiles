@@ -1,46 +1,62 @@
-require("telescope").setup({
+local actions = require('telescope.actions')
+local lactions = require('telescope.actions.layout')
+local finders = require('telescope.builtin')
+
+require('telescope').setup({
     defaults = {
-        prompt_prefix = " ",
-        selection_caret = " ",
+        prompt_prefix = ' ❯ ',
+        initial_mode = 'insert',
+        sorting_strategy = 'ascending',
         layout_config = {
-            horizontal = { prompt_position = "bottom", results_width = 0.6 },
-            vertical = { mirror = false },
+            prompt_position = 'top',
         },
-        file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-        grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-        qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-        file_sorter = require("telescope.sorters").get_fuzzy_file,
-        file_ignore_patterns = { ".git/", "node_modules" },
-        generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-        path_display = { "absolute" }, -- smart, absolute
-        winblend = 0,
-        border = {},
-        borderchars = {
-            "─",
-            "│",
-            "─",
-            "│",
-            "┌",
-            "┐",
-            "┘",
-            "└",
+        mappings = {
+            i = {
+                ['<ESC>'] = actions.close,
+                ['<C-j>'] = actions.move_selection_next,
+                ['<C-k>'] = actions.move_selection_previous,
+                ['<TAB>'] = actions.toggle_selection + actions.move_selection_next,
+                ['<C-s>'] = actions.send_selected_to_qflist,
+                ['<C-q>'] = actions.send_to_qflist,
+                ['<C-h>'] = lactions.toggle_preview,
+            },
         },
-        color_devicons = true,
-        use_less = true,
-        set_env = { ["COLORTERM"] = "truecolor" },
     },
     extensions = {
-        frecency = {
-            show_scores = true,
-            show_unindexed = true,
-            ignore_patterns = { "*.git/*", "*/tmp/*" },
-        },
-        project = {
-            hidden_file = true, --default: false
-            theme = "dropdown",
-            order_by = "asc",
-            search_by = "title",
-            sync_with_nvim_tree = true, --default: false
+        fzf = {
+            fuzzy = true,
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true, -- override the file sorter
+            case_mode = 'smart_case', -- "smart_case" | "ignore_case" | "respect_case"
         },
     },
 })
+
+local Telescope = setmetatable({}, {
+    __index = function(_, k)
+        if vim.bo.filetype == 'NvimTree' then
+            vim.cmd.wincmd('l')
+        end
+        return finders[k]
+    end,
+})
+
+-- Ctrl-p = fuzzy finder
+vim.keymap.set('n', '<C-P>', function()
+    local ok = pcall(Telescope.git_files, { show_untracked = true })
+    if not ok then
+        Telescope.find_files()
+    end
+end)
+
+-- Get :help at the speed of light
+vim.keymap.set('n', '<leader>H', Telescope.help_tags)
+
+-- Fuzzy find active buffers
+vim.keymap.set('n', "'b", Telescope.buffers)
+
+-- Search for string
+vim.keymap.set('n', "'r", Telescope.live_grep)
+
+-- Fuzzy find changed files in git
+vim.keymap.set('n', "'c", Telescope.git_status)

@@ -1,9 +1,7 @@
-require('hop').setup({
-    keys = "etovxqpdygfblzhckisuran",
-    quit_key = "<SPC>",
-    case_insensitive = true,
-    multi_windows = true,
-})
+require('hop').setup()
 
---vim.keymap.set('n', '<S-j>', '<CMD>HopWordAC<CR>')
---vim.keymap.set('n', '<S-k>', '<CMD>HopWordBC<CR>')
+vim.keymap.set('n', '<leader>jc', '<CMD>HopChar1<CR>')
+vim.keymap.set('n', '<leader>jC', '<CMD>HopChar2<CR>')
+vim.keymap.set('n', '<leader>jl', '<CMD>HopLine<CR>')
+vim.keymap.set('n', '<leader>jp', '<CMD>HopPattern<CR>')
+vim.keymap.set('n', '<leader>jw', '<CMD>HopWord<CR>')

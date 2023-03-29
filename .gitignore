@@ -7,3 +7,4 @@ config/archive
 config/lvim
 config/nvim_spacevim
 config/hpoczone
+config/gitui

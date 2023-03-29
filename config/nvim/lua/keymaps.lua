@@ -6,9 +6,6 @@
 --   term_mode = "t",
 --   command_mode = "c",
 
-vim.g.mapleader = [[ ]]
-vim.g.maplocalleader = [[,]]
-
 local function map(m, k, v)
     vim.keymap.set(m, k, v, { noremap = true, silent = true })
 end
@@ -60,10 +57,3 @@ map("x", "J", ":move '>+1<CR>gv-gv")
 map("x", "K", ":move '<-2<CR>gv-gv")
 map("x", "<A-j>", ":move '>+1<CR>gv-gv")
 map("x", "<A-k>", ":move '<-2<CR>gv-gv")
-
--- Terminal --
--- Better terminal navigation
-map("t", "<C-h>", "<C-\\><C-N><C-w>h")
-map("t", "<C-j>", "<C-\\><C-N><C-w>j")
-map("t", "<C-k>", "<C-\\><C-N><C-w>k")
-map("t", "<C-l>", "<C-\\><C-N><C-w>l")
