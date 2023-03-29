@@ -1,54 +1,53 @@
-require('nvim-tree').setup({
-    diagnostics = {
-        enable = true,
-    },
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- set termguicolors to enable highlight groups
+--vim.opt.termguicolors = true
+
+require("nvim-tree").setup({
+    auto_reload_on_write = true,
+    sync_root_with_cwd = true,
+    respect_buf_cwd = true,
+    sort_by = "case_sensitive",
     update_focused_file = {
         enable = true,
+        update_root = true,
     },
     view = {
-        width = 35,
-        side = 'left',
-    },
-    filters = {
-        custom = { '.git$', 'node_modules$', '^target$' },
-    },
-    git = {
-        ignore = false,
-    },
-    actions = {
-        open_file = {
-            window_picker = {
-                enable = false,
+        adaptive_size = true,
+        mappings = {
+            list = {
+                { key = "u", action = "dir_up" },
+                { key = "O", action = "system_open" },
+                { key = { "l", "<CR>", "o", "<2-LeftMouse>" }, action = "edit" },
+                { key = "v", action = "vsplit" },
+                { key = "h", action = "close_node" },
+                { key = "s", action = "split" },
+                { key = "<S-c>", action = "cd" },
             },
         },
     },
     renderer = {
+        group_empty = true,
         icons = {
-            show = {
-                git = true,
-                folder = true,
-                file = true,
-                folder_arrow = false,
-            },
             glyphs = {
-                default = '',
                 git = {
-                    unstaged = '~',
-                    staged = '+',
-                    unmerged = '!',
-                    renamed = '≈',
-                    untracked = '?',
-                    deleted = '-',
+                    unstaged = "",
+                    staged = "",
+                    unmerged = "",
+                    renamed = "➜",
+                    untracked = "",
+                    deleted = "",
+                    ignored = "◌",
                 },
             },
         },
-        indent_markers = {
-            enable = true,
-        },
+    },
+    filters = {
+        dotfiles = true,
     },
 })
-
-vim.keymap.set('n', '<C-n>', '<CMD>NvimTreeToggle<CR>')
 
 vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('NVIM_TREE', { clear = true }),
