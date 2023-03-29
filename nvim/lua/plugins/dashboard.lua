@@ -43,6 +43,8 @@ dashboard.opts.opts.noautocmd = true
 
 -- startify 
 local startify = require('alpha.themes.startify')
+startify.nvim_web_devicons.enabled = false
+startify.config.opts.noautocmd = true
 
 alpha.setup(startify.config)
 

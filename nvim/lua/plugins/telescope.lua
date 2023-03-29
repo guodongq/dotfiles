@@ -13,8 +13,8 @@ require('telescope').setup({
         mappings = {
             i = {
                 ['<ESC>'] = actions.close,
-                ['<C-j>'] = actions.move_selection_next,
-                ['<C-k>'] = actions.move_selection_previous,
+                ['<C-n>'] = actions.move_selection_next,
+                ['<C-p>'] = actions.move_selection_previous,
                 ['<TAB>'] = actions.toggle_selection + actions.move_selection_next,
                 ['<C-s>'] = actions.send_selected_to_qflist,
                 ['<C-q>'] = actions.send_to_qflist,

@@ -141,6 +141,7 @@ local mappings = {
         k = { "<cmd>:Telescope keymaps<cr>", "Key Maps" },
         s = { "<cmd>:Telescope highlights<cr>", "Search Highlight Groups" },
         l = { [[<cmd>TSHighlightCapturesUnderCursor<cr>]], "Highlight Groups at cursor" },
+        n = { "<cmd>nohlsearch<CR>", "Clear highlight search"},
         f = { "<cmd>:Telescope filetypes<cr>", "File Types" },
         o = { "<cmd>:Telescope vim_options<cr>", "Options" },
         a = { "<cmd>:Telescope autocommands<cr>", "Auto Commands" },

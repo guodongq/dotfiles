@@ -11,7 +11,6 @@ local function map(m, k, v)
 end
 
 --Remap space as leader key
-map("", "<Space>", "<Nop>")
 map("i", "jk", "<ESC>")
 
 -- Fix * (Keep the cursor position, don't move to next match)
@@ -37,7 +36,7 @@ map("n", "<C-Left>", ":vertical resize -2<CR>")
 map("n", "<C-Right>", ":vertical resize +2<CR>")
 
 -- Clear highlights
-map("n", "<leader>h", "<cmd>nohlsearch<CR>")
+map("n", "<leader>hn", "<cmd>nohlsearch<CR>")
 
 -- Visual --
 -- Stay in indent mode

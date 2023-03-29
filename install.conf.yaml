@@ -3,11 +3,9 @@
       create: true
       relink: true
 
-- clean: ["~", "~/.config"]
-
 - link:
     ~/.gitconfig: gitconfig
-    ~/.config:
+    ~/.config/nvim:
       force: true
-      path: config
+      path: nvim
     ~/.zprofile: zprofile
