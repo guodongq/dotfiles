@@ -223,7 +223,7 @@ return require('packer').startup(function(use)
         config = function()
             require('plugins.lsp')
         end,
-        branch = 'v1.x',
+        branch = 'v2.x',
         requires = {
             -- LSP Support
             { 'neovim/nvim-lspconfig' }, -- Required
