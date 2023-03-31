@@ -1,4 +1,4 @@
-require('settings')
-require('autocmds')
-require('keymaps')
-require('plugins')
+require('config.settings')
+require('config.autocmds')
+require('config.keymaps')
+require('config.plugins')
