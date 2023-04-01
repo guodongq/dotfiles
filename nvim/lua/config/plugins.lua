@@ -170,14 +170,6 @@ return require('packer').startup(function(use)
     })
 
     use({
-        'numToStr/Navigator.nvim',
-        event = 'CursorHold',
-        config = function()
-            require('plugins.navigator')
-        end,
-    })
-
-    use({
         'phaazon/hop.nvim',
         event = 'BufRead',
         config = function()
