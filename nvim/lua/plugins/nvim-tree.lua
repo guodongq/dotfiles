@@ -33,9 +33,20 @@ require("nvim-tree").setup({
             git_placement = "signcolumn",
             show = {
                 file = true,
-                folder = false,
-                folder_arrow = false,
+                folder = true,
+                folder_arrow = true,
                 git = true,
+            },
+            glyphs = {
+                git = {
+                    unstaged = "",
+                    staged = "",
+                    unmerged = "",
+                    renamed = "➜",
+                    untracked = "",
+                    deleted = "",
+                    ignored = "◌",
+                },
             },
         },
     },
