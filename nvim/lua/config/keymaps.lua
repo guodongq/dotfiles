@@ -11,6 +11,11 @@ local function map(mode, key, value, opts)
     vim.keymap.set(mode, key, value, opts)
 end
 
+--buffers
+map("n", "<S-l>", "<cmd>bn<cr>", { desc = "Next buffer" })
+map("n", "<S-h>", "<cmd>bp<cr>", { desc = "Prev buffer" })
+
+
 -- better up/down
 map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -43,7 +48,7 @@ map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsea
 -- taken from runtime/lua/_editor.lua
 map(
         "n",
-        "<leader>ur",
+        "<leader>hr",
         "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
         { desc = "Redraw / clear hlsearch / diff update" }
 )

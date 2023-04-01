@@ -77,6 +77,16 @@ return require('packer').startup(function(use)
         { 'JoosepAlviste/nvim-ts-context-commentstring', after = 'nvim-treesitter' },
     })
 
+    use({
+        'folke/todo-comments.nvim',
+        after = 'nvim-treesitter',
+        event = 'BufReadPost',
+        requires = 'nvim-lua/plenary.nvim',
+        config = function()
+            require('todo-comments').setup()
+        end,
+    })
+
     --------------------------
     -- Editor UI Niceties --
     --------------------------
@@ -273,13 +283,6 @@ return require('packer').startup(function(use)
     -----------------------------------
 
     use({
-        'folke/which-key.nvim',
-        config = function()
-            require('plugins.which-key')
-        end,
-    })
-
-    use({
         'goolord/alpha-nvim',
         event = 'VimEnter',
         config = function()
@@ -304,15 +307,19 @@ return require('packer').startup(function(use)
     })
 
     use({
-        'folke/todo-comments.nvim',
-        after = 'nvim-treesitter',
-        event = 'BufReadPost',
-        requires = 'nvim-lua/plenary.nvim',
+        'folke/trouble.nvim',
+        requires = 'nvim-tree/nvim-web-devicons',
         config = function()
-            require('todo-comments').setup()
-        end,
+            require('trouble').setup()
+        end
     })
 
+    use({
+        'folke/which-key.nvim',
+        config = function()
+            require('plugins.which-key')
+        end,
+    })
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins

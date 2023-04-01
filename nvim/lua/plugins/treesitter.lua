@@ -33,7 +33,7 @@ require('nvim-treesitter.configs').setup({
         enable = true,
     },
     incremental_selection = {
-        enable = true,
+        enable = false, -- todo old is true
         keymaps = {
             init_selection = 'gs',
             -- NOTE: These are visual mode mappings
@@ -45,7 +45,7 @@ require('nvim-treesitter.configs').setup({
     -- nvim-treesitter/nvim-treesitter-textobjects
     textobjects = {
         select = {
-            enable = true,
+            enable = false, -- todo: old is false
             -- Automatically jump forward to textobj, similar to targets.vim
             lookahead = true,
             keymaps = {
@@ -70,7 +70,7 @@ require('nvim-treesitter.configs').setup({
             },
         },
         swap = {
-            enable = true,
+            enable = false, -- todo old is true
             swap_next = {
                 ['<leader>a'] = '@parameter.inner',
                 ['<leader>f'] = '@function.outer',
@@ -83,8 +83,8 @@ require('nvim-treesitter.configs').setup({
             },
         },
         move = {
-            enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
+            enable = false, -- todo: old is true
+            set_jumps = false, -- todo: old is true,  whether to set jumps in the jumplist
             goto_next_start = {
                 [']f'] = '@function.outer',
                 [']]'] = '@class.outer',

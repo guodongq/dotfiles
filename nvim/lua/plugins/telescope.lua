@@ -32,31 +32,31 @@ require('telescope').setup({
     },
 })
 
-local Telescope = setmetatable({}, {
-    __index = function(_, k)
-        if vim.bo.filetype == 'NvimTree' then
-            vim.cmd.wincmd('l')
-        end
-        return finders[k]
-    end,
-})
-
--- Ctrl-p = fuzzy finder
-vim.keymap.set('n', '<C-P>', function()
-    local ok = pcall(Telescope.git_files, { show_untracked = true })
-    if not ok then
-        Telescope.find_files()
-    end
-end)
-
--- Get :help at the speed of light
-vim.keymap.set('n', '<leader>H', Telescope.help_tags)
-
--- Fuzzy find active buffers
-vim.keymap.set('n', "'b", Telescope.buffers)
-
--- Search for string
-vim.keymap.set('n', "'r", Telescope.live_grep)
-
--- Fuzzy find changed files in git
-vim.keymap.set('n', "'c", Telescope.git_status)
+--local Telescope = setmetatable({}, {
+--    __index = function(_, k)
+--        if vim.bo.filetype == 'NvimTree' then
+--            vim.cmd.wincmd('l')
+--        end
+--        return finders[k]
+--    end,
+--})
+--
+---- Ctrl-p = fuzzy finder
+--vim.keymap.set('n', '<C-P>', function()
+--    local ok = pcall(Telescope.git_files, { show_untracked = true })
+--    if not ok then
+--        Telescope.find_files()
+--    end
+--end)
+--
+---- Get :help at the speed of light
+----vim.keymap.set('n', '<leader>H', Telescope.help_tags)
+--
+---- Fuzzy find active buffers
+--vim.keymap.set('n', "'b", Telescope.buffers)
+--
+---- Search for string
+--vim.keymap.set('n', "'r", Telescope.live_grep)
+--
+---- Fuzzy find changed files in git
+--vim.keymap.set('n', "'c", Telescope.git_status)
