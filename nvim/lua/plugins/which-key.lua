@@ -198,6 +198,8 @@ local mappings = {
         ["<leader>jp"] = { "<cmd>HopPattern<cr>", "jump-or-select-to-a-pattern" },
         ["<leader>jw"] = { "<cmd>HopWord<cr>", "jump-to-a-word" },
 
+        -- lsp keybindings(register in lsp configuration)
+
         -- packer/project
         ["<leader>p"] = { name = "Packer/Project" },
         ["<leader>ps"] = { "<cmd>PackerSync<cr>", "Packer Sync" },
