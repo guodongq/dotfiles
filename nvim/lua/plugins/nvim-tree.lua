@@ -12,6 +12,7 @@ end
 require("nvim-tree").setup({
     hijack_cursor = true,
     sync_root_with_cwd = true,
+    respect_buf_cwd = true, -- add by telescope_project
     update_focused_file = {
         enable = true,
         update_root = true,

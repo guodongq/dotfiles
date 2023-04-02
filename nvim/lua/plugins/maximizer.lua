@@ -10,9 +10,9 @@ require('maximizer').setup({
         },
     },
     -- toggle keymap
-    keymap = {
-        enable = true, -- nil or false to disable
-        modes = { "i", "n" },
-        rhs = "<leader>wm"
-    }
+    --keymap = {
+    --    enable = true, -- nil or false to disable
+    --    modes = { "i", "n" },
+    --    rhs = "<leader>wm"
+    --}
 })

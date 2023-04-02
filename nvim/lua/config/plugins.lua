@@ -123,7 +123,8 @@ return require('packer').startup(function(use)
         'rhysd/git-messenger.vim',
         event = 'BufRead',
         config = function()
-            require('plugins.git-messenger')
+            vim.g.git_messenger_no_default_mappings = true
+            --vim.keymap.set('n', '<leader>gm', '<CMD>GitMessenger<CR>')
         end,
     })
 
@@ -167,6 +168,14 @@ return require('packer').startup(function(use)
             'nvim-telescope/telescope-symbols.nvim',
             after = 'telescope.nvim',
         },
+        {
+            'ahmedkhalf/project.nvim',
+            after = 'telescope.nvim',
+            config = function()
+                require('project_nvim').setup()
+                require('telescope').load_extension('projects')
+            end
+        }
     })
 
     use({
@@ -193,7 +202,7 @@ return require('packer').startup(function(use)
         'numToStr/Comment.nvim',
         event = 'BufRead',
         config = function()
-            require('plugins.comment')
+            require("Comment").setup()
         end,
     })
 
@@ -201,7 +210,9 @@ return require('packer').startup(function(use)
         'numToStr/Buffers.nvim',
         event = 'BufRead',
         config = function()
-            require('plugins.buffers')
+            --vim.keymap.set('n', '<leader>bd', '<CMD>lua require("Buffers").delete()<CR>')
+            --vim.keymap.set('n', '<leader>bD', '<CMD>lua require("Buffers").only()<CR>')
+            --vim.keymap.set('n', '<leader>ba', '<CMD>lua require("Buffers").clear()<CR>')
         end,
     })
 
