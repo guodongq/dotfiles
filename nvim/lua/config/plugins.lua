@@ -216,6 +216,15 @@ return require('packer').startup(function(use)
         end,
     })
 
+    use({
+        'nvim-pack/nvim-spectre',
+        event = 'BufReadPost',
+        requires = 'nvim-lua/plenary.nvim',
+        config = function()
+            require('spectre').setup({})
+        end,
+    })
+
     --------------
     -- Terminal --
     --------------

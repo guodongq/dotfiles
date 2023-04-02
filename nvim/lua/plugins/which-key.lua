@@ -199,6 +199,32 @@ local mappings = {
         ["<leader>jw"] = { "<cmd>HopWord<cr>", "jump-to-a-word" },
 
         -- lsp keybindings(register in lsp configuration)
+        ["<leader>l"] = { name = "LSP" },
+        ["<leader>lb"] = { "<C-t>", "Go back to stack frames" },
+
+        ["<leader>lc"] = { name = "Code" },
+        ["<leader>lca"] = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code Action" },
+        ["<leader>lcf"] = { "<cmd>lua vim.lsp.buf.format()<cr>", "Format Buffer" },
+
+        ["<leader>ld"] = { name = "Definition" },
+        ["<leader>ldd"] = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Go to Lsp Definition" },
+        ["<leader>ldD"] = { "<cmd>lua vim.lsp.buf.type_definition()<cr>", "Go to Lsp Type Definition" },
+
+        ["<leader>lD"] = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "Go to Lsp Declaration" },
+        ["<leader>li"] = { "<cmd>lua vim.lsp.buf.implementation()<cr>", "Go to Lsp Implementation" },
+        ["<leader>lK"] = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Show Lsp Hover" },
+
+        ["<leader>lr"] = { name = "Rename" },
+        ["<leader>lrn"] = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename Lsp Symbol" },
+        ["<leader>lrs"] = { "<cmd>lua require('spectre').open()<cr>", "Replace in files (Spectre)" },
+
+        ["<leader>lR"] = { "<cmd>lua vim.lsp.buf.references()<cr>", "Show Lsp References" },
+        ["<leader>lo"] = { "<cmd>SymbolsOutline<cr>", "Show SymbolsOutline" },
+
+        --vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', { buffer = true, desc = 'Show diagnostic' })
+        --vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', { buffer = true, desc = 'Display signature' })
+
+
 
         -- packer/project
         ["<leader>p"] = { name = "Packer/Project" },
@@ -319,7 +345,6 @@ for mode, keys in pairs(mappings) do
     local mode_adapter = mode_adapters[mode]
     wk.register(keys, { mode = mode_adapter })
 end
-
 
 
 --    --d = {
