@@ -182,7 +182,7 @@ return require('packer').startup(function(use)
         'phaazon/hop.nvim',
         event = 'BufRead',
         config = function()
-            require('plugins.hop')
+            require('hop').setup()
         end,
     })
 
