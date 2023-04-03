@@ -166,6 +166,40 @@ local mappings = {
         ["<leader>c/"] = { "<cmd>lua require('Comment.api').toggle.linewise.current()<cr>", "comment-or-uncomment-lines" },
         ["<leader>c$"] = { "<cmd>lua require('Comment.api').insert.linewise.eol()<cr>", "comment-end-of-line" },
 
+        -- debug
+        ["<leader>d"] = { name = "debug" },
+        -- running the program
+        ["<leader>dr"] = { name = "Running the program" },
+        ["<leader>drr"] = { "<cmd>Telescope dap configurations<cr>", "run" },
+        ["<leader>drl"] = { "<cmd>lua require('dap').run_last()<cr>", "run last" },
+        ["<leader>drR"] = { "<cmd>lua require('dap').restart()<cr>", "restart" },
+        ["<leader>drq"] = { "<cmd>lua require('dap').terminate()<cr>", "terminate" },
+
+        -- steps
+        ["<leader>ds"] = { name = "steps" },
+        ["<leader>dsp"] = { "<cmd>lua require('dap').step_back()", "step back" }, -- [p]revious
+        ["<leader>dsn"] = { "<cmd>lua require('dap').step_over()", "step over" }, -- [n]ext
+        ["<leader>dsi"] = { "<cmd>lua require('dap').step_into()", "step into" }, -- [i]nto
+        ["<leader>dso"] = { "<cmd>lua require('dap').step_out()", "step out" }, -- [o]ut, [u]ninto
+        ["<leader>dsc"] = { "<cmd>lua require('dap').continue()", "continue" }, -- Run until breakpoint or program termination
+        ["<leader>dsh"] = { "<cmd>lua require('dap').run_to_cursor()", "step to here(cursor)" }, -- step to [h]ere
+
+        -- breakpoint
+        ["<leader>db"] = { name = "breakpoints" },
+        ["<leader>dbb"] = { "<cmd>lua require('dap').toggle_breakpoint()<cr>", "toggle breakpoint" },
+        ["<leader>dbB"] = { "<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<cr>", "conditional breakpoint" },
+        ["<leader>dbl"] = { "<cmd>Telescope dap list_breakpoints<cr>", "show all breakpoints" },
+        ["<leader>dbx"] = { "<cmd>lua require('dap').clear_breakpoints()<cr>", "removes all breakpoints" },
+
+        -- dapui
+        ["<leader>du"] = { name = "dapui" },
+        ["<leader>dui"] = { "<cmd>lua require('dapui').toggle()<cr>", "toggle dapui" },
+
+        -- watch expression
+        ["<leader>de"] = { name = "expressions" },
+        ["<leader>dek"] = { "<cmd>lua require('dapui').eval()", "eval" },
+        ["<leader>deK"] = { "<cmd>lua require('dap.ui.widgets').preview()", "preview expression" },
+
         -- files
         ["<leader>f"] = { name = "Files" },
         ["<leader>ff"] = { "<cmd>Telescope find_files<cr>", "Find files" },
@@ -179,8 +213,13 @@ local mappings = {
         ["<leader>gb"] = { "<cmd>Telescope git_branches<cr>", "Checkout branch" },
         ["<leader>gc"] = { "<cmd>Telescope git_commits<cr>", "Checkout commit" },
         ["<leader>gC"] = { "<cmd>Telescope git_bcommits<cr>", "Checkout commit(for current file)" },
-        ["<leader>gd"] = { "<cmd>Gitsigns diffthis HEAD<cr>", "Diff this HEAD" },
-        ["<leader>gD"] = { "<cmd>DiffviewOpen<cr>", "Diffview opened Repo" },
+        ["<leader>gD"] = { "<cmd>Gitsigns diffthis HEAD<cr>", "Diff this HEAD" },
+
+        ["<leader>gd"] = { name = "Diffview" },
+        ["<leader>gdn"] = { "<cmd>DiffviewOpen<cr>", "Diffview opened" },
+        ["<leader>gdd"] = { "<cmd>DiffviewClose<cr>", "Diffview close" },
+
+
         ["<leader>gm"] = { "<cmd>GitMessenger<cr>", "Reveal commit messages" },
         ["<leader>go"] = { "<cmd>Telescope git_status<cr>", "Open changed file" },
         ["<leader>gs"] = { "<cmd>Gitsigns stage_hunk<cr>", "Stage Hunk" },
@@ -220,11 +259,17 @@ local mappings = {
 
         ["<leader>lR"] = { "<cmd>lua vim.lsp.buf.references()<cr>", "Show Lsp References" },
         ["<leader>lo"] = { "<cmd>SymbolsOutline<cr>", "Show SymbolsOutline" },
+        ["<leader>lI"] = { "<cmd>Mason<cr>", "Mason Info" },
+        ["<leader>ls"] = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
+        ["<leader>lS"] = { "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Workspace Symbols" },
 
-        --vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<cr>', { buffer = true, desc = 'Show diagnostic' })
-        --vim.keymap.set('n', 'gs', '<cmd>lua vim.lsp.buf.signature_help()<cr>', { buffer = true, desc = 'Display signature' })
+        ["<leader>lq"] = { name = "Diagnostic" },
+        ["<leader>lqp"] = { "<cmd>lua vim.diagnostic.goto_prev()<cr>", "Prev Diagnostic" },
+        ["<leader>lqn"] = { "<cmd>lua vim.diagnostic.goto_next()<cr>", "Next Diagnostic", },
+        ["<leader>lqq"] = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
+        ["<leader>lql"] = { "<cmd>lua vim.diagnostic.open_float()<cr>", "Show diagnostic" },
 
-
+        ["<leader>lh"] = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "Display signature" },
 
         -- packer/project
         ["<leader>p"] = { name = "Packer/Project" },
@@ -345,48 +390,3 @@ for mode, keys in pairs(mappings) do
     local mode_adapter = mode_adapters[mode]
     wk.register(keys, { mode = mode_adapter })
 end
-
-
---    --d = {
---    --    name = "Debug",
---    --    b = { "<cmd>lua require('dap').toggle_breakpoint()<cr>", "togle-breakpoint" },
---    --    c = { "<cmd>lua require('dap').continue()<cr>", "continue" },
---    --    i = { "<cmd>lua require('dap').step_into()<cr>", "step-into" },
---    --    o = { "<cmd>lua require('dap').step_over()<cr>", "step-over" },
---    --    O = { "<cmd>lua require('dap').step_out()<cr>", "step-out" },
---    --    r = { "<cmd>lua require('dap').repl.toggle()<cr>", "repl-toggle" },
---    --    l = { "<cmd>lua require('dap').run_last()<cr>", "run-last" },
---    --    u = { "<cmd>lua require('dapui').toggle()<cr>", "dapui-toggle" },
---    --    t = { "<cmd>lua require('dapui').terminate()<cr>", "teminate" },
---    --},
---    l = {
---        name = "LSP",
---        --["<F2>"] = { "<cmd>lua vim.lsp.buf.rename()<cr>", "Rename all reference" },
---        --["<F3>"] = { "<cmd>lua vim.lsp.buf.format({async = true})<cr>", "Format" },
---        --["<F4>"] = { "<cmd>lua vim.lsp.buf.code_action()<cr>", "Code actions" }
---        --d = { "<cmd>lua vim.lsp.buf.definition()<cr>", "Jump to definition" },
---        --D = { "<cmd>lua vim.lsp.buf.declaration()<cr>", "Jump to declaration" },
---        --i = { "<cmd>lua vim.lsp.buf.implementation()<cr>", "List all implementations" },
---        --K = { "<cmd>lua vim.lsp.buf.hover()<cr>", "Display hover" },
---        --l = { "<cmd>lua vim.diagnostic.open_float()<cr>", "Show diagnostic" },
---        --o = { "<cmd>lua vim.lsp.buf.type_definition()<cr>", "Jump to definition of type symbol" },
---        --r = { "<cmd>lua vim.lsp.buf.references()<cr>", "List all references" },
---        --s = { "<cmd>lua vim.lsp.buf.signature_help()<cr>", "Display signature" },
---
---
---        I = { "<cmd>Mason<cr>", "Mason Info" },
---        n = {
---            "<cmd>lua vim.diagnostic.goto_next()<cr>",
---            "Next Diagnostic",
---        },
---        p = {
---            "<cmd>lua vim.diagnostic.goto_prev()<cr>",
---            "Prev Diagnostic",
---        },
---        q = { "<cmd>lua vim.diagnostic.setloclist()<cr>", "Quickfix" },
---        s = { "<cmd>Telescope lsp_document_symbols<cr>", "Document Symbols" },
---        S = {
---            "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>",
---            "Workspace Symbols",
---        },
---    },

@@ -5,3 +5,7 @@ export GOROOT=/opt/homebrew/Cellar/go/1.20.2/libexec
 export GOPATH=/Users/guodongq/Projects
 export PATH=$GOPATH/bin:$PATH
 export PATH=/Users/guodongq/.local/bin:$PATH
+
+export LDFLAGS="-L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++"
+export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
+export PATH=/opt/homebrew/opt/llvm/bin:$PATH

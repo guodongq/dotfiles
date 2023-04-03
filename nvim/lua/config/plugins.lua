@@ -175,6 +175,13 @@ return require('packer').startup(function(use)
                 require('project_nvim').setup()
                 require('telescope').load_extension('projects')
             end
+        },
+        {
+            'nvim-telescope/telescope-dap.nvim',
+            after = { 'telescope.nvim', 'nvim-dap' },
+            config = function()
+                require('telescope').load_extension('dap')
+            end
         }
     })
 
@@ -332,6 +339,32 @@ return require('packer').startup(function(use)
             require('plugins.which-key')
         end,
     })
+
+    -----------------------------------
+    -- Debugger --
+    -----------------------------------
+
+    use({
+        {
+            'mfussenegger/nvim-dap',
+            event = 'CursorHold',
+            requires = {
+                { 'williamboman/mason.nvim' },
+                { 'jay-babu/mason-nvim-dap.nvim' },
+            },
+            config = function()
+                require('plugins.dap')
+            end,
+        },
+        {
+            'rcarriga/nvim-dap-ui',
+            after = 'nvim-dap',
+            config = function()
+                require('plugins.dapui')
+            end,
+        }
+    })
+
 
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
