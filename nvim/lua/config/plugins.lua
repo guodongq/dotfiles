@@ -348,19 +348,33 @@ return require('packer').startup(function(use)
         {
             'mfussenegger/nvim-dap',
             event = 'CursorHold',
-            requires = {
-                { 'williamboman/mason.nvim' },
-                { 'jay-babu/mason-nvim-dap.nvim' },
-            },
             config = function()
                 require('plugins.dap')
             end,
         },
         {
-            'rcarriga/nvim-dap-ui',
-            after = 'nvim-dap',
+            'theHamsta/nvim-dap-virtual-text',
+            after = { 'nvim-dap', 'nvim-treesitter' },
             config = function()
-                require('plugins.dapui')
+                require("nvim-dap-virtual-text").setup()
+            end,
+        },
+        {
+            'rcarriga/nvim-dap-ui',
+            after = { 'nvim-dap' },
+            config = function()
+                require("dapui").setup()
+
+                local dap, dapui = require("dap"), require("dapui")
+                dap.listeners.after.event_initialized["dapui_config"] = function()
+                    dapui.open()
+                end
+                dap.listeners.before.event_terminated["dapui_config"] = function()
+                    dapui.close()
+                end
+                dap.listeners.before.event_exited["dapui_config"] = function()
+                    dapui.close()
+                end
             end,
         }
     })

@@ -177,12 +177,12 @@ local mappings = {
 
         -- steps
         ["<leader>ds"] = { name = "steps" },
-        ["<leader>dsp"] = { "<cmd>lua require('dap').step_back()", "step back" }, -- [p]revious
-        ["<leader>dsn"] = { "<cmd>lua require('dap').step_over()", "step over" }, -- [n]ext
-        ["<leader>dsi"] = { "<cmd>lua require('dap').step_into()", "step into" }, -- [i]nto
-        ["<leader>dso"] = { "<cmd>lua require('dap').step_out()", "step out" }, -- [o]ut, [u]ninto
-        ["<leader>dsc"] = { "<cmd>lua require('dap').continue()", "continue" }, -- Run until breakpoint or program termination
-        ["<leader>dsh"] = { "<cmd>lua require('dap').run_to_cursor()", "step to here(cursor)" }, -- step to [h]ere
+        ["<leader>dsp"] = { "<cmd>lua require('dap').step_back()<cr>", "step back" }, -- [p]revious
+        ["<leader>dsn"] = { "<cmd>lua require('dap').step_over()<cr>", "step over" }, -- [n]ext
+        ["<leader>dsi"] = { "<cmd>lua require('dap').step_into()<cr>", "step into" }, -- [i]nto
+        ["<leader>dso"] = { "<cmd>lua require('dap').step_out()<cr>", "step out" }, -- [o]ut, [u]ninto
+        ["<leader>dsc"] = { "<cmd>lua require('dap').continue()<cr>", "continue" }, -- Run until breakpoint or program termination
+        ["<leader>dsh"] = { "<cmd>lua require('dap').run_to_cursor()<cr>", "step to here(cursor)" }, -- step to [h]ere
 
         -- breakpoint
         ["<leader>db"] = { name = "breakpoints" },
@@ -192,13 +192,13 @@ local mappings = {
         ["<leader>dbx"] = { "<cmd>lua require('dap').clear_breakpoints()<cr>", "removes all breakpoints" },
 
         -- dapui
-        ["<leader>du"] = { name = "dapui" },
-        ["<leader>dui"] = { "<cmd>lua require('dapui').toggle()<cr>", "toggle dapui" },
+        --["<leader>du"] = { name = "dapui" },
+        --["<leader>dui"] = { "<cmd>lua require('dapui').toggle()<cr>", "toggle dapui" },
 
         -- watch expression
         ["<leader>de"] = { name = "expressions" },
-        ["<leader>dek"] = { "<cmd>lua require('dapui').eval()", "eval" },
-        ["<leader>deK"] = { "<cmd>lua require('dap.ui.widgets').preview()", "preview expression" },
+        --["<leader>dek"] = { "<cmd>lua require('dapui').eval()", "eval" },
+        ["<leader>deK"] = { "<cmd>lua require('dap.ui.widgets').preview()<cr>", "preview expression" },
 
         -- files
         ["<leader>f"] = { name = "Files" },

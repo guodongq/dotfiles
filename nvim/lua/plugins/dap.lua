@@ -19,18 +19,6 @@ vim.fn.sign_define("DapStopped", {
 })
 
 -- ================
--- dap server
--- ================
-local mason_dap = require('mason-nvim-dap')
-
-mason_dap.setup({
-    automatic_installation = true,
-    ensure_installed = { 'bash-debug-adapter', 'cpptools', 'delve' },
-})
-
-mason_dap.setup_handlers {}
-
--- ================
 -- dap client
 -- ================
 local dap = require('dap')
