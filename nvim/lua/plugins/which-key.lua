@@ -113,6 +113,10 @@ local mappings = {
     },
 
     normal_mode = {
+        -- debug keybindings
+        
+
+
         -- better up/down
         ["j"] = { "v:count == 0 ? 'gj' : 'j'", "Better down", expr = true },
         ["k"] = { "v:count == 0 ? 'gk' : 'k'", "Better up", expr = true },
