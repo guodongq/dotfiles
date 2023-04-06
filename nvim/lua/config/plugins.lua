@@ -142,7 +142,7 @@ return require('packer').startup(function(use)
 
     use({
         'nvim-tree/nvim-tree.lua',
-        event = 'CursorHold',
+        --event = 'CursorHold',
         config = function()
             require('plugins.nvim-tree')
         end,

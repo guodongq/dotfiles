@@ -114,7 +114,11 @@ local mappings = {
 
     normal_mode = {
         -- debug keybindings
-        
+        ["F5"] = { "<cmd>lua require('dap').step_into()<cr>", "Step Into(Debugger)" },
+        ["F6"] = { "<cmd>lua require('dap').step_over()<cr>", "Step Over(Debugger)" },
+        ["F7"] = { "<cmd>lua require('dap').step_out()<cr>", "Step Out(Debugger)" },
+        ["F8"] = { "<cmd>lua require('dap').continue()<cr>", "Continue(Debugger)" },
+        ["F9"] = { "<cmd>lua require('dap').toggle_breakpoint()<cr>", "Toggle Breakpoint(Debugger)" },
 
 
         -- better up/down
@@ -196,18 +200,19 @@ local mappings = {
         ["<leader>dbx"] = { "<cmd>lua require('dap').clear_breakpoints()<cr>", "removes all breakpoints" },
 
         -- dapui
-        --["<leader>du"] = { name = "dapui" },
-        --["<leader>dui"] = { "<cmd>lua require('dapui').toggle()<cr>", "toggle dapui" },
+        ["<leader>du"] = { name = "dapui" },
+        ["<leader>dui"] = { "<cmd>lua require('dapui').toggle()<cr>", "toggle dapui" },
 
         -- watch expression
         ["<leader>de"] = { name = "expressions" },
-        --["<leader>dek"] = { "<cmd>lua require('dapui').eval()", "eval" },
+        ["<leader>dek"] = { "<cmd>lua require('dapui').eval()", "eval" },
         ["<leader>deK"] = { "<cmd>lua require('dap.ui.widgets').preview()<cr>", "preview expression" },
 
         -- files
         ["<leader>f"] = { name = "Files" },
         ["<leader>ff"] = { "<cmd>Telescope find_files<cr>", "Find files" },
         ["<leader>fn"] = { "<cmd>enew<cr>", "+New file" },
+        ["<leader>fr"] = { "<cmd>NvimTreeRefresh<cr>", "Refresh file tree" },
         ["<leader>fs"] = { "<cmd>w!<cr>", "Save a file" },
         ["<leader>ft"] = { "<cmd>NvimTreeToggle<cr>", "File tree" },
         ["<leader>fT"] = { "<cmd>NvimTreeFindFile<cr>", "Focus current file in file tree" },
