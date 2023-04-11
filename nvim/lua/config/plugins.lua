@@ -318,12 +318,14 @@ return require('packer').startup(function(use)
     })
 
     use({
-        'kowsmo7/window-picker.nvim',
+        -- 'kowsmo7/window-picker.nvim',
+        'yorickpeterse/nvim-window',
         config = function()
-            require('plugins.window-picker')
+            require('plugins.nvim-window')
         end,
         event = 'VimEnter',
     })
+
 
     use({
         'folke/trouble.nvim',

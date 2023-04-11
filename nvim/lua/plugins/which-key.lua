@@ -330,7 +330,7 @@ local mappings = {
 
         -- windows
         ["<leader>w"] = { name = "Windows" },
-        ["<leader>wc"] = { "<cmd>lua require('window-picker').pick()<cr>", "Choose a window" },
+        ["<leader>wc"] = { "<cmd>lua require('nvim-window').pick()<cr>", "Choose a window" },
         ["<leader>wd"] = { "<cmd>wincmd c<cr>", "Close current window" },
         ["<leader>wD"] = { "<cmd>wincmd o<cr>", "Close other windows" },
         ["<leader>wh"] = { "<cmd>wincmd h<cr>", "Go to the left window" },
