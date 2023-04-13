@@ -276,7 +276,16 @@ return require('packer').startup(function(use)
     use({
         'simrat39/symbols-outline.nvim',
         config = function()
-            require('symbols-outline').setup()
+            require('symbols-outline').setup({
+                show_numbers = true,
+            })
+        end,
+    })
+
+    use({
+        'jose-elias-alvarez/null-ls.nvim',
+        config = function()
+            require('plugins.null-ls')
         end,
     })
 
@@ -318,14 +327,12 @@ return require('packer').startup(function(use)
     })
 
     use({
-        -- 'kowsmo7/window-picker.nvim',
         'yorickpeterse/nvim-window',
         config = function()
             require('plugins.nvim-window')
         end,
         event = 'VimEnter',
     })
-
 
     use({
         'folke/trouble.nvim',

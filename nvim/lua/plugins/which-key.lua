@@ -315,7 +315,7 @@ local mappings = {
         ["<leader>sT"] = { "<cmd>Telescope live_grep<cr>", "Search text" },
 
         -- todo
-        ["<leader>t"] = { name = "TODO" },
+        ["<leader>t"] = { name = "Todo" },
         ["<leader>tl"] = { "<cmd>TodoLocList<cr>", "Todo (TodoLocList)" },
         ["<leader>tn"] = { "<cmd>lua require('todo-comments').jump_next()<cr>", "Next todo comment" },
         ["<leader>tp"] = { "<cmd>lua require('todo-comments').jump_prev()<cr>", "Previous todo comment" },
