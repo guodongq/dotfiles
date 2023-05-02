@@ -51,27 +51,27 @@ require("nvim-tree").setup({
             },
         },
     },
-    view = {
-        adaptive_size = true,
-        mappings = {
-            list = {
-                { key = "u", action = "dir_up" },
-                { key = "O", action = "system_open" },
-                { key = { "l", "<CR>", "o", "<2-LeftMouse>" }, action = "edit" },
-                { key = "v", action = "vsplit" },
-                { key = "h", action = "close_node" },
-                { key = "s", action = "split" },
-                { key = "<S-c>", action = "cd" },
-                -- custom function
-                { key = "P", action = "Print Node Path", action_cb = print_node_path },
-                -- override existing
-                { key = "C", action = "cd" },
-                -- new mappings
-                { key = "A", action = "expand_all" },
-                { key = "?", action = "toggle_help" },
-            },
-        },
-    },
+    -- view = {
+    --     adaptive_size = true,
+    --     mappings = {
+    --         list = {
+    --             { key = "u", action = "dir_up" },
+    --             { key = "o", action = "system_open" },
+    --             { key = { "l", "<cr>", "o", "<2-leftmouse>" }, action = "edit" },
+    --             { key = "v", action = "vsplit" },
+    --             { key = "h", action = "close_node" },
+    --             { key = "s", action = "split" },
+    --             { key = "<s-c>", action = "cd" },
+    --             -- custom function
+    --             { key = "p", action = "print node path", action_cb = print_node_path },
+    --             -- override existing
+    --             { key = "c", action = "cd" },
+    --             -- new mappings
+    --             { key = "a", action = "expand_all" },
+    --             { key = "?", action = "toggle_help" },
+    --         },
+    --     },
+    -- },
     filters = {
         custom = {
             "^.git$",

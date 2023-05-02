@@ -201,6 +201,12 @@ return require('packer').startup(function(use)
         end,
     })
 
+  -- markdown
+    use({
+      'iamcco/markdown-preview.nvim',
+      run = function() vim.fn['mkdp#util#install']() end,
+    })
+
     -------------------------
     -- Editing to the MOON --
     -------------------------
@@ -223,6 +229,7 @@ return require('packer').startup(function(use)
         end,
     })
 
+    -- replace symbols
     use({
         'nvim-pack/nvim-spectre',
         event = 'BufReadPost',

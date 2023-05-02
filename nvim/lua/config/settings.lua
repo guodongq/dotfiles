@@ -1,8 +1,3 @@
--- This file is automatically loaded by plugins.config
-
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 local opt = vim.opt
 
 opt.autowrite = true -- Enable auto write
@@ -67,3 +62,6 @@ vim.opt.fillchars:append('fold: ');
 vim.opt.fillchars:append('foldopen: ');
 vim.opt.fillchars:append('foldsep: ');
 vim.opt.fillchars:append('foldclose:');
+
+-- code folding settings
+-- opt.foldmethod = "indent"
