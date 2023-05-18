@@ -1,5 +1,3 @@
-local A = vim.api
-
 -- Custom filetypes
 vim.filetype.add({
     extension = {
@@ -17,41 +15,56 @@ vim.filetype.add({
     },
 })
 
-local num_au = A.nvim_create_augroup('NUMTOSTR', { clear = true })
 
--- Highlight the region on yank
-A.nvim_create_autocmd('TextYankPost', {
-    group = num_au,
+-- highlight yanked text
+vim.api.nvim_create_autocmd('TextYankPost', {
+    pattern = {'*'},
     callback = function()
-        vim.highlight.on_yank({ higroup = 'Visual' })
-        -- This is a workaround for clipboard not working in WSL
-        -- see https://github.com/neovim/neovim/issues/19204#issuecomment-1173722375
-        -- if vim.fn.has('wsl') == 1 then
-        --     vim.fn.system('clip.exe', vim.fn.getreg('"'))
-        -- end
-    end,
+        vim.highlight.on_yank({higroup = 'Visual', timeout = 100})
+    end
 })
 
--- Remove useless stuff from the terminal window and enter INSERT mode
-A.nvim_create_autocmd('TermOpen', {
-    group = num_au,
-    callback = function(data)
-        if not string.find(vim.bo[data.buf].filetype, '^[fF][tT]erm') then
-            A.nvim_set_option_value('number', false, { scope = 'local' })
-            A.nvim_set_option_value('relativenumber', false, { scope = 'local' })
-            A.nvim_set_option_value('signcolumn', 'no', { scope = 'local' })
-            A.nvim_command('startinsert')
+-- go to last loc when opening a buffer
+vim.api.nvim_create_autocmd('BufReadPost', {
+    callback = function()
+        local mark = vim.api.nvim_buf_get_mark(0, '"')
+        local lcount = vim.api.nvim_buf_line_count(0)
+        if mark[1] > 0 and mark[1] <= lcount then
+            pcall(vim.api.nvim_win_set_cursor, 0, mark)
         end
-    end,
+    end
 })
 
--- Jump to the last place in the file before exiting
-A.nvim_create_autocmd('BufReadPost', {
-    group = num_au,
-    callback = function(data)
-        local last_pos = A.nvim_buf_get_mark(data.buf, '"')
-        if last_pos[1] > 0 and last_pos[1] <= A.nvim_buf_line_count(data.buf) then
-            A.nvim_win_set_cursor(0, last_pos)
-        end
-    end,
+-- write path when save file if needed
+vim.api.nvim_create_autocmd('BufNewFile', {
+    pattern = {'*'},
+    callback = function()
+        vim.cmd(
+            ':exe \': !mkdir -p \' . escape(fnamemodify(bufname(\'%\'),\':p:h\'),\'#% \\\')')
+    end
 })
+
+vim.api.nvim_create_autocmd('BufReadPost', {
+    callback = function()
+        local mark = vim.api.nvim_buf_get_mark(0, '"')
+        local lcount = vim.api.nvim_buf_line_count(0)
+        if mark[1] > 0 and mark[1] <= lcount then
+            pcall(vim.api.nvim_win_set_cursor, 0, mark)
+        end
+    end
+})
+
+local ns = vim.api.nvim_create_namespace('toggle_hlsearch')
+
+local function toggle_hlsearch(char)
+    if vim.fn.mode() == 'n' then
+        local keys = {'<CR>', 'n', 'N', '*', '#', '?', '/'}
+        local new_hlsearch = vim.tbl_contains(keys, vim.fn.keytrans(char))
+
+        if vim.opt.hlsearch:get() ~= new_hlsearch then
+            vim.opt.hlsearch = new_hlsearch
+        end
+    end
+end
+
+vim.on_key(toggle_hlsearch, ns)
