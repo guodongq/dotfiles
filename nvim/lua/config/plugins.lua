@@ -140,15 +140,20 @@ return require('packer').startup(function(use)
     -- Navigation and Fuzzy Search --
     ---------------------------------
 
-    use({
-        'nvim-tree/nvim-tree.lua',
-        event = 'CursorHold',
+     use({
+        'nvim-neo-tree/neo-tree.nvim',
+        branch = "v2.x",
+        requires = {
+          'nvim-lua/plenary.nvim',
+          'nvim-tree/nvim-web-devicons',
+          'MunifTanjim/nui.nvim',
+        },
         config = function()
-            require('plugins.nvim-tree')
+          require('plugins.neo-tree')
         end,
-    })
+      })
 
-    use({
+        use({
         {
             'nvim-telescope/telescope.nvim',
             event = 'CursorHold',

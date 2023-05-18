@@ -212,10 +212,9 @@ local mappings = {
         ["<leader>f"] = { name = "Files" },
         ["<leader>ff"] = { "<cmd>Telescope find_files<cr>", "Find files" },
         ["<leader>fn"] = { "<cmd>enew<cr>", "+New file" },
-        ["<leader>fr"] = { "<cmd>NvimTreeRefresh<cr>", "Refresh file tree" },
         ["<leader>fs"] = { "<cmd>w!<cr>", "Save a file" },
-        ["<leader>ft"] = { "<cmd>NvimTreeToggle<cr>", "File tree" },
-        ["<leader>fT"] = { "<cmd>NvimTreeFindFile<cr>", "Focus current file in file tree" },
+        ["<leader>ft"] = { "<cmd>Neotree<cr>", "File tree" },
+        ["<leader>fT"] = { "<cmd>Neotree toggle reveal<cr>", "Focus current file in file tree" },
 
         -- git
         ["<leader>g"] = { name = "git/versions-control" },
