@@ -5,6 +5,8 @@ vim.filetype.add({
         mdx = 'markdown',
         mjml = 'html',
         kicad_mod = 'scheme',
+        tfvars = 'terraform',
+        yml = 'yaml'
     },
     pattern = {
         ['.*%.env.*'] = 'sh',
