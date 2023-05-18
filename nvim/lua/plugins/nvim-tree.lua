@@ -1,109 +1,58 @@
--- disable netrw at the very start of your init.lua (strongly advised)
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
--- set termguicolors to enable highlight groups
---vim.opt.termguicolors = true
-
-local function print_node_path(node)
-    print(node.absolute_path)
-end
-
-require("nvim-tree").setup({
-    hijack_cursor = true,
-    sync_root_with_cwd = true,
-    respect_buf_cwd = true, -- add by telescope_project
-    update_focused_file = {
-        enable = true,
-        update_root = true,
-        ignore_list = { "help" },
-    },
+require('nvim-tree').setup({
     diagnostics = {
         enable = true,
-        show_on_dirs = true,
+    },
+    update_focused_file = {
+        enable = true,
+    },
+    view = {
+        width = 35,
+        side = 'left',
+    },
+    filters = {
+        custom = { '.git$', 'node_modules$', '^target$' },
+    },
+    git = {
+        ignore = false,
+    },
+    actions = {
+        open_file = {
+            window_picker = {
+                enable = false,
+            },
+        },
     },
     renderer = {
-        full_name = true,
-        group_empty = true,
-        special_files = {},
-        symlink_destination = false,
-        indent_markers = {
-            enable = true,
-        },
         icons = {
-            git_placement = "signcolumn",
             show = {
-                file = true,
-                folder = true,
-                folder_arrow = true,
                 git = true,
+                folder = true,
+                file = true,
+                folder_arrow = false,
             },
             glyphs = {
+                default = '',
                 git = {
-                    unstaged = "",
-                    staged = "",
-                    unmerged = "",
-                    renamed = "➜",
-                    untracked = "",
-                    deleted = "",
-                    ignored = "◌",
+                    unstaged = '~',
+                    staged = '+',
+                    unmerged = '!',
+                    renamed = '≈',
+                    untracked = '?',
+                    deleted = '-',
                 },
             },
         },
-    },
-    -- view = {
-    --     adaptive_size = true,
-    --     mappings = {
-    --         list = {
-    --             { key = "u", action = "dir_up" },
-    --             { key = "o", action = "system_open" },
-    --             { key = { "l", "<cr>", "o", "<2-leftmouse>" }, action = "edit" },
-    --             { key = "v", action = "vsplit" },
-    --             { key = "h", action = "close_node" },
-    --             { key = "s", action = "split" },
-    --             { key = "<s-c>", action = "cd" },
-    --             -- custom function
-    --             { key = "p", action = "print node path", action_cb = print_node_path },
-    --             -- override existing
-    --             { key = "c", action = "cd" },
-    --             -- new mappings
-    --             { key = "a", action = "expand_all" },
-    --             { key = "?", action = "toggle_help" },
-    --         },
-    --     },
-    -- },
-    filters = {
-        custom = {
-            "^.git$",
+        indent_markers = {
+            enable = true,
         },
     },
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
-    nested = true,
+
+vim.api.nvim_create_autocmd('FileType', {
+    group = vim.api.nvim_create_augroup('NVIM_TREE', { clear = true }),
+    pattern = 'NvimTree',
     callback = function()
-        if #vim.api.nvim_list_wins() == 1 and require("nvim-tree.utils").is_nvim_tree_buf() then
-            vim.cmd "quit"
-        end
-    end
+        vim.api.nvim_win_set_option(0, 'wrap', false)
+    end,
 })
-
--- NvimTree - Open For Files And [No Name] Buffers
-local function open_nvim_tree(data)
-
-    -- buffer is a real file on the disk
-    local real_file = vim.fn.filereadable(data.file) == 1
-
-    -- buffer is a [No Name]
-    local no_name = data.file == "" and vim.bo[data.buf].buftype == ""
-
-    if not real_file and not no_name then
-        return
-    end
-
-    -- open the tree, find the file but don't focus it
-    require("nvim-tree.api").tree.toggle({ focus = false, find_file = true, })
-end
-
-vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
-
