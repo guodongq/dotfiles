@@ -18,16 +18,16 @@ null_ls.setup({
     debug = false,
   	sources = {
       -- go
-      null_ls.builtins.diagnostics.golangci_lint,
-      null_ls.builtins.formatting.gofumpt,
-      null_ls.builtins.formatting.goimports,
+      -- null_ls.builtins.diagnostics.golangci_lint,
+      -- null_ls.builtins.formatting.gofumpt,
+      -- null_ls.builtins.formatting.goimports,
       -- null_ls.builtins.formatting.golines,
       -- markdown
-      null_ls.builtins.diagnostics.markdownlint,
-      null_ls.builtins.formatting.markdownlint,
+      -- null_ls.builtins.diagnostics.markdownlint,
+      -- null_ls.builtins.formatting.markdownlint,
       -- shell
-      null_ls.builtins.code_actions.shellcheck,
-      null_ls.builtins.formatting.shfmt,
+      -- null_ls.builtins.code_actions.shellcheck,
+      -- null_ls.builtins.formatting.shfmt,
       -- frontend
       -- null_ls.builtins.formatting.prettier,
       -- make
