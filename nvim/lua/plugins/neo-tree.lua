@@ -5,10 +5,10 @@ require("neo-tree").setup({
   window = {
     mappings = {
       ["o"] = "open",
-      ["<space>"] = {
-          "<leader>",
-          nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
-      },
+			["<space>"] = {
+                "toggle_node",
+                nowait = true, -- disable `nowait` if you have existing combos starting with this char that you want to use
+            },
     },
   },
 })
