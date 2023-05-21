@@ -2,6 +2,7 @@
 vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
 require("neo-tree").setup({
+  follow_current_file = true, -- This will find and focus the file in the active buffer every
   window = {
     mappings = {
       ["o"] = "open",
@@ -12,3 +13,5 @@ require("neo-tree").setup({
     },
   },
 })
+
+vim.cmd([[nnoremap \ :Neotree toggle reveal<cr>]])

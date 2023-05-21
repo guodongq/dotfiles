@@ -41,25 +41,25 @@ return require('packer').startup(function(use)
         end,
     })
 
-    -- use({
-    --     'numToStr/Sakura.nvim',
-    --     config = function()
-    --         require('plugins.sakura')
-    --     end,
-    -- })
-  --
     use({
-      'folke/tokyonight.nvim',
-      config = function()
-        require('tokyonight').setup()
-        vim.cmd [[colorscheme tokyonight-night]]
-      end,
+        'numToStr/Sakura.nvim',
+        config = function()
+            require('plugins.sakura')
+        end,
     })
+
+    -- use({
+    --   'folke/tokyonight.nvim',
+    --   config = function()
+    --     require('tokyonight').setup()
+    --     vim.cmd [[colorscheme tokyonight-night]]
+    --   end,
+    -- })
 
     use({
         'nvim-lualine/lualine.nvim',
-        -- after = 'Sakura.nvim',
-        after = 'tokyonight.nvim',
+        after = 'Sakura.nvim',
+        -- after = 'tokyonight.nvim',
         event = 'BufEnter',
         config = function()
             require('plugins.lualine')
