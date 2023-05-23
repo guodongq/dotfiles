@@ -98,33 +98,8 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
--- Jump to the last place in the file before exiting
-vim.api.nvim_create_autocmd('BufReadPost', {
-    group = augroup("jump_to_last_place"),
-    callback = function(data)
-        local last_pos = vim.api.nvim_buf_get_mark(data.buf, '"')
-        if last_pos[1] > 0 and last_pos[1] <= vim.api.nvim_buf_line_count(data.buf) then
-            vim.api.nvim_win_set_cursor(0, last_pos)
-        end
-    end,
-})
-
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
-  pattern = { "" },
-  callback = function()
-    local get_project_dir = function()
-      local cwd = vim.fn.getcwd()
-      local project_dir = vim.split(cwd, "/")
-      local project_name = project_dir[#project_dir]
-      return project_name
-    end
-
-    vim.opt.titlestring = get_project_dir() .. " - nvim"
-  end,
-})
-
-
-vim.api.nvim_create_autocmd({ "BufEnter" }, {
+  group = augroup("start_insert_term"),
   pattern = { "term://*" },
   callback = function()
     vim.cmd "startinsert!"
