@@ -41,12 +41,12 @@ return require('packer').startup(function(use)
         end,
     })
 
-    use({
-        'numToStr/Sakura.nvim',
-        config = function()
-            require('plugins.sakura')
-        end,
-    })
+    -- use({
+    --     'numToStr/Sakura.nvim',
+    --     config = function()
+    --         require('plugins.sakura')
+    --     end,
+    -- })
 
     -- use({
     --   'folke/tokyonight.nvim',
@@ -55,10 +55,18 @@ return require('packer').startup(function(use)
     --     vim.cmd [[colorscheme tokyonight-night]]
     --   end,
     -- })
+    use({
+      'Mofiqul/dracula.nvim',
+      config = function()
+        require('dracula').setup()
+        vim.cmd[[ colorscheme dracula]]
+      end,
+    })
 
     use({
         'nvim-lualine/lualine.nvim',
-        after = 'Sakura.nvim',
+        after = 'dracula.nvim',
+        -- after = 'Sakura.nvim',
         -- after = 'tokyonight.nvim',
         event = 'BufEnter',
         config = function()
