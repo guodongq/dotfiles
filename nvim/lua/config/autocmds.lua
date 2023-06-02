@@ -107,4 +107,21 @@ vim.api.nvim_create_autocmd({ "BufEnter" }, {
   end,
 })
 
-
+-- Toggle highlighting current line only in active splits {{{1
+vim.api.nvim_create_augroup('user_toggle_cursorline', { clear = true })
+vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
+  group = 'user_toggle_cursorline',
+  desc = 'enable cursorline on focus',
+  pattern = '*',
+  callback = function()
+    vim.opt_local.cursorline = true
+  end,
+})
+vim.api.nvim_create_autocmd({ 'VimLeave', 'WinLeave', 'BufWinLeave' }, {
+  group = 'user_toggle_cursorline',
+  desc = 'disable cursorline on lost focus',
+  pattern = '*',
+  callback = function()
+    vim.opt_local.cursorline = false
+  end,
+})

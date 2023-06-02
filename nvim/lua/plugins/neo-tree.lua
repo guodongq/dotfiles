@@ -12,6 +12,32 @@ require("neo-tree").setup({
             },
     },
   },
+
+  event_handlers = {
+    -- Auto Close on Open File
+    {
+          event = "file_opened",
+          handler = function(file_path)
+          --auto close
+         require("neo-tree").close_all()
+       end
+     },
+    -- hide cursor in neo-tree window
+    {
+        event = "neo_tree_buffer_enter",
+        handler = function()
+          -- This effectively hides the cursor
+          vim.cmd 'highlight! Cursor blend=100'
+        end
+      },
+      {
+        event = "neo_tree_buffer_leave",
+        handler = function()
+          -- Make this whatever your current Cursor highlight group is.
+          vim.cmd 'highlight! Cursor guibg=#5f87af blend=0'
+        end
+      }
+   },
 })
 
 vim.cmd([[nnoremap \ :Neotree toggle reveal<cr>]])

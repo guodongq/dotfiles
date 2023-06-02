@@ -41,20 +41,26 @@ return require('packer').startup(function(use)
         end,
     })
 
-    -- use({
-    --     'numToStr/Sakura.nvim',
-    --     config = function()
-    --         require('plugins.sakura')
-    --     end,
-    -- })
+    use({
+        'numToStr/Sakura.nvim',
+        -- config = function()
+        --     require('plugins.sakura')
+        -- end,
+    })
 
-    -- use({
-    --   'folke/tokyonight.nvim',
-    --   config = function()
-    --     require('tokyonight').setup()
-    --     vim.cmd [[colorscheme tokyonight-night]]
-    --   end,
-    -- })
+    use({
+      'folke/tokyonight.nvim',
+      -- config = function()
+      --   require('tokyonight').setup({
+      --       on_colors = function(colors)
+      --       colors.hint = colors.orange
+      --       colors.error = "#ff0000"
+      --     end
+      --   })
+      --   vim.cmd [[colorscheme tokyonight-storm]] -- tokyonight-day, tokyonight-moon, tokyonight-storm, tokyonight-night
+      -- end,
+    })
+
     use({
       'Mofiqul/dracula.nvim',
       config = function()
