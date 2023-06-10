@@ -92,7 +92,7 @@ require("lualine").setup({
                     return msg
                 end,
                 icon = " LSP:",
-                -- color = { fg = "#ffffff", gui = "bold" },
+                color = { fg = "#ffffff", gui = "bold" },
             },
         },
         lualine_x = {
@@ -135,7 +135,7 @@ require("lualine").setup({
     },
     tabline = {},
     extensions = {
-        "nvim-tree",
+        "neo-tree",
         "toggleterm",
         "nvim-dap-ui",
         "quickfix",

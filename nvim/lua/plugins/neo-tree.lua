@@ -15,13 +15,13 @@ require("neo-tree").setup({
 
   event_handlers = {
     -- Auto Close on Open File
-    {
-          event = "file_opened",
-          handler = function(file_path)
-          --auto close
-         require("neo-tree").close_all()
-       end
-     },
+    -- {
+    --       event = "file_opened",
+    --       handler = function(file_path)
+    --       --auto close
+    --      require("neo-tree").close_all()
+    --    end
+    --  },
     -- hide cursor in neo-tree window
     {
         event = "neo_tree_buffer_enter",
