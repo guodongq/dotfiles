@@ -63,15 +63,25 @@ return require('packer').startup(function(use)
 
     use({
       'Mofiqul/dracula.nvim',
-      config = function()
-        require('dracula').setup()
-        vim.cmd[[ colorscheme dracula]]
-      end,
+      -- config = function()
+      --   require('dracula').setup()
+      --   vim.cmd[[ colorscheme dracula]]
+      -- end,
+    })
+
+    use({
+        'ellisonleao/gruvbox.nvim',
+        config = function()
+            require('gruvbox').setup()
+            vim.o.background = 'dark'
+            vim.cmd[[ colorscheme gruvbox]]
+        end,
     })
 
     use({
         'nvim-lualine/lualine.nvim',
-        after = 'dracula.nvim',
+        -- after = 'dracula.nvim',
+        after = 'gruvbox.nvim',
         -- after = 'Sakura.nvim',
         -- after = 'tokyonight.nvim',
         event = 'BufEnter',
@@ -314,7 +324,12 @@ return require('packer').startup(function(use)
         requires = {
             -- LSP Support
             { 'neovim/nvim-lspconfig' }, -- Required
-            { 'williamboman/mason.nvim' }, -- Optional
+            { 
+                'williamboman/mason.nvim',
+                run = function()
+                    pcall(vim.cmd, 'MasonUpdate')
+                end,
+            }, -- Optional
             { 'williamboman/mason-lspconfig.nvim' }, -- Optional
 
             -- Autocompletion
@@ -359,6 +374,7 @@ return require('packer').startup(function(use)
 
     use({
         'j-hui/fidget.nvim',
+        tag = 'legacy',
         config = function()
             require('fidget').setup()
         end,
