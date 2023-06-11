@@ -41,48 +41,49 @@ return require('packer').startup(function(use)
         end,
     })
 
+
+    use({
+          { 'folke/tokyonight.nvim',
+          -- config = function()
+          --   require('tokyonight').setup({
+          --       on_colors = function(colors)
+          --       colors.hint = colors.orange
+          --       colors.error = "#ff0000"
+          --     end
+          --   })
+          --   vim.cmd [[colorscheme tokyonight-storm]] -- tokyonight-day, tokyonight-moon, tokyonight-storm, tokyonight-night
+          -- end,
+        },
+        {
+          'Mofiqul/dracula.nvim',
+          -- config = function()
+          --   require('dracula').setup()
+          --   vim.cmd[[ colorscheme dracula]]
+          -- end,
+        },
+        {
+            'ellisonleao/gruvbox.nvim',
+            -- config = function()
+            --     require('gruvbox').setup()
+            --     vim.o.background = 'dark'
+            --     vim.cmd[[ colorscheme gruvbox]]
+            -- end,
+        }
+    })
+
+
     use({
         'numToStr/Sakura.nvim',
-        -- config = function()
-        --     require('plugins.sakura')
-        -- end,
-    })
-
-    use({
-      'folke/tokyonight.nvim',
-      -- config = function()
-      --   require('tokyonight').setup({
-      --       on_colors = function(colors)
-      --       colors.hint = colors.orange
-      --       colors.error = "#ff0000"
-      --     end
-      --   })
-      --   vim.cmd [[colorscheme tokyonight-storm]] -- tokyonight-day, tokyonight-moon, tokyonight-storm, tokyonight-night
-      -- end,
-    })
-
-    use({
-      'Mofiqul/dracula.nvim',
-      -- config = function()
-      --   require('dracula').setup()
-      --   vim.cmd[[ colorscheme dracula]]
-      -- end,
-    })
-
-    use({
-        'ellisonleao/gruvbox.nvim',
         config = function()
-            require('gruvbox').setup()
-            vim.o.background = 'dark'
-            vim.cmd[[ colorscheme gruvbox]]
+            require('plugins.sakura')
         end,
     })
 
     use({
         'nvim-lualine/lualine.nvim',
+        after = 'Sakura.nvim',
         -- after = 'dracula.nvim',
-        after = 'gruvbox.nvim',
-        -- after = 'Sakura.nvim',
+        -- after = 'gruvbox.nvim',
         -- after = 'tokyonight.nvim',
         event = 'BufEnter',
         config = function()
@@ -176,6 +177,7 @@ return require('packer').startup(function(use)
      use({
         'nvim-neo-tree/neo-tree.nvim',
         branch = "v2.x",
+        event = 'CursorHold',
         requires = {
           'nvim-lua/plenary.nvim',
           'nvim-tree/nvim-web-devicons',

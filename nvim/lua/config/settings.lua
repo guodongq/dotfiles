@@ -86,3 +86,7 @@ vim.opt.diffopt:append('linematch:60')
 -- vim.opt.mousemodel = 'extend'
 
 vim.opt.confirm = true -- Raise a dialog when an operation has to be confirmed
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.opt.completeopt = 'menuone,noinsert,noselect'
