@@ -1,145 +1,88 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
--- Fix markdown indentation settings
-vim.g.markdown_recommended_style = 0
--- Disable various builtin plugins in Vim that bog down speed
-vim.g.loaded_python3_provider = 1
-vim.g.loaded_ruby_provider = 1
-vim.g.loaded_perl_provider = 1
-vim.g.loaded_node_provider = 1
-vim.g.loaded_matchparen = 1
-vim.g.loaded_matchit = 1
-vim.g.loaded_logiPat = 1
-vim.g.loaded_rrhelper = 1
-vim.g.loaded_tarPlugin = 1
-vim.g.loaded_gzip = 1
-vim.g.loaded_zipPlugin = 1
-vim.g.loaded_2html_plugin = 1
-vim.g.loaded_shada_plugin = 1
-vim.g.loaded_spellfile_plugin = 1
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.g.loaded_tutor_mode_plugin = 1
-vim.g.loaded_remote_plugins = 1
+-- cmd('syntax on')
+-- vim.api.nvim_command('filetype plugin indent on')
 
--- vim: foldmethod=marker
--- Message output on vim actions {{{1
+vim.opt.termguicolors = true
+-- vim.opt.background = 'dark'
 
--- The neovim default is "filnxtToOF"
-vim.opt.shortmess = {
-  f = false, -- use "(3 of 5)" instead of "(file 3 of 5)"
-  i = false, -- use "[noeol]" instead of "[Incomplete last line]"
-  l = false, -- use "999L, 888B" instead of "999 lines, 888 bytes"
-  m = false, -- use "[+]" instead of "[Modified]"
-  n = false, -- use "[New]" instead of "[New File]"
-  r = false, -- use "[RO]" instead of "[readonly]"
-  w = false, -- use "[w]" instead of "written" for file write message and and "[a]" instead of "appended" for ':w >> file' command
-  x = false, -- use "[dos]" instead of "[dos format]", "[unix]" instead of "[unix format]" and "[mac]" instead of "[mac format]"
-  a = true, -- all of the above abbreviations
-  o = true, -- overwrite message for writing a file with subsequent message for reading a file (useful for ":wn" or when 'autowrite' on)
-  O = true, -- message for reading a file overwrites any previous message;  also for quickfix message (e.g., ":cn")
-  s = true, -- don't give "search hit BOTTOM, continuing at TOP" or "search hit TOP, continuing at BOTTOM" messages; when using the search count do not show "W" after the count message (see S below)
-  t = true, -- truncate file message at the start if it is too long to fit on the command-line, "<" will appear in the left most column; ignored in Ex mode
-  T = true, -- truncate non-file messages in middle if they are too long to fit on the command line; "..." will appear in the middle; ignored in Ex mode
-  W = false, -- don't give "written" or "[w]" when writing a file
-  A = true, -- don't give the "ATTENTION" message when an existing swap file is found
-  I = true, -- don't give the intro message when starting Vim, see :intro
-  c = true, -- don't give |ins-completion-menu| messages; for example,, "-- XXX completion (YYY)", "match 1 of 2", "The only match", "Pattern not found", "Back at original", etc.
-  C = true, -- don't give messages while scanning for ins-completion items, for instance "scanning tags"
-  q = false, -- use "recording" instead of "recording @a"
-  F = true, -- don't give file info when editing a file, like `:silent` was used for the command
-  S = false, -- do not show search count message when searching, e.g. "[1/5]"
-}
+-- Do not save when swithing buffers
+-- vim.opt.hidden = true
 
--- Timings {{{1
-vim.opt.updatetime = 100
-vim.opt.timeout = true
+-- Decrease update time
 vim.opt.timeoutlen = 500
-vim.opt.ttimeoutlen = 10
+vim.opt.updatetime = 200
 
--- Windows and buffers {{{1
-vim.opt.fileformats = { 'unix', 'mac', 'dos' }
-vim.opt.splitbelow = true
-vim.opt.splitright = true
-vim.opt.fillchars = {
-  diff = '░',
-  msgsep = '‾',
-  fold = ' ',
-  foldopen = '▾',
-  foldclose = '▸',
-}
--- Diff options {{{1
-vim.opt.diffopt:append({
-  'vertical',
-  'iwhite',
-  'hiddenoff',
-  'foldcolumn:0',
-  'context:4',
-  'algorithm:histogram',
-  'indent-heuristic',
-})
+-- Number of screen lines to keep above and below the cursor
+vim.opt.scrolloff = 8
 
--- Folds {{{1
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-vim.opt.foldlevelstart = 20 -- Always start editing with no folds closed
+-- Better editor UI
+vim.opt.number = true
+vim.opt.numberwidth = 5
+vim.opt.relativenumber = true
+vim.opt.signcolumn = 'yes:2'
+vim.opt.cursorline = true
 
--- Display {{{1
-vim.opt.confirm = true -- Raise a dialog when an operation has to be confirmed
-vim.opt.cursorline = true -- Highlight current line
-vim.opt.signcolumn = 'yes:2' -- Always show the signcolumn (2 symbols)
-vim.opt.number = true -- Display line numbers
-vim.opt.relativenumber = true -- Show the line number relative to the line with the cursor
-vim.opt.colorcolumn = '80' -- Set the colored vertical column
-vim.opt.cmdheight = 1 -- Set the command-line height to 1
-vim.opt.showbreak = '↪ ' -- Show a symbol at the start of wrapped lines
-vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
-vim.opt.showmode = false -- Don't show mode in cmd
-vim.opt.syntax = 'on' -- Enable syntax highlighting
-vim.opt.termguicolors = true -- Enable 24-bit RGB color in the TUI
+-- Better editing experience
+vim.opt.expandtab = true
+-- vim.opt.smarttab = true
+vim.opt.cindent = true
+-- vim.opt.autoindent = true
+vim.opt.wrap = true
+vim.opt.textwidth = 300
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 0
+vim.opt.softtabstop = -1 -- If negative, shiftwidth value is used
+vim.opt.list = true
+vim.opt.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
+-- vim.opt.listchars = 'eol:¬,space:·,lead: ,trail:·,nbsp:◇,tab:→-,extends:▸,precedes:◂,multispace:···⬝,leadmultispace:│   ,'
+-- vim.opt.formatoptions = 'qrn1'
 
--- List chars {{{1
-vim.opt.list = true -- Show special characters
-vim.opt.listchars = {
-  eol = '↲',
-  tab = '→ ',
-  extends = '›',
-  precedes = '‹',
-  trail = '•',
-}
-
--- Indentation {{{1
-vim.opt.wrap = true -- wrap lines longer than the width of the window
-vim.opt.expandtab = true -- Use the appropriate number of spaces to insert a <Tab>
-vim.opt.autoindent = true -- Copy indent from current line when starting a new line
-vim.opt.smarttab = true -- Makes tabbing smarter
-vim.opt.smartindent = true -- Makes indentation smarter
-vim.opt.tabstop = 4 -- Number of spaces in tab when displaying a file
-vim.opt.softtabstop = 4 -- Number of spaces in tab when editing a file
-vim.opt.shiftwidth = 4 -- Number of spaces to use for autoindent
-vim.opt.joinspaces = false -- Insert only one space with a join command
-
--- Mouse {{{1
-vim.opt.mouse = 'a' -- Enable mouse for all modes
-vim.opt.mousefocus = true
-vim.opt.mousemodel = 'extend'
-
--- Match and search {{{1
-vim.opt.hlsearch = false
-vim.opt.incsearch = true
-vim.opt.magic = true
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-vim.opt.scrolloff = 9
-vim.opt.sidescrolloff = 10
-vim.opt.isfname:append('@-@')
-
--- Backup and swap {{{1
-vim.opt.undofile = true -- Enable persistent undo
-vim.opt.backup = false -- Disable backups
-vim.opt.writebackup = false -- Disable backups
-vim.opt.swapfile = false -- Disable swapfiles
+-- Makes neovim and host OS clipboard play nicely with each other
 vim.opt.clipboard = 'unnamedplus'
 
---- }}}
+-- Case insensitive searching UNLESS /C or capital in search
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
+-- Undo and backup options
+vim.opt.backup = false
+vim.opt.writebackup = false
+vim.opt.undofile = true
+vim.opt.swapfile = false
+-- vim.opt.backupdir = '/tmp/'
+-- vim.opt.directory = '/tmp/'
+-- vim.opt.undodir = '/tmp/'
+
+-- Remember 50 items in commandline history
+vim.opt.history = 50
+
+-- Better buffer splitting
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+-- Preserve view while jumping
+vim.opt.jumpoptions = 'view'
+
+-- Stable buffer content on window open/close events.
+vim.opt.splitkeep = 'screen'
+
+-- Improve diff
+vim.opt.diffopt:append('linematch:60')
+
+-- WARN: this won't update the search count after pressing `n` or `N`
+-- When running macros and regexes on a large file, lazy redraw tells neovim/vim not to draw the screen
+-- vim.opt.lazyredraw = true
+
+-- Better folds (don't fold by default)
+-- vim.opt.foldmethod = 'indent'
+-- vim.opt.foldlevelstart = 99
+-- vim.opt.foldnestmax = 3
+-- vim.opt.foldminlines = 1
+
+-- vim.opt.mouse = 'a' -- Enable mouse for all modes
+-- vim.opt.mousefocus = true
+-- vim.opt.mousemodel = 'extend'
+
+vim.opt.confirm = true -- Raise a dialog when an operation has to be confirmed
