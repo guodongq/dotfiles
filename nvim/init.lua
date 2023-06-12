@@ -1,5 +1,7 @@
--- vim: foldmethod=marker
-vim.loader.enable()
+-- Leader/local leader - lazy.nvim need these set first
+vim.g.mapleader = [[ ]]
+vim.g.maplocalleader = [[ ]]
+
 
 require('config.settings')
 require('config.autocmds')
