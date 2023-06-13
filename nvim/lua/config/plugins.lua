@@ -31,6 +31,50 @@ return require('packer').startup(function(use)
 
     use('nvim-lua/plenary.nvim')
 
+    -----------------------------------
+    -- Tools --
+    -----------------------------------
+
+    use({
+        'goolord/alpha-nvim',
+        event = 'VimEnter',
+        config = function()
+            require("plugins.dashboard")
+        end,
+    })
+
+    use({
+        'eduardomillans/maximizer.nvim',
+        config = function()
+            require('plugins.maximizer')
+        end,
+        event = 'VimEnter',
+    })
+
+    use({
+        'yorickpeterse/nvim-window',
+        config = function()
+            require('plugins.nvim-window')
+        end,
+        event = 'VimEnter',
+    })
+
+    use({
+        'folke/trouble.nvim',
+        requires = 'nvim-tree/nvim-web-devicons',
+        config = function()
+            require('trouble').setup()
+        end
+    })
+
+    use({
+        'folke/which-key.nvim',
+        event = 'VimEnter',
+        config = function()
+            require('plugins.which-key')
+        end,
+    })
+
     ----------------------------------------
     -- Theme, Icons, Statusbar, Bufferbar --
     ----------------------------------------
@@ -72,10 +116,10 @@ return require('packer').startup(function(use)
 
     use({
         'nvim-lualine/lualine.nvim',
-        after = 'Sakura.nvim',
+        -- after = 'Sakura.nvim',
         -- after = 'dracula.nvim',
         -- after = 'gruvbox.nvim',
-        -- after = 'tokyonight.nvim',
+        after = 'tokyonight.nvim',
         event = 'BufEnter',
         config = function()
             require('plugins.lualine')
@@ -370,49 +414,6 @@ return require('packer').startup(function(use)
         tag = 'legacy',
         config = function()
             require('fidget').setup()
-        end,
-    })
-
-    -----------------------------------
-    -- Tools --
-    -----------------------------------
-
-    use({
-        'goolord/alpha-nvim',
-        event = 'VimEnter',
-        config = function()
-            require("plugins.dashboard")
-        end,
-    })
-
-    use({
-        'eduardomillans/maximizer.nvim',
-        config = function()
-            require('plugins.maximizer')
-        end,
-        event = 'VimEnter',
-    })
-
-    use({
-        'yorickpeterse/nvim-window',
-        config = function()
-            require('plugins.nvim-window')
-        end,
-        event = 'VimEnter',
-    })
-
-    use({
-        'folke/trouble.nvim',
-        requires = 'nvim-tree/nvim-web-devicons',
-        config = function()
-            require('trouble').setup()
-        end
-    })
-
-    use({
-        'folke/which-key.nvim',
-        config = function()
-            require('plugins.which-key')
         end,
     })
 
