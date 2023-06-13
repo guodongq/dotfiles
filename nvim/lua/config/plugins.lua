@@ -72,10 +72,10 @@ return require('packer').startup(function(use)
 
     use({
         'nvim-lualine/lualine.nvim',
-        -- after = 'Sakura.nvim',
+        after = 'Sakura.nvim',
         -- after = 'dracula.nvim',
         -- after = 'gruvbox.nvim',
-        after = 'tokyonight.nvim',
+        -- after = 'tokyonight.nvim',
         event = 'BufEnter',
         config = function()
             require('plugins.lualine')

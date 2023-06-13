@@ -210,13 +210,13 @@ local mappings = {
 
         -- files
         ["<leader>f"] = { name = "Files" },
-        ["<leader>fb"] = { "<cmd>Neotree focus buffers float<cr>", "Focus buffers file in file tree" },
+        ["<leader>fb"] = { "<cmd>Neotree focus buffers<cr>", "Focus buffers file in file tree" },
         ["<leader>ff"] = { "<cmd>Telescope find_files<cr>", "Find files" },
-        ["<leader>fg"] = { "<cmd>Neotree focus git_status float<cr>", "Focus file git_status in file tree" },
+        ["<leader>fg"] = { "<cmd>Neotree focus git_status<cr>", "Focus file git_status in file tree" },
         ["<leader>fn"] = { "<cmd>enew<cr>", "+New file" },
         ["<leader>fs"] = { "<cmd>w!<cr>", "Save a file" },
-        ["<leader>ft"] = { "<cmd>Neotree toggle filesystem float<cr>", "File tree" },
-        ["<leader>fT"] = { "<cmd>Neotree focus filesystem reveal float<cr>", "Focus current file in file tree" },
+        ["<leader>ft"] = { "<cmd>Neotree toggle filesystem<cr>", "File tree" },
+        ["<leader>fT"] = { "<cmd>Neotree focus filesystem reveal<cr>", "Focus current file in file tree" },
 
         -- git
         ["<leader>g"] = { name = "git/versions-control" },
