@@ -157,15 +157,12 @@ local mappings = {
 
         -- buffers
         ["<leader>b"] = { name = "Buffers" },
-        ["<leader>ba"] = { "<cmd>lua require('Buffers').clear()<cr>", "Close all" },
-        ["<leader>bd"] = { "<cmd>lua require('Buffers').delete()<cr>", "Kill buffer" },
-        ["<leader>bD"] = { "<cmd>lua require('Buffers').only()<cr>", "Kill other buffers..." },
-        ["<leader>bh"] = { "<cmd>Alpha<cr>", "Neovim home buffer" },
+        ["<leader>ba"] = { "<cmd>lua require('Buffers').clear()<cr>", "Close all buffers" },
+        ["<leader>bd"] = { "<cmd>lua require('Buffers').delete()<cr>", "Kill current buffer" },
+        ["<leader>bD"] = { "<cmd>lua require('Buffers').only()<cr>", "Kill other buffers" },
         ["<leader>bl"] = { "<cmd>Telescope buffers path_display={'truncate'}<cr>", "list-buffers" },
         ["<leader>bn"] = { "<cmd>bn<cr>", "Next buffer" },
         ["<leader>bp"] = { "<cmd>bp<cr>", "Previous buffer" },
-        ["<leader>b`"] = { "<cmd>e #<cr>", "Switch to Other Buffer" },
-        --["<leader>bW"] = { "<cmd><cr>", "goto-buffer-workspace" },
 
         -- compile/comments
         ["<leader>c"] = { name = "compile/comments" },

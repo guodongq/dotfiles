@@ -42,43 +42,118 @@ return require('packer').startup(function(use)
         end,
     })
 
-    -- Colorscheme
     use({
-        {
-            'numToStr/Sakura.nvim',
-            config = function()
-                require('plugins.colorscheme')
-            end,
-        },
-        {
-            'folke/tokyonight.nvim',
-            config = function()
-                require('plugins.colorscheme')
-            end,
-        },
-        {
-            'ellisonleao/gruvbox.nvim',
-            config = function()
-                require('plugins.colorscheme')
-            end,
-        },
-        {
-            'Mofiqul/dracula.nvim',
-            config = function()
-                require('plugins.colorscheme')
-            end,
-        },
+        'numToStr/Sakura.nvim',
+        config = function()
+            require('plugins.colorscheme')
+        end,
     })
 
     use({
         'nvim-lualine/lualine.nvim',
         after = 'Sakura.nvim',
-        --after = 'tokyonight.nvim',
-        -- after = 'gruvbox.nvim',
-        -- after = 'dracula.nvim',
         event = 'BufEnter',
         config = function()
             require('plugins.lualine')
+        end,
+    })
+
+    -----------------------------------
+    -- Treesitter: Better Highlights --
+    -----------------------------------
+
+    use({
+        {
+            'nvim-treesitter/nvim-treesitter',
+            event = 'CursorHold',
+            run = ':TSUpdate',
+            config = function()
+                require('plugins.treesitter')
+            end,
+        },
+        { 'nvim-treesitter/playground', after = 'nvim-treesitter' },
+        { 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter' },
+        { 'nvim-treesitter/nvim-treesitter-refactor', after = 'nvim-treesitter' },
+        { 'windwp/nvim-ts-autotag', after = 'nvim-treesitter' },
+        { 'JoosepAlviste/nvim-ts-context-commentstring', after = 'nvim-treesitter' },
+    })
+
+    --------------------------
+    -- Editor UI Niceties --
+    --------------------------
+
+    use({
+        'lukas-reineke/indent-blankline.nvim',
+        event = 'BufRead',
+        config = function()
+            require('indent_blankline').setup({
+                show_first_indent_level = false,
+                filetype_exclude = { 'help', 'packer', 'toggleterm' },
+                buftype_exclude = { 'terminal', 'nofile' },
+            })
+        end,
+    })
+
+    use({
+        'folke/trouble.nvim',
+        event = 'BufReadPost',
+        requires = 'nvim-tree/nvim-web-devicons',
+        config = function()
+            require('trouble').setup()
+        end
+    })
+
+    use({
+        'folke/todo-comments.nvim',
+        after = 'nvim-treesitter',
+        event = 'BufReadPost',
+        requires = 'nvim-lua/plenary.nvim',
+        config = function()
+            require('todo-comments').setup()
+        end,
+    })
+
+    ---------------
+    -- Git Stuff --
+    ---------------
+
+    use({
+        'lewis6991/gitsigns.nvim',
+        event = 'BufRead',
+        config = function()
+            require('gitsigns').setup({})
+        end,
+    })
+
+    use({
+        'rhysd/git-messenger.vim',
+        event = 'BufRead',
+        config = function()
+            vim.g.git_messenger_no_default_mappings = true
+            --vim.keymap.set('n', '<leader>gm', '<CMD>GitMessenger<CR>')
+        end,
+    })
+
+    use({
+        'sindrets/diffview.nvim',
+        event = 'BufRead',
+        config = function()
+            require('diffview').setup({
+                -- See ':h diffview-config-enhanced_diff_hl'
+                enhanced_diff_hl = true,
+                view = {
+                    merge_tool = {
+                        layout = 'diff3_mixed',
+                    },
+                },
+            })
+        end,
+    })
+
+    use({
+        'iamcco/markdown-preview.nvim',
+        run = function()
+            vim.fn['mkdp#util#install']()
         end,
     })
 
@@ -114,7 +189,6 @@ return require('packer').startup(function(use)
     use({
         'nvim-neo-tree/neo-tree.nvim',
         branch = 'v2.x',
-        event = 'CursorHold',
         requires = {
             'nvim-lua/plenary.nvim',
             'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
@@ -222,26 +296,6 @@ return require('packer').startup(function(use)
     })
 
     -----------------------------------
-    -- Treesitter: Better Highlights --
-    -----------------------------------
-
-    use({
-        {
-            'nvim-treesitter/nvim-treesitter',
-            event = 'CursorHold',
-            run = ':TSUpdate',
-            config = function()
-                require('plugins.treesitter')
-            end,
-        },
-        { 'nvim-treesitter/playground', after = 'nvim-treesitter' },
-        { 'nvim-treesitter/nvim-treesitter-textobjects', after = 'nvim-treesitter' },
-        { 'nvim-treesitter/nvim-treesitter-refactor', after = 'nvim-treesitter' },
-        { 'windwp/nvim-ts-autotag', after = 'nvim-treesitter' },
-        { 'JoosepAlviste/nvim-ts-context-commentstring', after = 'nvim-treesitter' },
-    })
-
-    -----------------------------------
     -- Debugger --
     -----------------------------------
 
@@ -279,86 +333,6 @@ return require('packer').startup(function(use)
             end,
         }
     })
-
-    --------------------------
-    -- Editor UI Niceties --
-    --------------------------
-
-    use({
-        'lukas-reineke/indent-blankline.nvim',
-        event = 'BufRead',
-        config = function()
-            require('indent_blankline').setup({
-                show_first_indent_level = false,
-                filetype_exclude = { 'help', 'packer', 'toggleterm' },
-                buftype_exclude = { 'terminal', 'nofile' },
-            })
-        end,
-    })
-
-    use({
-        'folke/trouble.nvim',
-        requires = 'nvim-tree/nvim-web-devicons',
-        config = function()
-            require('trouble').setup()
-        end
-    })
-
-    use({
-        'folke/todo-comments.nvim',
-        after = 'nvim-treesitter',
-        event = 'BufReadPost',
-        requires = 'nvim-lua/plenary.nvim',
-        config = function()
-            require('todo-comments').setup()
-        end,
-    })
-
-
-    ---------------
-    -- Git Stuff --
-    ---------------
-
-    use({
-        'lewis6991/gitsigns.nvim',
-        event = 'BufRead',
-        config = function()
-            require('gitsigns').setup({})
-        end,
-    })
-
-    use({
-        'rhysd/git-messenger.vim',
-        event = 'BufRead',
-        config = function()
-            vim.g.git_messenger_no_default_mappings = true
-            --vim.keymap.set('n', '<leader>gm', '<CMD>GitMessenger<CR>')
-        end,
-    })
-
-    use({
-        'sindrets/diffview.nvim',
-        event = 'BufRead',
-        config = function()
-            require('diffview').setup({
-                -- See ':h diffview-config-enhanced_diff_hl'
-                enhanced_diff_hl = true,
-                view = {
-                    merge_tool = {
-                        layout = 'diff3_mixed',
-                    },
-                },
-            })
-        end,
-    })
-
-    use({
-        'iamcco/markdown-preview.nvim',
-        run = function()
-            vim.fn['mkdp#util#install']()
-        end,
-    })
-
 
     -------------------------
     -- Editing to the MOON --
@@ -450,6 +424,7 @@ return require('packer').startup(function(use)
 
     use({
         'jose-elias-alvarez/null-ls.nvim',
+        event = 'BufRead',
         config = function()
             require('plugins.null-ls')
         end,
