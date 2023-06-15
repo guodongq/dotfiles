@@ -41,12 +41,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Toggle highlighting current line only in active splits
 vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
-    group = vim.api.nvim_create_augroup('user_toggle_cursorline', { clear = true }),
-    desc = 'enable cursorline on focus',
-    pattern = '*',
-    callback = function()
-        vim.opt_local.cursorline = true
-    end,
+   group = vim.api.nvim_create_augroup('user_toggle_cursorline', { clear = true }),
+   desc = 'enable cursorline on focus',
+   pattern = '*',
+   callback = function()
+       vim.opt_local.cursorline = true
+   end,
 })
 
 vim.api.nvim_create_autocmd({ 'VimLeave', 'WinLeave', 'BufWinLeave' }, {

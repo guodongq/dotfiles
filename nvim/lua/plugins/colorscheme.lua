@@ -8,8 +8,8 @@ vim.opt.background = 'dark' -- dark, light
  require('Sakura').load()
 
 -- Tokyonight
---require('tokyonight').setup()
---vim.cmd [[colorscheme tokyonight-storm]] -- tokyonight-day, tokyonight-moon, tokyonight-storm, tokyonight-night
+-- require('tokyonight').setup()
+-- vim.cmd [[colorscheme tokyonight-storm]] -- tokyonight-day, tokyonight-moon, tokyonight-storm, tokyonight-night
 
 -- Gruvbox
 -- require('gruvbox').setup()
@@ -18,7 +18,3 @@ vim.opt.background = 'dark' -- dark, light
 -- Dracula
 -- require('dracula').setup()
 -- vim.cmd[[ colorscheme dracula]]
-
-
-
-
