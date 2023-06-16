@@ -8,16 +8,16 @@ require('nvim-treesitter.configs').setup({
     auto_install = true,
     ensure_installed = {
         'c',
-        --'lua',
-        --'rust',
+        'lua',
+        'rust',
         'go',
-        --'javascript',
-        --'typescript',
-        --'tsx',
+        'javascript',
+        'typescript',
+        'tsx',
         'markdown',
         'markdown_inline',
-        --'html',
-        --'css',
+        'html',
+        'css',
         'json',
         'bash',
     },
@@ -84,7 +84,7 @@ require('nvim-treesitter.configs').setup({
         },
         move = {
             enable = true,
-            set_jumps = true, --  whether to set jumps in the jumplist
+            set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {
                 [']f'] = '@function.outer',
                 [']]'] = '@class.outer',

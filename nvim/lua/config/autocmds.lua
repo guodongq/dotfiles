@@ -17,7 +17,6 @@ vim.filetype.add({
     },
 })
 
-
 -- Remember last cursor position
 vim.api.nvim_create_autocmd("BufReadPost", {
     group = vim.api.nvim_create_augroup("remember_cursor_position", { clear = true }),
@@ -30,30 +29,43 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     end,
 })
 
--- Highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-    group = vim.api.nvim_create_augroup("yank_highlight", { clear = true }),
-    pattern = "*",
+-- show cursor line only in active window
+vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
     callback = function()
-        vim.highlight.on_yank()
+        local ok, cl = pcall(vim.api.nvim_win_get_var, 0, "auto-cursorline")
+        if ok and cl then
+            vim.wo.cursorline = true
+            vim.api.nvim_win_del_var(0, "auto-cursorline")
+        end
+    end,
+})
+vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+    callback = function()
+        local cl = vim.wo.cursorline
+        if cl then
+            vim.api.nvim_win_set_var(0, "auto-cursorline", cl)
+            vim.wo.cursorline = false
+        end
     end,
 })
 
--- Toggle highlighting current line only in active splits
-vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
-   group = vim.api.nvim_create_augroup('user_toggle_cursorline', { clear = true }),
-   desc = 'enable cursorline on focus',
-   pattern = '*',
-   callback = function()
-       vim.opt_local.cursorline = true
-   end,
+-- Fix conceallevel for json & help files
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    pattern = { "json", "jsonc" },
+    callback = function()
+        vim.wo.spell = false
+        vim.wo.conceallevel = 0
+    end,
 })
 
-vim.api.nvim_create_autocmd({ 'VimLeave', 'WinLeave', 'BufWinLeave' }, {
-    group = vim.api.nvim_create_augroup('user_toggle_cursorline', { clear = true }),
-    desc = 'disable cursorline on lost focus',
-    pattern = '*',
+-- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+    command = "checktime",
+})
+
+-- Highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
     callback = function()
-        vim.opt_local.cursorline = false
+        vim.highlight.on_yank()
     end,
 })

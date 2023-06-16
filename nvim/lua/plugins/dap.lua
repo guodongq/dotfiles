@@ -1,26 +1,3 @@
-vim.fn.sign_define("DapBreakpoint", {
-    text = "",
-    texthl = "DiagnosticSignError",
-})
-
-vim.fn.sign_define('DapBreakpointCondition', {
-    text = 'ﳁ',
-    texthl = 'DiagnosticSignWarn',
-})
-
-vim.fn.sign_define("DapBreakpointRejected", {
-    text = '',
-    texthl = "DiagnosticSignError",
-})
-
-vim.fn.sign_define("DapStopped", {
-    text = "",
-    texthl = "DiagnosticSignWarn",
-})
-
--- ================
--- dap client
--- ================
 local dap = require('dap')
 
 -- c/c++
@@ -41,7 +18,6 @@ dap.configurations.cpp = {
         cwd = '${workspaceFolder}',
         stopOnEntry = false,
         args = {},
-
         -- 💀
         -- if you change `runInTerminal` to true, you might need to change the yama/ptrace_scope setting:
         --

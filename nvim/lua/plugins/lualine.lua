@@ -38,23 +38,6 @@ local conditions = {
     end,
 }
 
-local mini_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = { "location" },
-}
-
-local simple_sections = {
-    lualine_a = { "mode" },
-    lualine_b = { "filetype" },
-    lualine_c = {},
-    lualine_x = {},
-    lualine_z = { "location" },
-}
-
 require("lualine").setup({
     options = {
         icons_enabled = true,
@@ -140,9 +123,5 @@ require("lualine").setup({
         "nvim-dap-ui",
         "quickfix",
         "symbols-outline",
-        {
-            sections = mini_sections,
-            filetypes = { "aerial" },
-        },
     },
 })
