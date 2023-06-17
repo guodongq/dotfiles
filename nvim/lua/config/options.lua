@@ -1,3 +1,9 @@
+-- Options are loaded firstly
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+
 vim.opt.fillchars = {
     foldopen = "",
     foldclose = "",
@@ -22,11 +28,6 @@ if vim.g.neovide then
     vim.opt.guifont = { "FiraCode Nerd Font Mono", "h9" }
     vim.g.neovide_scale_factor = 0.3
 end
-
-vim.g.loaded_python3_provider = 0
-vim.g.loaded_perl_provider = 0
-vim.g.loaded_ruby_provider = 0
-vim.g.loaded_node_provider = 0
 
 -- Raise a dialog when an operation has to be confirmed
 vim.opt.confirm = true

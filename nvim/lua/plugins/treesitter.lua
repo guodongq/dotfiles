@@ -50,15 +50,15 @@ require('nvim-treesitter.configs').setup({
             lookahead = true,
             keymaps = {
                 -- You can use the capture groups defined in textobjects.scm
-                ['af'] = '@function.outer',
-                ['if'] = '@function.inner',
-                ['ac'] = '@class.outer',
-                ['ic'] = '@class.inner',
-                ['al'] = '@loop.outer',
-                ['il'] = '@loop.inner',
-                ['aa'] = '@parameter.outer',
-                ['ia'] = '@parameter.inner',
-                ['uc'] = '@comment.outer',
+                --['af'] = '@function.outer',
+                --['if'] = '@function.inner',
+                --['ac'] = '@class.outer',
+                --['ic'] = '@class.inner',
+                --['al'] = '@loop.outer',
+                --['il'] = '@loop.inner',
+                --['aa'] = '@parameter.outer',
+                --['ia'] = '@parameter.inner',
+                --['uc'] = '@comment.outer',
 
                 -- Or you can define your own textobjects like this
                 -- ["iF"] = {
@@ -72,14 +72,14 @@ require('nvim-treesitter.configs').setup({
         swap = {
             enable = true,
             swap_next = {
-                ['<leader>a'] = '@parameter.inner',
-                ['<leader>f'] = '@function.outer',
-                ['<leader>e'] = '@element',
+                --['<leader>a'] = '@parameter.inner',
+                --['<leader>f'] = '@function.outer',
+                --['<leader>e'] = '@element',
             },
             swap_previous = {
-                ['<leader>A'] = '@parameter.inner',
-                ['<leader>F'] = '@function.outer',
-                ['<leader>E'] = '@element',
+                --['<leader>A'] = '@parameter.inner',
+                --['<leader>F'] = '@function.outer',
+                --['<leader>E'] = '@element',
             },
         },
         move = {

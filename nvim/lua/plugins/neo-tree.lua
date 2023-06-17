@@ -77,10 +77,10 @@ require("neo-tree").setup({
 			nowait = true,
 		},
 		mappings = {
-			-- ["<space>"] = {
-			-- 	"leader",
-			-- 	nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
-			-- },
+			 --["<space>"] = {
+			 --	"<space>",
+			 --	nowait = true, -- disable `nowait` if you have existing combos starting with this char that you want to use
+			 --},
 			["<2-LeftMouse>"] = "open",
 			["o"] = "open",
 			--["<cr>"] = "open",
@@ -222,4 +222,4 @@ require("neo-tree").setup({
 	},
 })
 
-vim.cmd([[nnoremap \ :Neotree reveal<cr>]])
+vim.cmd([[nnoremap \ :Neotree toggle filesystem<cr>]])
