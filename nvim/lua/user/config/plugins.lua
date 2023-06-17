@@ -58,7 +58,7 @@ return require("packer").startup({
 			after = "Sakura.nvim",
 			event = "BufEnter",
 			config = function()
-				require("plugins.lualine")
+				require("user.plugins.lualine")
 			end,
 		})
 
@@ -72,7 +72,7 @@ return require("packer").startup({
 				event = "CursorHold",
 				run = ":TSUpdate",
 				config = function()
-					require("plugins.treesitter")
+					require("user.plugins.treesitter")
 				end,
 			},
 			{ "nvim-treesitter/playground", after = "nvim-treesitter" },
@@ -149,7 +149,7 @@ return require("packer").startup({
 				"MunifTanjim/nui.nvim",
 			},
 			config = function()
-				require("plugins.neo-tree")
+				require("user.plugins.neo-tree")
 			end,
 		})
 
@@ -158,7 +158,7 @@ return require("packer").startup({
 				"nvim-telescope/telescope.nvim",
 				event = "CursorHold",
 				config = function()
-					require("plugins.telescope")
+					require("user.plugins.telescope")
 				end,
 			},
 			{
@@ -314,7 +314,7 @@ return require("packer").startup({
 			tag = "*",
 			event = "CursorHold",
 			config = function()
-				require("plugins.toggleterm")
+				require("user.plugins.toggleterm")
 			end,
 		})
 
@@ -325,7 +325,7 @@ return require("packer").startup({
 		use({
 			"VonHeikemen/lsp-zero.nvim",
 			config = function()
-				require("plugins.lsp")
+				require("user.plugins.lsp")
 			end,
 			branch = "v2.x",
 			requires = {
@@ -426,7 +426,7 @@ return require("packer").startup({
 				"jose-elias-alvarez/null-ls.nvim",
 				event = "BufRead",
 				config = function()
-					require("plugins.null-ls")
+					require("user.plugins.null-ls")
 				end,
 			},
 			{
@@ -451,7 +451,7 @@ return require("packer").startup({
 				"mfussenegger/nvim-dap",
 				event = "CursorHold",
 				config = function()
-					require("plugins.dap")
+					require("user.plugins.dap")
 				end,
 			},
 			{
@@ -512,7 +512,7 @@ return require("packer").startup({
 			config = function()
 				vim.o.timeout = true
 				vim.o.timeoutlen = 300
-				require("plugins.which-key")
+				require("user.plugins.which-key")
 			end,
 		})
 
@@ -527,7 +527,7 @@ return require("packer").startup({
 				"rcarriga/nvim-notify",
 			},
 			config = function()
-				require("plugins.noice")
+				require("user.plugins.noice")
 			end,
 		})
 
