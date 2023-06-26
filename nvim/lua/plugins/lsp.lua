@@ -5,12 +5,12 @@ lsp.ensure_installed({
 	"clangd",
 	"marksman",
 	"bashls",
-	"cmake",
+	-- "cmake",
 	"jsonls",
 	"yamlls",
-	"terraformls",
-	"bufls",
-	"asm_lsp",
+	-- "terraformls",
+	-- "bufls",
+	-- "asm_lsp",
 })
 
 lsp.setup()
