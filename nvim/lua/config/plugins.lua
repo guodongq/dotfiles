@@ -395,7 +395,7 @@ return require("packer").startup({
         use({
             {
                 "mfussenegger/nvim-dap",
-                event = "CursorHold",
+                --event = "CursorHold",
                 config = function()
                     require("plugins.dap")
                 end,
