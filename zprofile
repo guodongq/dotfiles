@@ -9,3 +9,5 @@ export PATH=/Users/guodongq/.local/bin:$PATH
 export LDFLAGS="-L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++"
 export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 export PATH=/opt/homebrew/opt/llvm/bin:$PATH
+export PATH="$PATH:/Users/guodongq/Applications/istio-1.18.0/bin"
+alias k=kubectl
