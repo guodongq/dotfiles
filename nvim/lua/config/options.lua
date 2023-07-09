@@ -4,6 +4,18 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_node_provider = 0
 
+vim.opt.nu = true
+vim.opt.relativenumber = true
+
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+
+vim.opt.smartindent = true
+
+vim.opt.wrap = false
+
 vim.opt.fillchars = {
 	foldopen = "",
 	foldclose = "",
@@ -22,11 +34,6 @@ if vim.fn.has("nvim-0.8") == 1 then
 	vim.opt.backup = true
 	vim.opt.cmdheight = 0
 	vim.opt.backupdir = vim.fn.stdpath("state") .. "/backup"
-end
-
-if vim.g.neovide then
-	-- vim.opt.guifont = { "FiraCode Nerd Font Mono", "h9" }
-	vim.g.neovide_scale_factor = 1
 end
 
 -- Raise a dialog when an operation has to be confirmed

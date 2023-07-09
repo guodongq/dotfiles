@@ -286,7 +286,7 @@ return require("packer").startup({
 			event = "BufRead",
 			config = function()
 				require("indent_blankline").setup({
-					show_first_indent_level = false,
+					show_first_indent_level = true,
 					filetype_exclude = { "help", "packer", "toggleterm" },
 					buftype_exclude = { "terminal", "nofile" },
 				})
