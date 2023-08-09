@@ -1,5 +1,8 @@
 vim.opt.termguicolors = true
-vim.opt.background = "dark"
+vim.opt.background = 'dark'
 
 -- tokyonight
-vim.cmd([[colorscheme tokyonight-night]])
+--vim.cmd([[colorscheme tokyonight-night]])
+
+-- sakura
+require('Sakura').load()

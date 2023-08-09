@@ -1,12 +1,7 @@
-vim.g.mapleader = [[ ]]
-vim.g.maplocalleader = [[ ]]
-
-local configs = {
-	"config.options",
-	"config.autocmds",
-	"config.plugins",
-}
-
-for _, config in ipairs(configs) do
-	require(config)
+vim.loader.enable()
+if vim.g.vscode ~= nil then
+  return require('vscode')
 end
+require('settings')
+require('autocmd')
+require('plugins')
