@@ -319,7 +319,7 @@ local mappings = {
     ['<leader>wk'] = { '<cmd>wincmd k<cr>', 'Go to the up window' },
     ['<leader>wl'] = { '<cmd>wincmd l<cr>', 'Go to the right window' },
     ['<leader>wm'] = {
-      "<cmd>lua require('maximizer').toggle()<cr>",
+      '<cmd>WindowsMaximize<cr>',
       'Maximize current window',
     },
     ['<leader>ws'] = { '<cmd>sp<cr>', 'Split window' },
