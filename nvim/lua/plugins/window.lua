@@ -1,3 +1,4 @@
+-- jump between windows
 require('nvim-window').setup({
   -- The characters available for hinting windows.
   chars = {

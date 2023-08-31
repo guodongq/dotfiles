@@ -84,12 +84,12 @@ return require('packer').startup({
       end,
     })
 
-    --use({
-    --    'folke/tokyonight.nvim',
-    --    config = function()
-    --        require('plugins.colorscheme')
-    --    end,
-    --})
+    -- use({
+    --   'folke/tokyonight.nvim',
+    --   config = function()
+    --     require('plugins.colorscheme')
+    --   end,
+    -- })
 
     use({
       'numToStr/Sakura.nvim',
@@ -100,7 +100,7 @@ return require('packer').startup({
 
     use({
       'nvim-lualine/lualine.nvim',
-      --after = 'tokyonight.nvim',
+      -- after = 'tokyonight.nvim',
       after = 'Sakura.nvim',
       event = 'BufEnter',
       config = function()
@@ -385,17 +385,13 @@ return require('packer').startup({
     ---------------
 
     use({
-      'anuvyklack/windows.nvim',
-      requires = {
-        'anuvyklack/middleclass',
-        'anuvyklack/animation.nvim',
-      },
-      event = 'VimEnter',
+      '0x00-ketsu/maximizer.nvim',
       config = function()
-        require('plugins.maximizer')
+        require('maximizer').setup({})
       end,
     })
 
+    -- jump between windows
     use({
       'yorickpeterse/nvim-window',
       config = function()
