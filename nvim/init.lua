@@ -1,7 +1,4 @@
 vim.loader.enable()
-if vim.g.vscode ~= nil then
-  return require('vscode')
-end
-require('settings')
-require('autocmd')
-require('plugins')
+require('config.options')
+require('config.autocmds')
+require('config.plugins')

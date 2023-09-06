@@ -84,24 +84,24 @@ return require('packer').startup({
       end,
     })
 
+    use({
+      'folke/tokyonight.nvim',
+      config = function()
+        require('plugins.colorscheme')
+      end,
+    })
+
     -- use({
-    --   'folke/tokyonight.nvim',
+    --   'numToStr/Sakura.nvim',
     --   config = function()
     --     require('plugins.colorscheme')
     --   end,
     -- })
 
     use({
-      'numToStr/Sakura.nvim',
-      config = function()
-        require('plugins.colorscheme')
-      end,
-    })
-
-    use({
       'nvim-lualine/lualine.nvim',
-      -- after = 'tokyonight.nvim',
-      after = 'Sakura.nvim',
+      after = 'tokyonight.nvim',
+      -- after = 'Sakura.nvim',
       event = 'BufEnter',
       config = function()
         require('plugins.lualine')
@@ -395,7 +395,8 @@ return require('packer').startup({
     use({
       'yorickpeterse/nvim-window',
       config = function()
-        require('plugins.window')
+        require('nvim-window').setup({})
+        -- require('plugins.window')
       end,
       event = 'VimEnter',
     })
