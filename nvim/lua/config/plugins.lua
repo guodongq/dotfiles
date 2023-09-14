@@ -206,7 +206,7 @@ return require('packer').startup({
       config = function()
         require('plugins.lsp')
       end,
-      branch = 'v2.x',
+      branch = 'v3.x',
       requires = {
         -- LSP Support
         { 'neovim/nvim-lspconfig' }, -- Required
@@ -243,7 +243,7 @@ return require('packer').startup({
 
     use({
       'j-hui/fidget.nvim',
-      tag = 'legacy',
+      -- tag = 'legacy',
       config = function()
         require('fidget').setup()
       end,

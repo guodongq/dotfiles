@@ -1,90 +1,135 @@
 local function augroup(name)
-  return vim.api.nvim_create_augroup("vim_" .. name, { clear = true })
+  return vim.api.nvim_create_augroup('vimrc_' .. name, { clear = true })
 end
 
--- Check if we need to reload the file when it changed
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-  group = augroup("checktime"),
-  command = "checktime",
+vim.api.nvim_create_autocmd('BufEnter', {
+  desc = 'Do not auto comment new line',
+  group = augroup('disable_auto_comment'),
+  command = [[set formatoptions-=cro]],
 })
 
--- Highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = augroup("highlight_yank"),
+vim.api.nvim_create_autocmd({ 'FocusGained', 'TermClose', 'TermLeave' }, {
+  desc = 'Check if we need to reload the file when it changed',
+  group = augroup('checktime'),
+  command = 'checktime',
+})
+
+vim.api.nvim_create_autocmd('InsertEnter', {
+  desc = 'Hide cursorline in insert mode',
+  pattern = '*',
+  command = 'set nocul',
+  group = augroup('cursorline_hide_insert'),
+})
+
+vim.api.nvim_create_autocmd('InsertLeave', {
+  desc = 'Show cursorline when leaving insert mode',
+  pattern = '*',
+  command = 'set cul',
+  group = augroup('cursorline_show_insert'),
+})
+
+vim.api.nvim_create_autocmd({ 'InsertLeave', 'WinEnter', 'CmdlineLeave' }, {
+  desc = 'Show cursorline only in active window',
+  pattern = '*',
+  command = 'set cursorline',
+  group = augroup('cursorline_show_active'),
+})
+
+vim.api.nvim_create_autocmd({ 'InsertEnter', 'WinLeave', 'CmdlineEnter' }, {
+  desc = 'Hide cursorline only in inactive window',
+  pattern = '*',
+  command = 'set nocursorline',
+  group = augroup('cursorline_hide_inactive'),
+})
+
+vim.api.nvim_create_autocmd('BufReadPost', {
+  desc = 'Open file at same location where it was opened last time',
   callback = function()
-    vim.highlight.on_yank()
+    vim.cmd([[silent! normal! g`"]])
   end,
+  group = augroup('cursorline_hide_inactive'),
 })
 
--- resize splits if window got resized
-vim.api.nvim_create_autocmd({ "VimResized" }, {
-  group = augroup("resize_splits"),
+vim.api.nvim_create_autocmd('BufReadPost', {
+  desc = 'Go to last loc when opening a buffer',
   callback = function()
-    local current_tab = vim.fn.tabpagenr()
-    vim.cmd("tabdo wincmd =")
-    vim.cmd("tabnext " .. current_tab)
-  end,
-})
-
--- go to last loc when opening a buffer
-vim.api.nvim_create_autocmd("BufReadPost", {
-  group = augroup("last_loc"),
-  callback = function()
-    local exclude = { "gitcommit" }
-    local buf = vim.api.nvim_get_current_buf()
-    if vim.tbl_contains(exclude, vim.bo[buf].filetype) then
-      return
-    end
-    local mark = vim.api.nvim_buf_get_mark(buf, '"')
-    local lcount = vim.api.nvim_buf_line_count(buf)
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
     if mark[1] > 0 and mark[1] <= lcount then
       pcall(vim.api.nvim_win_set_cursor, 0, mark)
     end
   end,
+  group = augroup('last_loc'),
 })
 
--- close some filetypes with <q>
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("close_with_q"),
+vim.api.nvim_create_autocmd('TermOpen', {
+  desc = "Don't show any numbers inside terminals",
+  pattern = 'term://*',
+  command = 'setlocal signcolumn=no nonumber norelativenumber | setfiletype terminal',
+  group = augroup('terminal_no_numbers'),
+})
+
+vim.api.nvim_create_autocmd('TextYankPost', {
+  desc = 'Highlight on yank',
+  callback = function()
+    vim.highlight.on_yank({ higrou = 'IncSearch', timeout = 400 })
+  end,
+  group = augroup('highlight_yank'),
+})
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+  desc = 'Create directories when needed, when saving a file',
+  command = [[call mkdir(expand('<afile>:p:h'), 'p')]],
+  group = augroup('auto_create_dir'),
+})
+
+vim.api.nvim_create_autocmd('TermClose', {
+  desc = 'Close terminals automatically at exit',
+  pattern = 'term://*',
+  callback = function()
+    if vim.v.event.status == 0 then
+      vim.api.nvim_input('<CR>')
+    end
+  end,
+  group = augroup('terminal_close_at_exit'),
+})
+
+vim.api.nvim_create_autocmd({ 'VimResized' }, {
+  desc = 'Resize splits if window got resized',
+  callback = function()
+    local current_tab = vim.fn.tabpagenr()
+    vim.cmd('tabdo wincmd =')
+    vim.cmd('tabnext ' .. current_tab)
+  end,
+  group = augroup('resize_splits'),
+})
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  desc = 'Close some filetypes with <q>',
   pattern = {
-    "PlenaryTestPopup",
-    "help",
-    "lspinfo",
-    "man",
-    "notify",
-    "qf",
-    "spectre_panel",
-    "startuptime",
-    "tsplayground",
-    "neotest-output",
-    "checkhealth",
-    "neotest-summary",
-    "neotest-output-panel",
+    'PlenaryTestPopup',
+    'TelescopePrompt',
+    'chatgpt',
+    'checkhealth',
+    'dap-repl',
+    'help',
+    'lspinfo',
+    'man',
+    'neotest-output',
+    'neotest-output-panel',
+    'neotest-summary',
+    'notify',
+    'qf',
+    'spectre_panel',
+    'startuptime',
+    'tsplayground',
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
-    vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+    vim.keymap.set('n', 'q', '<cmd>close!<cr>', { buffer = event.buf, silent = true })
   end,
+  group = augroup('close_with_q'),
 })
 
--- wrap and check for spell in text filetypes
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("wrap_spell"),
-  pattern = { "gitcommit", "markdown" },
-  callback = function()
-    vim.opt_local.wrap = true
-    vim.opt_local.spell = true
-  end,
-})
-
--- Auto create dir when saving a file, in case some intermediate directory does not exist
-vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-  group = augroup("auto_create_dir"),
-  callback = function(event)
-    if event.match:match("^%w%w+://") then
-      return
-    end
-    local file = vim.loop.fs_realpath(event.match) or event.match
-    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
-  end,
-})
+-- require('mini.misc').setup()
+-- MiniMisc.setup_auto_root({ 'package.json', 'Makefile', '.git' })

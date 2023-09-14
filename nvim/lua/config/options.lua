@@ -1,54 +1,162 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
+-- Some options are set through [mini.basics](https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-basics.md)
 
-local opt = vim.opt
+-- Set space as leader key
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
-opt.autowrite = true -- Enable auto write
-opt.clipboard = "unnamedplus" -- Sync with system clipboard
-opt.completeopt = "menu,menuone,noselect"
-opt.conceallevel = 3 -- Hide * markup for bold and italic
-opt.confirm = true -- Confirm to save changes before exiting modified buffer
-opt.cursorline = true -- Enable highlighting of the current line
-opt.expandtab = true -- Use spaces instead of tabs
-opt.formatoptions = "jcroqlnt" -- tcqj
-opt.grepformat = "%f:%l:%c:%m"
-opt.grepprg = "rg --vimgrep"
-opt.ignorecase = true -- Ignore case
-opt.inccommand = "nosplit" -- preview incremental substitute
-opt.laststatus = 0
-opt.list = true -- Show some invisible characters (tabs...
-opt.mouse = "a" -- Enable mouse mode
-opt.number = true -- Print line number
-opt.pumblend = 10 -- Popup blend
-opt.pumheight = 10 -- Maximum number of entries in a popup
-opt.relativenumber = true -- Relative line numbers
-opt.scrolloff = 4 -- Lines of context
-opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
-opt.shiftround = true -- Round indent
-opt.shiftwidth = 2 -- Size of an indent
-opt.shortmess:append({ W = true, I = true, c = true })
-opt.showmode = false -- Dont show mode since we have a statusline
-opt.sidescrolloff = 8 -- Columns of context
-opt.signcolumn = "yes" -- Always show the signcolumn, otherwise it would shift the text each time
-opt.smartcase = true -- Don't ignore case with capitals
-opt.smartindent = true -- Insert indents automatically
-opt.spelllang = { "en" }
-opt.splitbelow = true -- Put new windows below current
-opt.splitright = true -- Put new windows right of current
-opt.tabstop = 2 -- Number of spaces tabs count for
-opt.termguicolors = true -- True color support
-opt.timeoutlen = 300
-opt.undofile = true
-opt.undolevels = 10000
-opt.updatetime = 200 -- Save swap file and trigger CursorHold
-opt.wildmode = "longest:full,full" -- Command-line completion mode
-opt.winminwidth = 5 -- Minimum window width
-opt.wrap = false -- Disable line wrap
+-- Set shell
+-- https://github.com/neovim/nvim-lspconfig/issues/2713
+vim.o.shell = '/bin/bash'
 
-if vim.fn.has("nvim-0.9.0") == 1 then
-  opt.splitkeep = "screen"
-  opt.shortmess:append({ C = true })
-end
+-- Incremental live completion
+vim.o.inccommand = 'nosplit'
+
+-- Enable highlight on search
+vim.o.hlsearch = true
+
+-- Do not save when switching buffers
+vim.o.hidden = true
+
+-- Use swapfiles
+vim.o.swapfile = true
+
+-- Save undo history
+vim.o.undolevels = 1000
+
+-- Decrease update time
+vim.o.updatetime = 250
+
+-- Decrease redraw time
+vim.o.redrawtime = 100
+
+-- Use spaces instead of tabs
+vim.opt.expandtab = true
+
+-- go to previous/next line with h,l,left arrow and right arrow
+-- when cursor reaches end/beginning of line
+vim.opt.whichwrap:append('<>hl')
+
+-- set symbols for space and newline
+vim.opt.listchars:append('space:⋅')
+vim.opt.listchars:append('eol:↴')
+
+-- GUI: Name(s) of font(s) to be used
+vim.o.guifont = 'Roboto Mono:h14'
+
+-- Number of command-lines that are remembered
+vim.o.history = 10000
+
+-- Use menu for command line completion
+vim.o.wildmenu = true
+
+-- Command-line completion mode
+vim.opt.wildmode = 'longest:full,full'
+
+-- Ignore case when completing file names and directories.
+vim.o.wildignorecase = true
+
+-- Enable wrap
+vim.o.wrap = true
+
+-- Autom. read file when changed outside of Vim
+vim.o.autoread = true
+
+-- Autom. save file before some action
+vim.o.autowrite = true
+
+-- Briefly jump to matching bracket if insert one
+vim.o.showmatch = true
+
+-- Show relative line number in front of each line
+vim.o.relativenumber = true
+
+-- Make builtin completion menus slightly transparent
+vim.o.pumblend = 10
+
+-- Maximum height of the popup menu
+vim.o.pumheight = 15
+
+-- Show cmdline by default
+vim.o.cmdheight = 1
+
+-- Minimum nr. of lines above and below cursor
+vim.o.scrolloff = 5 -- could be 1
+vim.o.sidescrolloff = 5
+
+-- Timeout on leaderkey
+vim.o.ttimeout = true
+vim.o.ttimeoutlen = 5
+
+-- Timeout on mapped sequences
+vim.o.timeout = true
+vim.o.timeoutlen = 300
+
+-- Show (partial) command in status line
+vim.o.showcmd = false
+
+-- Configure the number of spaces a tab is counting for
+vim.o.tabstop = 2
+
+-- Number of spaces for a step of indent
+vim.o.shiftwidth = 2
+
+-- Round indent to multiple of shiftwidth
+vim.o.shiftround = true
+
+-- Use smart indenting
+vim.o.smartindent = true
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
+
+-- Folding
+vim.o.foldenable = true
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
+vim.o.foldcolumn = '0'
+
+-- Use ripgrep as grep tool
+vim.o.grepprg = 'rg --vimgrep --no-heading'
+vim.o.grepformat = '%f:%l:%c:%m,%f:%l:%m'
+
+-- Under evaluation
+vim.opt.formatoptions = 'jcroqlnt' -- tcqj
+vim.opt.splitkeep = 'screen'
+vim.opt.shortmess:append({ C = true })
+
+-- No double spaces with join after a dot
+vim.opt.joinspaces = false
+
+-- Set directories for backup/swap/undo files
+vim.opt.directory = vim.fn.stdpath('state') .. '/swap'
+vim.opt.backupdir = vim.fn.stdpath('state') .. '/backup'
+vim.opt.undodir = vim.fn.stdpath('state') .. '/undo'
+
+-- Set python3 interpreter
+vim.g.python3_host_prog = '/usr/bin/python3'
+
+-- Disable some builtin providers
+vim.g.loaded_python_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
+
+-- Do not load system vimfiles
+vim.api.nvim_command('set rtp-=/usr/share/vim/vimfiles')
+
+local fences = {
+  'go',
+  'javascript',
+  'js=javascript',
+  'json',
+  'lua',
+  'python',
+  'sh',
+  'shell=sh',
+  'ts=typescript',
+  'typescript',
+}
+vim.g.markdown_fenced_languages = fences
+
+vim.opt.confirm = true
