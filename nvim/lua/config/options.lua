@@ -160,3 +160,5 @@ local fences = {
 vim.g.markdown_fenced_languages = fences
 
 vim.opt.confirm = true
+
+vim.opt.clipboard = 'unnamedplus'
