@@ -11,3 +11,6 @@ export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 export PATH=/opt/homebrew/opt/llvm/bin:$PATH
 export PATH="$PATH:/Users/guodongq/Applications/istio-1.18.0/bin"
 alias k=kubectl
+
+# Added by OrbStack: command-line tools and integration
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :

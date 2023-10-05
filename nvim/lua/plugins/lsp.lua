@@ -1,41 +1,63 @@
-local lsp_zero = require('lsp-zero')
+return {
+	{
+		"neovim/nvim-lspconfig",
+		lazy = false,
+		keys = {
+			{ "<leader>lm", "<cmd>Mason<cr>", desc = "Mason" },
+			{ "<leader>lr", "<cmd>lua require('spectre').open()<cr>", desc = "Replace in files(Spectre)" },
+		},
+		config = function()
+			local lspconfig = require("lspconfig")
 
-lsp_zero.on_attach(function(_, bufnr)
-  -- see: help lsp-zero-keybindin
-  -- to learn the available actions
-  lsp_zero.default_keymaps({ buffer = bufnr })
-end)
+			-- Use LspAttach autocommand to only map the following keys
+			-- after the language server attaches to the current buffer
+			vim.api.nvim_create_autocmd("LspAttach", {
+				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+				callback = function(ev)
+					-- Enable completion triggered by <c-x><c-o>
+					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
--- Automatic install of language servers
-require('mason').setup({})
-require('mason-lspconfig').setup({
-  -- "cmake", 'jsonls', 'yamlls', "terraformls", "bufls", "asm_lsp"
-  ensure_installed = { 'gopls', 'clangd', 'marksman', 'bashls' },
-  handlers = {
-    lsp_zero.default_setup,
-  },
-})
-
--- Completion item label
-local cmp = require('cmp')
-local cmp_action = require('lsp-zero').cmp_action()
-local cmp_format = require('lsp-zero').cmp_format()
-
-cmp.setup({
-  formatting = cmp_format,
-  mapping = cmp.mapping.preset.insert({
-    -- `Enter` key to confirm completion
-    ['<CR>'] = cmp.mapping.confirm({ select = false }),
-
-    -- Ctrl+Space to trigger completion menu
-    ['<C-Space>'] = cmp.mapping.complete(),
-
-    -- Navigate between snippet placeholder
-    ['<C-f>'] = cmp_action.luasnip_jump_forward(),
-    ['<C-b>'] = cmp_action.luasnip_jump_backward(),
-
-    -- Scroll up and down in the completion documentation
-    ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-d>'] = cmp.mapping.scroll_docs(4),
-  }),
-})
+					-- Buffer local mappings.
+					-- See `:help vim.lsp.*` for documentation on any of the below functions
+					local opts = { buffer = ev.buf }
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+					vim.keymap.set("n", "go", vim.lsp.buf.type_definition, opts)
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+					vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, opts)
+					vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, opts)
+					vim.keymap.set({ "n", "x" }, "<F3>", function()
+						vim.lsp.buf.format({ async = true })
+					end, opts)
+					vim.keymap.set({ "n", "v" }, "<F4>", vim.lsp.buf.code_action, opts)
+					-- vim.keymap.set("n", "<leader>lwa", vim.lsp.buf.add_workspace_folder, opts)
+					-- vim.keymap.set("n", "<leader>lwr", vim.lsp.buf.remove_workspace_folder, opts)
+					-- vim.keymap.set("n", "<leader>lwl", function()
+					-- 	print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+					-- end, opts)
+				end,
+			})
+		end,
+	},
+	{
+		"simrat39/symbols-outline.nvim",
+		config = true,
+		keys = {
+			{ "<leader>lo", "<cmd>SymbolsOutline<cr>", desc = "Outline" },
+		},
+	},
+	{
+		"j-hui/fidget.nvim",
+		tag = "legacy",
+		event = "LspAttach",
+		opts = {},
+	},
+	{
+		"nvim-pack/nvim-spectre",
+		event = "BufReadPost",
+		dependencies = "nvim-lua/plenary.nvim",
+		config = true,
+	},
+}

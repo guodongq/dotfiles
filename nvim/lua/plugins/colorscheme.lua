@@ -1,8 +1,22 @@
-vim.opt.termguicolors = true
-vim.opt.background = 'dark'
+return {
+	{
+		"folke/tokyonight.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			vim.opt.termguicolors = true
+			vim.opt.background = "dark"
 
--- tokyonight
-vim.cmd([[colorscheme tokyonight]])
-
--- sakura
--- require('Sakura').load()
+			vim.cmd.colorscheme("tokyonight")
+			--vim.api.nvim_command("colorscheme tokyonight")
+		end,
+		enabled = true,
+	},
+  {
+    "numToStr/Sakura.nvim",
+    config = function()
+      require("Sakura").load()
+    end,
+    enabled = false,
+  }
+}
