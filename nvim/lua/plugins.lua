@@ -30,12 +30,15 @@ require("lazy").setup({
 		lazy = false,
 		priority = 1000,
 		config = function()
-			vim.cmd.colorscheme("tokyonight")
+			vim.cmd.colorscheme("tokyonight-night")
 		end,
+		enabled = true,
 	},
 
 	{
 		"numToStr/Sakura.nvim",
+		lazy = false,
+		priority = 1000,
 		config = function()
 			require("Sakura").load()
 		end,
@@ -449,7 +452,9 @@ require("lazy").setup({
 
 	{
 		"simrat39/symbols-outline.nvim",
-		config = true,
+		config = function()
+			require("plugins.lsp.outline")
+		end,
 		event = "VeryLazy",
 		keys = {
 			{ "<leader>lo", "<cmd>SymbolsOutline<cr>", desc = "Outline" },
