@@ -12,3 +12,6 @@ vim.wo.number = true
 vim.wo.colorcolumn = "120"
 vim.o.clipboard = "unnamedplus"
 vim.o.confirm = true
+
+vim.opt.termguicolors = true
+vim.opt.background = "dark"

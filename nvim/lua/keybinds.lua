@@ -6,16 +6,15 @@
 -- command_mode = "c",
 
 local map = function(mode, lhs, rhs, desc)
-    if desc then
-        desc = desc
-    end
+	if desc then
+		desc = desc
+	end
 
-    vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc, noremap = true })
+	vim.keymap.set(mode, lhs, rhs, { silent = true, desc = desc, noremap = true })
 end
 
 -- Remap space as leader key
 map("", "<Space>", "<Nop>")
-
 
 ----------------------------------------
 -- Normal --
@@ -60,8 +59,8 @@ map("n", "<leader>hr", "<cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><cr>", "
 map("n", "<leader>qq", "<esc><cmd>qa<cr>", "Quit neovim")
 
 -- Better up/down
-vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", {desc = "Better down", expr = true})
-vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", {desc = "Better up", expr = true})
+vim.keymap.set("n", "j", "v:count == 0 ? 'gj' : 'j'", { desc = "Better down", expr = true })
+vim.keymap.set("n", "k", "v:count == 0 ? 'gk' : 'k'", { desc = "Better up", expr = true })
 
 -- Escape and clear hlsearch
 map("n", "<esc>", "<cmd>noh><cr><esc>", "Escape and clear hlsearch")
