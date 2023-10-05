@@ -1,5 +1,5 @@
 require("Navigator").setup({
-    auto_save = "current",
+	auto_save = "current",
 })
 
 vim.keymap.set({ "n", "t" }, "<A-h>", "<CMD>NavigatorLeft<CR>")
