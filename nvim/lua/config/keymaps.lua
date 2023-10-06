@@ -2,15 +2,15 @@ local utils = require("utils.keymaps-helpers")
 local maps = utils.empty_map_table()
 
 local sections = {
-  b = { desc = "󰂡 Buffer" },
-  c = { desc = "Comment" },
+  b = { desc = "󰆧 Buffer" },
+  c = { desc = "󱡠 Comment" },
   d = { desc = " Debug" },
-  f = { desc = "File" },
+  f = { desc = "󰈙 File" },
   g = { desc = "󰊢 Git" },
-  j = { desc = "󰊢 Jump" },
+  j = { desc = "󰦮 Jump" },
   l = { desc = " LSP" },
   s = { desc = "󰭎 Telescope" },
-  w = { desc = "󰆧 Window" },
+  w = { desc = " Window" },
 }
 
 ----------------------------------------
