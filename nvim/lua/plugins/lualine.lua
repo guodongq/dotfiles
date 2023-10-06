@@ -1,3 +1,8 @@
+local M = {
+  "nvim-lualine/lualine.nvim",
+  event = { "VimEnter", "InsertEnter", "BufReadPre", "BufAdd", "BufNew", "BufReadPost" },
+}
+
 local function search_result()
 	if vim.v.hlsearch == 0 then
 		return ""
@@ -33,12 +38,12 @@ local conditions = {
 	end,
 }
 
-require("lualine").setup({
-	options = {
+M.opts = {
+  	options = {
 		icons_enabled = true,
 		theme = "auto", --auto
-		-- component_separators = { left = "", right = "" },
-		-- section_separators = { left = "", right = "" },
+		--component_separators = { left = "", right = "" },
+		--section_separators = { left = "", right = "" },
 		disabled_filetypes = {},
 		always_divide_middle = true,
 		globalstatus = true,
@@ -119,4 +124,6 @@ require("lualine").setup({
 		"quickfix",
 		"symbols-outline",
 	},
-})
+}
+
+return M
