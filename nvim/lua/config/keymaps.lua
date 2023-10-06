@@ -3,8 +3,9 @@ local maps = utils.empty_map_table()
 
 local sections = {
   b = { desc = "󰂡 Buffer" },
-  c = { desc = "󰂡 Comment" },
+  c = { desc = "Comment" },
   d = { desc = " Debug" },
+  f = { desc = "File" },
   g = { desc = "󰊢 Git" },
   j = { desc = "󰊢 Jump" },
   l = { desc = " LSP" },
@@ -34,8 +35,11 @@ maps.n["<S-h>"] = { "<cmd>bprevious<cr>", desc =  "Previous buffer" }
 -- Clear highlights
 maps.n["<leader>h"] = { "<cmd>nohlsearch<cr>", desc = "Clear highlights" }
 
+-- Quit
+maps.n["<leader>q"] = { "<esc><cmd>qa<cr>", desc =  "Quit neovim" }
+
 -- Close buffer
-maps.n["<S-q>"] = { "<cmd><cr>", desc = "Close buffer" }
+maps.n["<S-q>"] = { "<cmd>lua require('Buffers').delete()<cr>", desc = "Close buffer" }
 
 ----------------------------------------
 -- Visual --
@@ -52,7 +56,6 @@ maps.v[">"] = { ">lv", desc = "Indent to the right" }
 ----------------------------------------
 -- Press jk fast to ESC
 maps.i["jk"] = {"<ESC>", desc = "Better escape" }
-
 
 
 ----------------------------------------
@@ -78,9 +81,24 @@ maps.v["<leader>c"] = sections.c
 maps.v["<leader>cb"] = { "<esc><cmd>lua require('Comment.api').toggle.blockwise(vim.fn.visualmode())<cr>", desc = "comment-or-uncomment-blocks" }
 maps.v["<leader>c/"] = { "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", desc = "comment-or-uncomment-lines" }
 
+-- File
+maps.n["<leader>f"] = sections.f
+maps.n["<leader>fs"] = { "<cmd>w!<cr>", desc = "Save a file" }
+
 -- Git
 maps.n["<leader>g"] = sections.g
 maps.n["<leader>gg"] = { "<cmd>lua _LAZYGIT_TOGGLE()<cr>", desc = "Lazygit" }
+maps.n["<leader>gl"] = { "<cmd>lua require('gitsigns').blame_line()<cr>", desc = "View Git blame" }
+maps.n["<leader>gL"] = { "<cmd>lua require('gitsigns').blame_line { full = true }<cr>", desc = "View full Git blame" }
+maps.n["<leader>gp"] = { "<cmd>lua require('gitsigns').preview_hunk()<cr>", desc = "Preview Git hunk" }
+maps.n["<leader>gh"] = { "<cmd>lua require('gitsigns').reset_hunk()<cr>", desc = "Reset Git hunk" }
+maps.n["<leader>gr"] = { "<cmd>lua require('gitsigns').reset_buffer()<cr>", desc = "Reset Git buffer" }
+maps.n["<leader>gs"] = { "<cmd>lua require('gitsigns').stage_hunk()<cr>", desc = "Stage Git hunk" }
+maps.n["<leader>gS"] = { "<cmd>lua require('gitsigns').stage_buffer()<cr>", desc = "Stage Git buffer" }
+maps.n["<leader>gu"] = { "<cmd>lua require('gitsigns').undo_stage_hunk()<cr>", desc = "Unstage Git hunk" }
+maps.n["<leader>gd"] = { "<cmd>lua require('gitsigns').diffthis()<cr>", desc = "View Git diff" }
+maps.n["]g"] = { "<cmd>lua require('gitsigns').next_hunk()", desc = "Next Git hunk" }
+maps.n["[g"] = { "<cmd>lua require('gitsigns').prev_hunk()<cr>", desc = "Previous Git hunk" }
 
 -- Jump
 maps.n["<leader>j"] = sections.j
@@ -98,16 +116,15 @@ maps.n["<leader>lR"] = { "<cmd>lua require('spectre').open()<cr>", desc = "Spect
 
 -- NvimTree
 maps.n["<leader>e"] = { "<cmd>NvimTreeToggle<cr>", desc = "Toggle explorer" }
-maps.n["<leader>fs"] = { "<cmd>w!<cr>", desc = "Save a file" }
 
 -- Telescope
 maps.n["<leader>s"] = sections.s
 maps.n["<leader>sb"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search in current buffer"  }
-maps.n["<leader>sf"] = { "<cmd>Telescope find_files<cr>", desc = "Search files(root dir)" }
-maps.n["<leader>sg"]= { "<cmd>Telescope live_grep<cr>", desc = "Search grep" }
-maps.n["<leader>sp"]= { "<cmd>lua require('telescope').extensions.projects.projects{}<cr>", desc = "Search project" }
+maps.n["<leader>sf"] = { "<cmd>Telescope find_files<cr>", desc = "Search files" }
+maps.n["<leader>sp"]= { "<cmd>lua require('telescope').extensions.projects.projects{}<cr>", desc = "Search projects" }
 maps.n["<leader>sr"]= { "<cmd>Telescope oldfiles<cr>", desc = "Search recent" }
-maps.n["<leader>st"]= { "<cmd>Telescope<cr>", desc = "Search(Telescope)" }
+maps.n["<leader>ss"]= { "<cmd>Telescope<cr>", desc = "Search(Telescope)" }
+maps.n["<leader>st"]= { "<cmd>Telescope live_grep<cr>", desc = "Search words" }
 
 
 -- Window move
@@ -123,21 +140,5 @@ maps.n["<leader>wv"] = { "<cmd>vsp<cr>", desc = "Split window vertically" }
 maps.n["<leader>wm"] = { "<cmd>lua require('maximizer').toggle()<cr>", desc = "Maximize current window" }
 maps.n["<leader>wc"] = { "<cmd>lua require('nvim-window').pick()<cr>", desc = "Pick a window" }
 
-
--- Quit
-maps.n["<leader>qq"] = { "<esc><cmd>qa<cr>", desc =  "Quit neovim" }
-
-----------------------------------------
--- Terminal --
-----------------------------------------
-maps.t["<esc>"] = { "[[<C-\\><C-n>]]", desc = "Normal mode" }
-maps.t["<C-j>"] = { "[[<C-\\><C-n><C-w>j]]", desc = "Move to left window" }
-maps.t["<C-k>"] = { "[[<C-\\><C-n><C-w>k]]", desc = "Move to bottom window" }
-maps.t["<C-h>"] = { "[[<C-\\><C-n><C-w>h]]", desc = "Move to top window" }
-maps.t["<C-l>"] = { "[[<C-\\><C-n><C-w>l]]", desc = "Move to right window" }
-maps.t["<C-Up>"] = { "[[<C-\\><C-n><cmd>resize -2<cr>i]]", desc = "Resize window up" }
-maps.t["<C-Down>"] = { "[[<C-\\><C-n><cmd>resize +2<cr>i]]", desc = "Resize window down" }
-maps.t["<C-Left>"] = { "[[<C-\\><C-n><cmd>vertical resize -2<cr>i]]", desc = "Resize window left" }
-maps.t["<C-Right>"] = { "[[<C-\\><C-n><cmd>vertical resize +2<cr>i]]", desc =  "Resize window right" }
 
 utils.set_mappings(maps)

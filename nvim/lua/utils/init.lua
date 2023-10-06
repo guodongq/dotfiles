@@ -16,8 +16,8 @@ M.servers = {
   "yamlls",
 }
 
--- Null-ls servers
-M.Nservers = {
+-- null-ls servers
+M.nservers = {
   "clang-format",
   "cmakelang",
   "gitlint",
@@ -31,5 +31,11 @@ M.Nservers = {
 }
 
 
+-- Dap servers
+M.dservers = {
+  "delve",
+  "cpptools",
+  "bash-debug-adapter",
+}
 
 return M
