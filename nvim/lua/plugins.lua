@@ -79,8 +79,8 @@ require("lazy").setup({
 			},
 		},
 		keys = {
-			{ "<leader>bn", "<cmd>bn<cr>", desc = "Next buffer" },
-			{ "<leader>bp", "<cmd>bp<cr>", desc = "Previous buffer" },
+			{ "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = "Next buffer" },
+			{ "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", desc = "Previous buffer" },
 			{ "<leader>bl", "<cmd>Telescope buffers path_display={'truncate'}<cr>", desc = "List buffers" },
 		},
 	},
@@ -327,6 +327,10 @@ require("lazy").setup({
 			require("plugins.lsp.nvim-cmp")
 		end,
 		dependencies = {
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-cmdline",
 			{
 				"L3MON4D3/LuaSnip",
 				event = "VeryLazy",
@@ -341,29 +345,6 @@ require("lazy").setup({
 		},
 	},
 
-	{
-		"saadparwaiz1/cmp_luasnip",
-		dependencies = "hrsh7th/nvim-cmp",
-		event = "VeryLazy",
-	},
-
-	{
-		"hrsh7th/cmp-path",
-		dependencies = "hrsh7th/nvim-cmp",
-		event = "VeryLazy",
-	},
-
-	{
-		"hrsh7th/cmp-buffer",
-		dependencies = "hrsh7th/nvim-cmp",
-		event = "VeryLazy",
-	},
-
-	{
-		"hrsh7th/cmp-cmdline",
-		dependencies = "hrsh7th/nvim-cmp",
-		event = "VeryLazy",
-	},
 
 	{
 		"williamboman/mason-lspconfig.nvim",
@@ -397,6 +378,15 @@ require("lazy").setup({
 		end,
 	},
 
+
+	{
+		"jose-elias-alvarez/null-ls.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("plugins.lsp.null-ls")
+		end,
+	},
+
 	{
 		"jay-babu/mason-null-ls.nvim",
 		dependencies = {
@@ -420,14 +410,6 @@ require("lazy").setup({
 					"yamllint",
 				},
 			})
-		end,
-	},
-
-	{
-		"jose-elias-alvarez/null-ls.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("plugins.lsp.null-ls")
 		end,
 	},
 
