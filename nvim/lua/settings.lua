@@ -7,7 +7,7 @@ vim.cmd("filetype plugin indent on")
 vim.opt.number = true
 vim.opt.relativenumber = true
 
-vim.wo.colorcolumn = "120"
+-- vim.wo.colorcolumn = "120"
 vim.o.clipboard = "unnamedplus"
 vim.o.confirm = true
 

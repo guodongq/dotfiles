@@ -121,6 +121,7 @@ local servers = {
 	"yamlls", -- YAML
 	-- 'emmet_ls', -- emmet-ls
 	"terraformls", -- Terraform
+  "marksman", -- Markdown
 }
 
 local conf = {

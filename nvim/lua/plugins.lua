@@ -321,14 +321,6 @@ require("lazy").setup({
 	},
 
 	{
-		"jose-elias-alvarez/null-ls.nvim",
-		event = "VeryLazy",
-		config = function()
-			require("plugins.lsp.null-ls")
-		end,
-	},
-
-	{
 		"hrsh7th/nvim-cmp",
 		event = "VeryLazy",
 		config = function()
@@ -428,6 +420,14 @@ require("lazy").setup({
 					"yamllint",
 				},
 			})
+		end,
+	},
+
+	{
+		"jose-elias-alvarez/null-ls.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("plugins.lsp.null-ls")
 		end,
 	},
 
