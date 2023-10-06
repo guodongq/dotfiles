@@ -21,8 +21,13 @@ function M.config()
       },
       formatting.black.with { extra_args = { "--fast" } },
       formatting.stylua,
-      formatting.google_java_format,
-      diagnostics.flake8,
+      -- formatting.google_java_format,
+      -- diagnostics.flake8,
+      formatting.gofmt,
+      formatting.goimports,
+      formatting.markdownlint,
+      diagnostics.golangci_lint,
+      diagnostics.markdownlint,
     },
   }
 end
