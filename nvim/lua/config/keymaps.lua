@@ -9,6 +9,7 @@ local sections = {
   g = { desc = "󰊢 Git" },
   j = { desc = "󰦮 Jump" },
   l = { desc = " LSP" },
+  q = { desc = "󰆼 Session" },
   s = { desc = "󰭎 Telescope" },
   w = { desc = " Window" },
 }
@@ -35,8 +36,6 @@ maps.n["<S-h>"] = { "<cmd>bprevious<cr>", desc =  "Previous buffer" }
 -- Clear highlights
 maps.n["<leader>h"] = { "<cmd>nohlsearch<cr>", desc = "Clear highlights" }
 
--- Quit
-maps.n["<leader>q"] = { "<esc><cmd>qa<cr>", desc =  "Quit neovim" }
 
 -- Close buffer
 maps.n["<S-q>"] = { "<cmd>lua require('Buffers').delete()<cr>", desc = "Close buffer" }
@@ -128,6 +127,13 @@ maps.n["<leader>lR"] = { "<cmd>lua require('spectre').open()<cr>", desc = "Spect
 
 -- NvimTree
 maps.n["<leader>e"] = { "<cmd>NvimTreeToggle<cr>", desc = "Toggle explorer" }
+
+-- Session
+maps.n["<leader>q"] = sections.q
+maps.n["<leader>qq"] = { "<esc><cmd>qa<cr>", desc =  "Quit neovim" }
+maps.n["<leader>qs"] = { "<cmd>lua require('persistence').load()<cr>", desc =  "Restore session for current directory" }
+maps.n["<leader>ql"] = { "<cmd>lua require('persistence').load({last = true})<cr>", desc =  "Restore last session" }
+maps.n["<leader>qd"] = { "<cmd>lua require('persistence').stop()<cr>", desc =  "Stop persistence" }
 
 -- Telescope
 maps.n["<leader>s"] = sections.s
