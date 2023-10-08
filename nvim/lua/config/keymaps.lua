@@ -12,6 +12,7 @@ local sections = {
   q = { desc = "󰆼 Session" },
   s = { desc = "󰭎 Telescope" },
   w = { desc = " Window" },
+  x = { desc = "󰟢 Diagnostic" },
 }
 
 ----------------------------------------
@@ -157,6 +158,11 @@ maps.n["<leader>ws"] = { "<cmd>sp<cr>", desc = "Split window" }
 maps.n["<leader>wv"] = { "<cmd>vsp<cr>", desc = "Split window vertically" }
 maps.n["<leader>wm"] = { "<cmd>lua require('maximizer').toggle()<cr>", desc = "Maximize current window" }
 maps.n["<leader>wc"] = { "<cmd>lua require('nvim-window').pick()<cr>", desc = "Pick a window" }
+
+-- Diagnostic
+maps.n["<leader>x"] = sections.x
+maps.n["<leader>xt"] = { "<cmd>TodoQuickFix<cr>", desc = "Todo toggle" }
+maps.n["<leader>xq"] = { "<cmd>TroubleToggle<cr>", desc = "Trouble toggle" }
 
 
 utils.set_mappings(maps)

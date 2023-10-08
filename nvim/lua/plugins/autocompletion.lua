@@ -104,7 +104,8 @@ function M.config()
     formatting = {
       fields = { "kind", "abbr", "menu" },
       format = function(entry, vim_item)
-        vim_item.kind = kind_icons[vim_item.kind]
+        -- vim_item.kind = kind_icons[vim_item.kind]
+        vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind)
         vim_item.menu = ({
           nvim_lsp = "",
           nvim_lua = "",
@@ -135,7 +136,14 @@ function M.config()
       ghost_text = true,
     },
   })
-end
 
+  cmp.setup.cmdline("/", {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = "nvim_lsp_document_symbol" },
+      { name = "buffer" },
+    },
+  })
+end
 
 return M
