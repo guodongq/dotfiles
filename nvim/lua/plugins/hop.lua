@@ -1,6 +1,7 @@
 local M = {
   "smoka7/hop.nvim",
   version = "*",
+  event = "VeryLazy",
 }
 
 function M.config()
