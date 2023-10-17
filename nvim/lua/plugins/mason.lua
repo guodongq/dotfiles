@@ -30,7 +30,7 @@ function M.config()
   require("mason").setup(settings)
   -- lsp
   require("mason-lspconfig").setup({
-    ensure_installed = require("utils").servers,
+    ensure_installed = require("utils").lservers,
     automatic_installation = true,
   })
   -- null-ls

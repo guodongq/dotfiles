@@ -37,7 +37,7 @@ function M.config()
   end
 
   -- Configuration
-  for _, server in pairs(require("utils").servers) do
+  for _, server in pairs(require("utils").lservers) do
     Opts = {
       on_attach = on_attach,
       capabilities = capabilities,

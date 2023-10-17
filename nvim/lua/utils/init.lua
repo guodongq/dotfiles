@@ -1,7 +1,7 @@
 local M = {}
 
 -- Lsp servers
-M.servers = {
+M.lservers = {
   "asm_lsp",
   "bashls",
   "clangd",
