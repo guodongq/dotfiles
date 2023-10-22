@@ -2,27 +2,27 @@ local utils = require("utils.keymaps-helpers")
 local maps = utils.empty_map_table()
 
 local sections = {
-  b = { desc = "󰆧 Buffer" },
-  c = { desc = "󱡠 Comment" },
-  d = { desc = " Debug" },
-  f = { desc = "󰈙 File" },
-  g = { desc = "󰊢 Git" },
-  j = { desc = "󰦮 Jump" },
-  l = { desc = " LSP" },
-  q = { desc = "󰆼 Session" },
-  s = { desc = "󰭎 Telescope" },
-  w = { desc = " Window" },
-  x = { desc = "󰟢 Diagnostic" },
+	b = { desc = "󰆧 Buffer" },
+	c = { desc = "󱡠 Comment" },
+	d = { desc = " Debug" },
+	f = { desc = "󰈙 File" },
+	g = { desc = "󰊢 Git" },
+	j = { desc = "󰦮 Jump" },
+	l = { desc = " LSP" },
+	q = { desc = "󰆼 Session" },
+	s = { desc = "󰭎 Telescope" },
+	w = { desc = " Window" },
+	x = { desc = "󰟢 Diagnostic" },
 }
 
 ----------------------------------------
 -- Normal --
 ----------------------------------------
 -- Better window navigation
-maps.n["<C-h>"] = {"<C-w>h", desc = "Navigate to the left split" }
-maps.n["<C-j>"] = {"<C-w>j", desc = "Navigate to the bottom split" }
-maps.n["<C-k>"] = {"<C-w>k", desc = "Navigate to the top split" }
-maps.n["<C-l>"] = {"<C-w>l", desc = "Navigate to the right split" }
+maps.n["<C-h>"] = { "<C-w>h", desc = "Navigate to the left split" }
+maps.n["<C-j>"] = { "<C-w>j", desc = "Navigate to the bottom split" }
+maps.n["<C-k>"] = { "<C-w>k", desc = "Navigate to the top split" }
+maps.n["<C-l>"] = { "<C-w>l", desc = "Navigate to the right split" }
 
 -- Resize with arrors
 maps.n["<C-Up>"] = { "<cmd>resize -2<cr>", desc = "Shrink window horizontally" }
@@ -31,12 +31,11 @@ maps.n["<C-Left>"] = { "<cmd>vertical -2<cr>", desc = "Shrink window vertically"
 maps.n["<C-Right>"] = { "<cmd>vertical +2<cr>", desc = "Increase window vertically" }
 
 -- Navigate buffers
-maps.n["<S-l>"] = { "<cmd>bnext<cr>", desc =  "Next buffer" }
-maps.n["<S-h>"] = { "<cmd>bprevious<cr>", desc =  "Previous buffer" }
+maps.n["<S-l>"] = { "<cmd>bnext<cr>", desc = "Next buffer" }
+maps.n["<S-h>"] = { "<cmd>bprevious<cr>", desc = "Previous buffer" }
 
 -- Clear highlights
 maps.n["<leader>h"] = { "<cmd>nohlsearch<cr>", desc = "Clear highlights" }
-
 
 -- Close buffer
 maps.n["<S-q>"] = { "<cmd>lua require('Buffers').delete()<cr>", desc = "Close buffer" }
@@ -55,8 +54,7 @@ maps.v[">"] = { ">lv", desc = "Indent to the right" }
 -- Insert --
 ----------------------------------------
 -- Press jk fast to ESC
-maps.i["jk"] = {"<ESC>", desc = "Better escape" }
-
+maps.i["jk"] = { "<ESC>", desc = "Better escape" }
 
 ----------------------------------------
 -- Plugins --
@@ -72,14 +70,22 @@ maps.n["<leader>bl"] = { "<cmd>Telescope buffers path_display={'truncate'}<cr>",
 
 -- Comment
 maps.n["<leader>c"] = sections.c
-maps.n["<leader>cb"] = { "<cmd>lua require('Comment.api').toggle.blockwise.current()<cr>", desc = "comment-or-uncomment-blocks" }
+maps.n["<leader>cb"] =
+	{ "<cmd>lua require('Comment.api').toggle.blockwise.current()<cr>", desc = "comment-or-uncomment-blocks" }
 maps.n["<leader>co"] = { "<cmd>lua require('Comment.api').insert.linewise.below()<cr>", desc = "comment-line-below" }
 maps.n["<leader>c0"] = { "<cmd>lua require('Comment.api').insert.linewise.above()<cr>", desc = "comment-line-above" }
-maps.n["<leader>c/"] = { "<cmd>lua require('Comment.api').toggle.linewise.current()<cr>", desc = "comment-line-current" }
+maps.n["<leader>c/"] =
+	{ "<cmd>lua require('Comment.api').toggle.linewise.current()<cr>", desc = "comment-line-current" }
 maps.n["<leader>c$"] = { "<cmd>lua require('Comment.api').insert.linewise.eol()<cr>", desc = "comment-end-of-line" }
 maps.v["<leader>c"] = sections.c
-maps.v["<leader>cb"] = { "<esc><cmd>lua require('Comment.api').toggle.blockwise(vim.fn.visualmode())<cr>", desc = "comment-or-uncomment-blocks" }
-maps.v["<leader>c/"] = { "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>", desc = "comment-or-uncomment-lines" }
+maps.v["<leader>cb"] = {
+	"<esc><cmd>lua require('Comment.api').toggle.blockwise(vim.fn.visualmode())<cr>",
+	desc = "comment-or-uncomment-blocks",
+}
+maps.v["<leader>c/"] = {
+	"<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>",
+	desc = "comment-or-uncomment-lines",
+}
 
 -- Dap
 maps.n["<leader>d"] = sections.d
@@ -131,20 +137,19 @@ maps.n["<leader>e"] = { "<cmd>NvimTreeToggle<cr>", desc = "Toggle explorer" }
 
 -- Session
 maps.n["<leader>q"] = sections.q
-maps.n["<leader>qq"] = { "<esc><cmd>qa<cr>", desc =  "Quit neovim" }
-maps.n["<leader>qs"] = { "<cmd>lua require('persistence').load()<cr>", desc =  "Restore session for current directory" }
-maps.n["<leader>ql"] = { "<cmd>lua require('persistence').load({last = true})<cr>", desc =  "Restore last session" }
-maps.n["<leader>qd"] = { "<cmd>lua require('persistence').stop()<cr>", desc =  "Stop persistence" }
+maps.n["<leader>qq"] = { "<esc><cmd>qa<cr>", desc = "Quit neovim" }
+maps.n["<leader>qs"] = { "<cmd>lua require('persistence').load()<cr>", desc = "Restore session for current directory" }
+maps.n["<leader>ql"] = { "<cmd>lua require('persistence').load({last = true})<cr>", desc = "Restore last session" }
+maps.n["<leader>qd"] = { "<cmd>lua require('persistence').stop()<cr>", desc = "Stop persistence" }
 
 -- Telescope
 maps.n["<leader>s"] = sections.s
-maps.n["<leader>sb"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search in current buffer"  }
+maps.n["<leader>sb"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search in current buffer" }
 maps.n["<leader>sf"] = { "<cmd>Telescope find_files<cr>", desc = "Search files" }
-maps.n["<leader>sp"]= { "<cmd>lua require('telescope').extensions.projects.projects{}<cr>", desc = "Search projects" }
-maps.n["<leader>sr"]= { "<cmd>Telescope oldfiles<cr>", desc = "Search recent" }
-maps.n["<leader>ss"]= { "<cmd>Telescope<cr>", desc = "Search(Telescope)" }
-maps.n["<leader>st"]= { "<cmd>Telescope live_grep<cr>", desc = "Search words" }
-
+maps.n["<leader>sp"] = { "<cmd>lua require('telescope').extensions.projects.projects{}<cr>", desc = "Search projects" }
+maps.n["<leader>sr"] = { "<cmd>Telescope oldfiles<cr>", desc = "Search recent" }
+maps.n["<leader>ss"] = { "<cmd>Telescope<cr>", desc = "Search(Telescope)" }
+maps.n["<leader>st"] = { "<cmd>Telescope live_grep<cr>", desc = "Search words" }
 
 -- Window move
 maps.n["<leader>w"] = sections.w
@@ -163,6 +168,5 @@ maps.n["<leader>wc"] = { "<cmd>lua require('nvim-window').pick()<cr>", desc = "P
 maps.n["<leader>x"] = sections.x
 maps.n["<leader>xt"] = { "<cmd>TodoQuickFix<cr>", desc = "Todo toggle" }
 maps.n["<leader>xq"] = { "<cmd>TroubleToggle<cr>", desc = "Trouble toggle" }
-
 
 utils.set_mappings(maps)

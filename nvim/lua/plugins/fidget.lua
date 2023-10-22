@@ -1,11 +1,11 @@
 local M = {
-  "j-hui/fidget.nvim",
-  tag = "legacy",
-  event = "LspAttach",
+	"j-hui/fidget.nvim",
+	tag = "legacy",
+	event = "LspAttach",
 }
 
 function M.config()
-  require("fidget").setup()
+	require("fidget").setup()
 end
 
 return M

@@ -1,6 +1,6 @@
 local M = {
-  "nvim-lualine/lualine.nvim",
-  event = { "VimEnter", "InsertEnter", "BufReadPre", "BufAdd", "BufNew", "BufReadPost" },
+	"nvim-lualine/lualine.nvim",
+	event = { "VimEnter", "InsertEnter", "BufReadPre", "BufAdd", "BufNew", "BufReadPost" },
 }
 
 local function search_result()
@@ -39,7 +39,7 @@ local conditions = {
 }
 
 M.opts = {
-  	options = {
+	options = {
 		icons_enabled = true,
 		theme = "auto", --auto
 		--component_separators = { left = "", right = "" },
