@@ -40,6 +40,11 @@ maps.n["<leader>h"] = { "<cmd>nohlsearch<cr>", desc = "Clear highlights" }
 -- Close buffer
 maps.n["<S-q>"] = { "<cmd>lua require('Buffers').delete()<cr>", desc = "Close buffer" }
 
+-- Save file
+maps.n["<C-s>"] = { "<cmd>w!<cr>", desc = "Save a file" }
+
+-- Quit neovim
+maps.n["<leader>q"] = { "<esc><cmd>qa<cr>", desc = "Quit neovim" }
 ----------------------------------------
 -- Visual --
 ----------------------------------------
@@ -102,6 +107,7 @@ maps.n["<leader>dt"] = { "<cmd>lua require'dap'.terminate()<cr>", desc = "Termin
 -- File
 maps.n["<leader>f"] = sections.f
 maps.n["<leader>fs"] = { "<cmd>w!<cr>", desc = "Save a file" }
+-- maps.n["<leader>ff"] = { "gg=G<cr>", desc = "Format file" }
 
 -- Git
 maps.n["<leader>g"] = sections.g
@@ -136,11 +142,11 @@ maps.n["<leader>lR"] = { "<cmd>lua require('spectre').open()<cr>", desc = "Spect
 maps.n["<leader>e"] = { "<cmd>NvimTreeToggle<cr>", desc = "Toggle explorer" }
 
 -- Session
-maps.n["<leader>q"] = sections.q
-maps.n["<leader>qq"] = { "<esc><cmd>qa<cr>", desc = "Quit neovim" }
-maps.n["<leader>qs"] = { "<cmd>lua require('persistence').load()<cr>", desc = "Restore session for current directory" }
-maps.n["<leader>ql"] = { "<cmd>lua require('persistence').load({last = true})<cr>", desc = "Restore last session" }
-maps.n["<leader>qd"] = { "<cmd>lua require('persistence').stop()<cr>", desc = "Stop persistence" }
+-- maps.n["<leader>q"] = sections.q
+-- maps.n["<leader>qq"] = { "<esc><cmd>qa<cr>", desc = "Quit neovim" }
+-- maps.n["<leader>qs"] = { "<cmd>lua require('persistence').load()<cr>", desc = "Restore session for current directory" }
+-- maps.n["<leader>ql"] = { "<cmd>lua require('persistence').load({last = true})<cr>", desc = "Restore last session" }
+-- maps.n["<leader>qd"] = { "<cmd>lua require('persistence').stop()<cr>", desc = "Stop persistence" }
 
 -- Telescope
 maps.n["<leader>s"] = sections.s
