@@ -5,8 +5,7 @@ local M = {
 	"folke/tokyonight.nvim",
 	lazy = false,
 	priority = 1000,
-	enabled = true,
-	opts = { style = "moon" },
+	opts = { style = "storm" },
 }
 M.name = "tokyonight"
 
