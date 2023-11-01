@@ -5,11 +5,13 @@ local M = {
 	"folke/tokyonight.nvim",
 	lazy = false,
 	priority = 1000,
-	opts = { style = "storm" },
+	opts = { style = "night" },
 }
 M.name = "tokyonight"
 
 function M.config()
+	-- vim.opt.background = "light"
+	vim.opt.background = "dark"
 	vim.cmd.colorscheme(M.name)
 end
 

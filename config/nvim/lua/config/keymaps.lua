@@ -41,10 +41,15 @@ maps.n["<leader>h"] = { "<cmd>nohlsearch<cr>", desc = "Clear highlights" }
 maps.n["<S-q>"] = { "<cmd>lua require('Buffers').delete()<cr>", desc = "Close buffer" }
 
 -- Save file
-maps.n["<C-s>"] = { "<cmd>w!<cr>", desc = "Save a file" }
+maps.n["<C-s>"] = { "<cmd>w<cr>", desc = "Save a file" }
+
+-- Copy all
+maps.n["<C-a>"] = { "<cmd>%y+<cr>", desc = "Copy whole file" }
 
 -- Quit neovim
 maps.n["<leader>q"] = { "<esc><cmd>qa<cr>", desc = "Quit neovim" }
+
+maps.n["<ESC>"] = { "<cmd>noh<cr>", desc = "Clear highlights" }
 ----------------------------------------
 -- Visual --
 ----------------------------------------
@@ -60,6 +65,9 @@ maps.v[">"] = { ">lv", desc = "Indent to the right" }
 ----------------------------------------
 -- Press jk fast to ESC
 maps.i["jk"] = { "<ESC>", desc = "Better escape" }
+
+maps.i["<C-b>"] = { "<ESC>^i", desc = "Beginning of line" }
+maps.i["<C-e>"] = { "<End>", desc = "End of line" }
 
 ----------------------------------------
 -- Plugins --
@@ -107,7 +115,12 @@ maps.n["<leader>dt"] = { "<cmd>lua require'dap'.terminate()<cr>", desc = "Termin
 -- File
 maps.n["<leader>f"] = sections.f
 maps.n["<leader>fs"] = { "<cmd>w!<cr>", desc = "Save a file" }
--- maps.n["<leader>ff"] = { "gg=G<cr>", desc = "Format file" }
+maps.n["<leader>ff"] = {
+	function()
+		vim.lsp.buf.format({ async = true })
+	end,
+	desc = "LSP formatting",
+}
 
 -- Git
 maps.n["<leader>g"] = sections.g
@@ -152,6 +165,7 @@ maps.n["<leader>e"] = { "<cmd>NvimTreeToggle<cr>", desc = "Toggle explorer" }
 maps.n["<leader>s"] = sections.s
 maps.n["<leader>sb"] = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Search in current buffer" }
 maps.n["<leader>sf"] = { "<cmd>Telescope find_files<cr>", desc = "Search files" }
+maps.n["<leader>sh"] = { "<cmd>Telescope help_tags<cr>", desc = "Help page" }
 maps.n["<leader>sp"] = { "<cmd>lua require('telescope').extensions.projects.projects{}<cr>", desc = "Search projects" }
 maps.n["<leader>sr"] = { "<cmd>Telescope oldfiles<cr>", desc = "Search recent" }
 maps.n["<leader>ss"] = { "<cmd>Telescope<cr>", desc = "Search(Telescope)" }
@@ -174,5 +188,9 @@ maps.n["<leader>wc"] = { "<cmd>lua require('nvim-window').pick()<cr>", desc = "P
 maps.n["<leader>x"] = sections.x
 maps.n["<leader>xt"] = { "<cmd>TodoQuickFix<cr>", desc = "Todo toggle" }
 maps.n["<leader>xq"] = { "<cmd>TroubleToggle<cr>", desc = "Trouble toggle" }
+
+----------------------------------------
+-- Terminal --
+----------------------------------------
 
 utils.set_mappings(maps)

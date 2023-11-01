@@ -4,8 +4,10 @@
       relink: true
 
 - link:
-    ~/.gitconfig: gitconfig
+    ~/.gitconfig: 
+      force: true
+      path: git/gitconfig
     ~/.config/nvim:
       force: true
-      path: nvim
+      path: config/nvim
     ~/.zprofile: zprofile
