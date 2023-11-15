@@ -14,6 +14,7 @@ M.lservers = {
 	"taplo",
 	"terraformls",
 	"yamlls",
+	"html",
 }
 
 -- null-ls servers
