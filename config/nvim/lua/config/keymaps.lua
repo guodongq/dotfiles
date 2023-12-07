@@ -18,6 +18,9 @@ local sections = {
 ----------------------------------------
 -- Normal --
 ----------------------------------------
+maps.n["j"] = { "v:count == 0 ? 'gj' : 'j'", expr = true, desc = "Move cursor down" }
+maps.n["k"] = { "v:count == 0 ? 'gk' : 'k'", expr = true, desc = "Move cursor up" }
+
 -- Better window navigation
 maps.n["<C-h>"] = { "<C-w>h", desc = "Navigate to the left split" }
 maps.n["<C-j>"] = { "<C-w>j", desc = "Navigate to the bottom split" }
@@ -41,13 +44,14 @@ maps.n["<leader>h"] = { "<cmd>nohlsearch<cr>", desc = "Clear highlights" }
 maps.n["<S-q>"] = { "<cmd>lua require('Buffers').delete()<cr>", desc = "Close buffer" }
 
 -- Save file
-maps.n["<C-s>"] = { "<cmd>w<cr>", desc = "Save a file" }
+maps.n["<C-s>"] = { "<cmd>w!<cr>", desc = "Force write" }
 
 -- Copy all
 maps.n["<C-a>"] = { "<cmd>%y+<cr>", desc = "Copy whole file" }
 
 -- Quit neovim
-maps.n["<leader>q"] = { "<esc><cmd>qa<cr>", desc = "Quit neovim" }
+maps.n["<leader>q"] = { "<cmd>confirm q<cr>", desc = "Quit" }
+maps.n["<leader>Q"] = { "<cmd>confirm qall<cr>", desc = "Quit all" }
 
 maps.n["<ESC>"] = { "<cmd>noh<cr>", desc = "Clear highlights" }
 ----------------------------------------
