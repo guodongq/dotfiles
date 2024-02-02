@@ -1,5 +1,6 @@
 local M = {
-	"jose-elias-alvarez/null-ls.nvim",
+	-- "jose-elias-alvarez/null-ls.nvim",
+	"nvimtools/none-ls.nvim",
 	event = "BufReadPre",
 	dependencies = "nvim-lua/plenary.nvim",
 }
@@ -27,7 +28,7 @@ function M.config()
 			formatting.goimports,
 			formatting.markdownlint,
 			diagnostics.golangci_lint,
-			diagnostics.markdownlint,
+			-- diagnostics.markdownlint,
 		},
 	})
 end

@@ -41,7 +41,7 @@ vim.api.nvim_create_autocmd({ "TextYankPost" }, {
 })
 
 vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-	pattern = { "*.java" },
+	pattern = { "*.go", "*.c" },
 	callback = function()
 		vim.lsp.codelens.refresh()
 	end,
@@ -53,14 +53,14 @@ vim.api.nvim_create_autocmd({ "VimEnter" }, {
 	end,
 })
 
-vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
-	callback = function()
-		local line_count = vim.api.nvim_buf_line_count(0)
-		if line_count >= 5000 then
-			vim.cmd("IlluminatePauseBuf")
-		end
-	end,
-})
+-- vim.api.nvim_create_autocmd({ "BufWinEnter" }, {
+-- 	callback = function()
+-- 		local line_count = vim.api.nvim_buf_line_count(0)
+-- 		if line_count >= 5000 then
+-- 			vim.cmd("IlluminatePauseBuf")
+-- 		end
+-- 	end,
+-- })
 
 vim.api.nvim_create_autocmd({ "BufEnter" }, {
 	callback = function()
