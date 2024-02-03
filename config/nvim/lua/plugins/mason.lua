@@ -30,17 +30,17 @@ function M.config()
 	require("mason").setup(settings)
 	-- lsp
 	require("mason-lspconfig").setup({
-		ensure_installed = require("utils").lservers,
+		ensure_installed = require("util").lservers,
 		automatic_installation = true,
 	})
 	-- null-ls
 	require("mason-null-ls").setup({
-		ensure_installed = require("utils").nservers,
+		ensure_installed = require("util").nservers,
 		automatic_installation = true,
 	})
 	-- dap
 	require("mason-nvim-dap").setup({
-		ensure_installed = require("utils").dservers,
+		ensure_installed = require("util").dservers,
 		automatic_installation = true,
 	})
 end

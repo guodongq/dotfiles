@@ -1,4 +1,4 @@
-local utils = require("utils.keymaps-helpers")
+local utils = require("util.keymaps-helpers")
 local maps = utils.empty_map_table()
 
 local sections = {
