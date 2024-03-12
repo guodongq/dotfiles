@@ -1,7 +1,7 @@
 # Set PATH, MANPATH, etc., for Homebrew.
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-export GOROOT=/opt/homebrew/Cellar/go/1.21.6/libexec
+export GOROOT=/opt/homebrew/Cellar/go/1.22.1/libexec
 export GOPATH=/Users/guodongq/Projects
 export PATH=$GOPATH/bin:$PATH
 export PATH=/Users/guodongq/.local/bin:$PATH

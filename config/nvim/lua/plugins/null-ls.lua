@@ -14,7 +14,7 @@ function M.config()
 
 	-- https://github.com/prettier-solidity/prettier-plugin-solidity
 	null_ls.setup({
-		debug = false,
+		debug = true,
 		sources = {
 			formatting.prettier.with({
 				extra_filetypes = { "toml" },

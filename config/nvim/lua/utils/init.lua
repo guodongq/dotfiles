@@ -1,7 +1,7 @@
 local M = {}
 
 -- Lsp servers
-M.lservers = {
+M.lsp_servers = {
 	"asm_lsp",
 	"bashls",
 	"clangd",
@@ -11,15 +11,13 @@ M.lservers = {
 	"marksman",
 	"lua_ls",
 	"pyright",
-	"taplo",
 	"terraformls",
 	"yamlls",
 	"html",
 }
 
 -- null-ls servers
-M.nservers = {
-	"clang-format",
+M.null_ls_servers = {
 	"cmakelang",
 	"gitlint",
 	"goimports",
@@ -32,7 +30,7 @@ M.nservers = {
 }
 
 -- Dap servers
-M.dservers = {
+M.dap_servers = {
 	"delve",
 	"cpptools",
 	"bash-debug-adapter",

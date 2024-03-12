@@ -10,7 +10,7 @@ local M = {
 
 function M.config(_, opts)
 	require("which-key").setup(opts)
-	require("util.keymaps-helpers").which_key_register()
+	require("utils.keymaps-helpers").which_key_register()
 end
 
 return M
