@@ -18,20 +18,20 @@ function M.config()
     })
 
     -- null-ls
-    local null_ls = require("null-ls")
+    local nls = require("null-ls")
     -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/formatting
-    local formatting = null_ls.builtins.formatting
+    local formatting = nls.builtins.formatting
     -- https://github.com/jose-elias-alvarez/null-ls.nvim/tree/main/lua/null-ls/builtins/diagnostics
-    local diagnostics = null_ls.builtins.diagnostics
+    local diagnostics = nls.builtins.diagnostics
 
     -- https://github.com/prettier-solidity/prettier-plugin-solidity
-    null_ls.setup({
+    nls.setup({
         debug = false,
         sources = {
             -- Formatting
             formatting.stylua,
             formatting.prettier,
-            formatting.black.with({ extra_args = { "--fast" } }),
+            --formatting.black.with({ extra_args = { "--fast" } }),
             --formatting.prettier.with({
             --    extra_filetypes = { "toml" },
             --    extra_args = { "--no-semi", "--single-quote", "--jsx-single-quote" },
@@ -42,7 +42,7 @@ function M.config()
             formatting.goimports,
             formatting.markdownlint,
             -- Diagnostics
-            diagnostics.golangci_lint,
+            --diagnostics.golangci_lint,
             -- diagnostics.flake8,
             -- diagnostics.markdownlint,
         },

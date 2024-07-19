@@ -21,7 +21,7 @@ function M.opts()
     dashboard.section.buttons.val = {
         dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
         dashboard.button("f", " " .. " Find file", ":Telescope find_files<CR>"),
-        dashboard.button("w", " " .. " Find word", ":Telescope live_grep <CR>"),
+        dashboard.button("t", " " .. " Find word", ":Telescope live_grep <CR>"),
         dashboard.button("l", "󰒲 " .. " Lazy", "<cmd> Lazy <cr>"),
         dashboard.button("n", " " .. " New file", [[<cmd> ene <BAR> startinsert <cr>]]),
         dashboard.button("p", " " .. " Find project", ":Telescope projects<CR>"),

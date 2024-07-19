@@ -34,7 +34,6 @@ local M = {
 function M.lsp_keymaps(bufnr)
     local keymap = vim.api.nvim_buf_set_keymap
     local desc = require("util.kit").desc
-    keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", desc("Goto Declaration"))
     keymap(
             bufnr,
             "n",
@@ -42,16 +41,14 @@ function M.lsp_keymaps(bufnr)
             "<cmd>lua require('telescope.builtin').lsp_definitions({ reuse_win = true})<cr>",
             desc("Goto Definition")
     )
-    keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", desc("Hover"))
+    keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<cr>", desc("References"))
     keymap(
             bufnr,
             "n",
-            "gi",
+            "gI",
             "<cmd>lua require('telescope.builtin').lsp_implementations({ reuse_win = true})<cr>",
             desc("Goto Implementation")
     )
-    keymap(bufnr, "n", "gr", "<cmd>Telescope lsp_references<cr>", desc("References"))
-    keymap(bufnr, "n", "gK", "<cmd>lua vim.lsp.buf.signature_help()<cr>", desc("Signature Help"))
     keymap(
             bufnr,
             "n",
@@ -59,6 +56,9 @@ function M.lsp_keymaps(bufnr)
             "<cmd>lua require('telescope.builtin').lsp_type_definitions({ reuse_win = true})<cr>",
             desc("Goto T[y]pe Definition")
     )
+    keymap(bufnr, "n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", desc("Goto Declaration"))
+    keymap(bufnr, "n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", desc("Hover"))
+    keymap(bufnr, "n", "gK", "<cmd>lua vim.lsp.buf.signature_help()<cr>", desc("Signature Help"))
     keymap(bufnr, "n", "gl", "<cmd>lua vim.diagnostic.open_float()<cr>", desc("Float diagnostic"))
     keymap(bufnr, "n", "<leader>li", "<cmd>LspInfo<cr>", desc("Lsp info"))
     keymap(bufnr, "n", "<leader>lI", "<cmd>Mason<cr>", desc("Mason"))
@@ -76,16 +76,27 @@ end
 
 function M.on_attach(client, bufnr)
     M.lsp_keymaps(bufnr)
+    require("illuminate").on_attach(client)
+
     require("lsp_signature").on_attach({
         bind = true, -- This is mandatory, otherwise border config won't get registered.
         handler_opts = {
             border = "rounded",
         },
     }, bufnr)
-    require("illuminate").on_attach(client)
 
     if client.supports_method("textDocument/inlayHint") then
-        vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        if vim.api.nvim_buf_is_valid(bufnr) and vim.bo[bufnr].buftype == "" then
+            vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+        end
+    end
+
+    if client.supports_method("textDocument/codeLens") then
+        vim.lsp.codelens.refresh()
+        vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+            buffer = bufnr,
+            callback = vim.lsp.codelens.refresh,
+        })
     end
 end
 

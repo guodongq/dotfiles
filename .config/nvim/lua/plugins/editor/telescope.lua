@@ -23,6 +23,12 @@ local M = {
             mode = "n",
         },
         {
+            "<leader>sc",
+            "<cmd>Telescope colorscheme<cr>",
+            desc = "Colorscheme",
+            mode = "n",
+        },
+        {
             "<leader>sf",
             "<cmd>Telescope find_files<cr>",
             desc = "Find File",
@@ -59,9 +65,9 @@ local M = {
             mode = "n",
         },
         {
-            "<leader>sw",
+            "<leader>st",
             "<cmd>Telescope live_grep<cr>",
-            desc = "Find word",
+            desc = "Find Text",
             mode = "n",
         },
     },
