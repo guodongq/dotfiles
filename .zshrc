@@ -106,6 +106,7 @@ source $ZSH/oh-my-zsh.sh
 ##########################
 # >>> homebrew >>>
 # jetbrains-toolbox, brew-rmtree, golang, neovim, gnu-sed, ripgrep, node, iterm2, neovide, tree, go-task, orbstack, grpcui, stylua
+# wget, prettier
 ##########################
 if [ "$(uname)" = "Darwin" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"

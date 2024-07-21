@@ -11,9 +11,9 @@ local M = {
 
 function M.config()
     -- mason
-    require("mason").setup(require("util.mason").mason)
+    require("mason").setup()
     require("mason-null-ls").setup({
-        ensure_installed = require("util.mason").linter,
+        ensure_installed = require("util.mason").nls,
         automatic_installation = true,
     })
 

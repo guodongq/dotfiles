@@ -17,11 +17,11 @@ require("config.autocmds")
 require("lazy").setup({
     spec = {
         -- add your plugins here
-        { import = "plugins/util" },
-        { import = "plugins/ui" },
-        { import = "plugins/editor" },
+        { import = "plugins/interface" },
+        { import = "plugins/integration" },
+        { import = "plugins/coding" },
         { import = "plugins/lsp" },
-        { import = "plugins/dap" },
+        --{ import = "plugins/debug" },
     },
     rocks = {
         enabled = false,

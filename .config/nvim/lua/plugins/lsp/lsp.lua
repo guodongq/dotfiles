@@ -110,7 +110,7 @@ function M.config()
     ----------------------------------------
     -- Mason --
     ----------------------------------------
-    require("mason").setup(require("util.mason").mason)
+    require("mason").setup()
     require("mason-lspconfig").setup({
         ensure_installed = require("util.mason").lsp,
         automatic_installation = true,
