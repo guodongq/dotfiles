@@ -13,7 +13,17 @@ function M.config()
     -- mason
     require("mason").setup()
     require("mason-null-ls").setup({
-        ensure_installed = require("util.mason").nls,
+        ensure_installed = {
+            -- "cmakelang",
+            -- "gitlint",
+            "goimports",
+            --"golangci-lint",
+            -- "jsonlint",
+            "markdownlint",
+            -- "protolint",
+            "pylint",
+            -- "yamllint",
+        },
         automatic_installation = true,
     })
 

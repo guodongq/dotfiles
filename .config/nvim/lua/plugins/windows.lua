@@ -1,26 +1,28 @@
 local M = {
     "0x00-ketsu/maximizer.nvim",
     event = "VeryLazy",
+    opts = {},
     dependencies = {
+        -- pick a window
         "yorickpeterse/nvim-window",
     },
     keys = {
-        { "<leader>wd", "<cmd>wincmd c<cr>", desc = "Close Current Window", mode = "n" },
-        { "<leader>wD", "<cmd>wincmd o<cr>", desc = "Close Other Windows", mode = "n" },
-        { "<leader>wh", "<cmd>wincmd h<cr>", desc = "Go To The Left Window", mode = "n" },
-        { "<leader>wj", "<cmd>wincmd j<cr>", desc = "Go To The Down Window", mode = "n" },
-        { "<leader>wk", "<cmd>wincmd k<cr>", desc = "Go To The Up Window", mode = "n" },
-        { "<leader>wl", "<cmd>wincmd l<cr>", desc = "Go To The Right Window", mode = "n" },
-        { "<leader>ws", "<cmd>sp<cr>", desc = "Split Window", mode = "n" },
-        { "<leader>wv", "<cmd>vsp<cr>", desc = "Split Window Vertically", mode = "n" },
-        { "<leader>wm", "<cmd>lua require('maximizer').toggle()<cr>", desc = "Maximize Current Window", mode = "n" },
-        { "<leader>wc", "<cmd>lua require('nvim-window').pick()<cr>", desc = "Pick A Window", mode = "n" },
+        { "<leader>wd", "<cmd>wincmd c<cr>", desc = "Window: [D]elete Current Window", mode = "n" },
+        { "<leader>wD", "<cmd>wincmd o<cr>", desc = "Window: [D]elete Other Windows", mode = "n" },
+        { "<leader>wh", "<cmd>wincmd h<cr>", desc = "Window: Goto Left Window", mode = "n" },
+        { "<leader>wj", "<cmd>wincmd j<cr>", desc = "Window: Goto Down Window", mode = "n" },
+        { "<leader>wk", "<cmd>wincmd k<cr>", desc = "Window: Goto Up Window", mode = "n" },
+        { "<leader>wl", "<cmd>wincmd l<cr>", desc = "Window: Goto Right Window", mode = "n" },
+        { "<leader>ws", "<cmd>sp<cr>", desc = "Window: [S]plit Window", mode = "n" },
+        { "<leader>wv", "<cmd>vsp<cr>", desc = "Window: Split Window [V]ertically", mode = "n" },
+        { "<leader>wm", "<cmd>lua require('maximizer').toggle()<cr>", desc = "Window: [M]aximize Current Window", mode = "n" },
+        { "<leader>wp", "<cmd>lua require('nvim-window').pick()<cr>", desc = "Window: [P]ick Window", mode = "n" },
     },
 }
 
 function M.config()
     -- windows-maximizer
-    require("maximizer").setup({})
+    --require("maximizer").setup({})
     -- windows-pick
     require("nvim-window").setup({
         -- The characters available for hinting windows.

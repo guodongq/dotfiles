@@ -1,7 +1,8 @@
-local M = {
-    "lukas-reineke/indent-blankline.nvim",
-    event = "VeryLazy",
-    main = "ibl",
+local M = { -- Add indentation guides even on blank lines
+    'lukas-reineke/indent-blankline.nvim',
+    -- Enable `lukas-reineke/indent-blankline.nvim`
+    -- See `:help ibl`
+    main = 'ibl',
     opts = {},
     dependencies = {
         "HiPhish/rainbow-delimiters.nvim",
@@ -18,7 +19,7 @@ local highlight = {
     "RainbowCyan",
 }
 
-M.config = function()
+function M.config()
     local hooks = require("ibl.hooks")
     -- create the highlight groups in the highlight setup hook, so they are reset
     -- every time the colorscheme changes
