@@ -73,7 +73,7 @@ require('lazy').setup({
                 { '<leader>b', group = '[B]uffer' },
                 { '<leader>c', group = '[C]ode' },
                 { '<leader>d', group = '[D]ocument' },
-                --{ '<leader>m', group = '[M]ark' },
+                { '<leader>m', group = '[M]ark' },
                 { '<leader>j', group = '[J]ump' },
                 { '<leader>r', group = '[R]ename' },
                 { '<leader>s', group = '[S]earch' },
@@ -97,7 +97,11 @@ require('lazy').setup({
     -- https://github.com/nvim-tree/nvim-tree.lua
     {
         'nvim-tree/nvim-tree.lua',
-        event = 'VeryLazy',
+        version = "*",
+        lazy = false,
+        dependencies = {
+            { "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
+        },
         keys = {
             { '<leader>e', '<cmd>NvimTreeToggle<cr>', desc = 'Nvim: Toggle [E]xplorer' },
         },
@@ -140,6 +144,23 @@ require('lazy').setup({
                 dotfiles = true,
             },
         },
+        config = function(_, opts)
+            -- disable netrw at the very start of your init.lua
+            vim.g.loaded_netrw = 1
+            vim.g.loaded_netrwPlugin = 1
+
+            -- optionally enable 24-bit colour
+            vim.opt.termguicolors = vim.g.have_nerd_font
+
+            require('nvim-tree').setup(opts)
+
+            vim.cmd([[
+                :hi      NvimTreeExecFile    guifg=#ffa0a0
+                :hi      NvimTreeSpecialFile guifg=#ff80ff gui=underline
+                :hi      NvimTreeSymlink     guifg=Yellow  gui=italic
+                :hi link NvimTreeImageFile   Title
+            ]])
+        end
     },
 
     -- nvim-spectre is a Neovim plugin to replace files

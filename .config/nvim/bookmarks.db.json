@@ -1,0 +1,32 @@
+{
+  "bookmark_lists": [
+    {
+      "bookmarks": [
+        {
+          "content": "\tst := stack.New()",
+          "created_at": 1721881631,
+          "githash": "2932bfa2",
+          "id": 1721881631,
+          "location": {
+            "col": 0,
+            "line": 104,
+            "path": "/Users/guodongq/Workspaces/src/github.azc.ext.hp.com/onecloud/onecloud-zone-server/cmd/zone/main.go",
+            "project_name": "onecloud-zone-server",
+            "relative_path": "cmd/zone/main.go"
+          },
+          "name": "apiserver",
+          "visited_at": 1721881648
+        }
+      ],
+      "id": "2024072512271123470524",
+      "is_active": true,
+      "name": "Default"
+    }
+  ],
+  "projects": [
+    {
+      "name": "onecloud-zone-server",
+      "path": "/Users/guodongq/Workspaces/src/github.azc.ext.hp.com/onecloud/onecloud-zone-server"
+    }
+  ]
+}
