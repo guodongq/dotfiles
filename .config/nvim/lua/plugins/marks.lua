@@ -43,8 +43,6 @@ function M.config()
 		hooks = {
 			{
 				---a sample hook that change the working directory when goto bookmark
-				---@param bookmark Bookmarks.Bookmark
-				---@param projects Bookmarks.Project[]
 				callback = function(bookmark, projects)
 					local project_path
 					for _, p in ipairs(projects) do
@@ -62,4 +60,3 @@ function M.config()
 end
 
 return M
-

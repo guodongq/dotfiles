@@ -9,6 +9,9 @@ local M = { -- LSP Configuration & Plugins
 		-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 		{ "j-hui/fidget.nvim", opts = {} },
 
+		-- Allows extra capabilities provided by nvim-cmp
+		"hrsh7th/cmp-nvim-lsp",
+
 		-- Code outline
 		{
 			"stevearc/aerial.nvim",
@@ -100,6 +103,10 @@ function M.config()
 			-- code outline
 			map("<leader>co", "<cmd>AerialToggle!<cr>", "[C]ode [O]utline")
 
+			-- Opens a popup that displays documentation about the word under your cursor
+			--  See `:help K` for why this keymap.
+			map("K", vim.lsp.buf.hover, "Hover Documentation")
+
 			-- WARN: This is not Goto Definition, this is Goto Declaration.
 			--  For example, in C this would take you to the header.
 			map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
@@ -133,7 +140,7 @@ function M.config()
 				})
 			end
 
-			-- The following autocommand is used to enable inlay hints in your
+			-- The following code creates a keymap to toggle inlay hints in your
 			-- code, if the language server you are using supports them
 			--
 			-- This may be unwanted, since they displace some of your code
@@ -209,4 +216,3 @@ function M.config()
 end
 
 return M
-
