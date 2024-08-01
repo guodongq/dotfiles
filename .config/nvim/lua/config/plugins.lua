@@ -82,7 +82,7 @@ require("lazy").setup({
 				{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
 
 				{ "g", group = "Goto" },
-				{ "s", group = "Surround" }, -- ???
+				{ "s", group = "Surround" },
 				{ "z", group = "Fold" },
 
 				{ "<leader>;", "<cmd>Alpha<cr>", desc = "Alpha" },
