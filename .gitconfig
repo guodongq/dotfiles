@@ -1,0 +1,45 @@
+[color]
+  branch=auto
+  diff=auto
+  interactive=auto
+  status=auto
+  ui=auto
+  editor = nvim
+
+[color "branch"]
+  current=green
+  remote=yellow
+
+[core]
+  pager=less -FRSX
+  editor=code --wait
+
+[help]
+  autocorrect=1
+
+[push]
+  default=upstream
+  autoSetupRemote = true
+
+[branch "master"]
+  mergeoptions=--no-edit
+
+[pull]
+	rebase = true
+  
+[user]
+	name = guodongq
+	email = guodong.qian@hp.com
+  
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+
+[diff]
+    colorMoved = default
+    tool = nvimdiff
+
+[merge]
+    conflictstyle = diff3
