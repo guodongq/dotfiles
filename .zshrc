@@ -118,20 +118,18 @@ fi
 # >>> anaconda3 >>>
 ##########################
 #!! Contents within this block are managed by 'conda init' !!
-if [ "$(uname)" = "Darwin" ]; then
-    __conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-        eval "$__conda_setup"
+__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/anaconda3/etc/profile.d/conda.sh"
     else
-        if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-            . "/opt/anaconda3/etc/profile.d/conda.sh"
-        else
-            export PATH="/opt/anaconda3/bin:$PATH"
-        fi
+        export PATH="/opt/anaconda3/bin:$PATH"
     fi
-    unset __conda_setup
-    export PATH=/opt/anaconda3/bin:$PATH
 fi
+unset __conda_setup
+export PATH=/opt/anaconda3/bin:$PATH
 
 ##########################
 # >>> golang >>>
@@ -165,4 +163,4 @@ if [ -f /etc/wsl.conf ]; then
 fi
 
 # Created by `pipx` on 2024-08-05 03:16:46
-export PATH="$PATH:/Users/guodongq/.local/bin"
+export PATH="$PATH:~/.local/bin"
