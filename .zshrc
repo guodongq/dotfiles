@@ -73,6 +73,11 @@ ZSH_THEME="mgutz"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
+# You can use follow command to install plugins
+# git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-autosuggestions
+# git clone https://github.com/zsh-users/zsh-completions ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
+# git clone https://github.com/zsh-users/zsh-syntax-highlighting ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-syntax-highlighting
+# git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-history-substring-search
 plugins=(git zsh-autosuggestions zsh-completions  zsh-syntax-highlighting  zsh-history-substring-search)
 
 source $ZSH/oh-my-zsh.sh
@@ -134,7 +139,7 @@ export PATH=/opt/anaconda3/bin:$PATH
 ##########################
 # >>> golang >>>
 ##########################
-export GOROOT=${HOMEBREW_CELLAR}/go/1.23.0/libexec
+export GOROOT=${HOMEBREW_CELLAR}/go/1.23.1/libexec
 export GOPATH=${HOME}/Workspaces
 export PATH=$PATH:${GOPATH}/bin
 
@@ -163,4 +168,6 @@ if [ -f /etc/wsl.conf ]; then
 fi
 
 # Created by `pipx` on 2024-08-05 03:16:46
-export PATH="$PATH:~/.local/bin"
+if [ -d "$HOME/.local" ]; then
+    export PATH="$PATH:~/.local/bin"
+fi

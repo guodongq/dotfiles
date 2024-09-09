@@ -7,7 +7,7 @@ return {
 	{ -- tokyonight
 		"folke/tokyonight.nvim",
 		priority = 1000, -- Make sure to load this before all the other start plugins.
-		enabled = true,
+		enabled = false,
 		init = function()
 			-- Load the colorscheme here.
 			-- Like many other themes, this one has different styles, and you could load
@@ -22,7 +22,7 @@ return {
 		"ellisonleao/gruvbox.nvim",
 		enabled = true,
 		--lazy = false,
-		config = false,
+		-- config = false,
 		priority = 1000,
 		init = function()
 			vim.opt.background = "dark"
