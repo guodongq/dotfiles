@@ -4,15 +4,12 @@
       relink: true
 
 - link:
-    # zsh
     ~/.zshrc: .zshrc
-    # git
+    ~/.vimrc: .vimrc
+    ~/.npmrc: .npmrc
     ~/.gitconfig:
       force: true
       path: .gitconfig
-    # nvim
     ~/.config/nvim:
       force: true
-      path: .config/nvim
-    # npmrc
-    ~/.npmrc: .npmrc
+      path: nvim

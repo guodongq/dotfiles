@@ -159,8 +159,8 @@ fi
 # >>> alias >>>
 ##########################
 alias k=kubectl
-alias vim=nvim
-alias vi=nvim
+# alias vim=nvim
+# alias vi=nvim
 alias python=python3
 alias pip=pip3
 if [ -f /etc/wsl.conf ]; then
@@ -170,4 +170,10 @@ fi
 # Created by `pipx` on 2024-08-05 03:16:46
 if [ -d "$HOME/.local" ]; then
     export PATH="$PATH:~/.local/bin"
+fi
+
+## java
+if [ "$(uname)" = "Darwin" ]; then
+    export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+    export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 fi
