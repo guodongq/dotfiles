@@ -905,7 +905,7 @@ require("lazy").setup({
 	},
 	{ -- gruvbox
 		"ellisonleao/gruvbox.nvim",
-		enabled = true,
+		enabled = false,
 		--lazy = false,
 		-- config = false,
 		priority = 1000,
@@ -920,7 +920,7 @@ require("lazy").setup({
 	-- sakura
 	{
 		"numToStr/Sakura.nvim",
-		enabled = false,
+		enabled = true,
 		lazy = false,
 		priority = 1000,
 		config = function()
@@ -1729,7 +1729,7 @@ require("lazy").setup({
 	{ -- Dashboard
 		"goolord/alpha-nvim",
 		event = "VimEnter",
-		enabled = false,
+		enabled = true,
 		opts = function()
 			local dashboard = require("alpha.themes.dashboard")
 			-- Set header
@@ -1832,4 +1832,3 @@ require("lazy").setup({
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
-

@@ -1,20 +1,13 @@
 " Modeline and Notes {
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
-"                    __ _ _____              _
-"         ___ _ __  / _/ |___ /      __   __(_)_ __ ___
-"        / __| '_ \| |_| | |_ \ _____\ \ / /| | '_ ` _ \
-"        \__ \ |_) |  _| |___) |_____|\ V / | | | | | | |
-"        |___/ .__/|_| |_|____/        \_/  |_|_| |_| |_|
-"            |_|
-"
-"   This is the personal .vimrc file of Steve Francia.
+"   This is the personal .vimrc file of Bruce Qian.
 "   While much of it is beneficial for general use, I would
 "   recommend picking out the parts you want and understand.
 "
-"   You can find me at http://spf13.com
+"   You can find me at http://guodongq.github.io
 "
-"   Copyright 2014 Steve Francia
+"   Copyright 2014 Bruce Qian
 "
 "   Licensed under the Apache License, Version 2.0 (the "License");
 "   you may not use this file except in compliance with the License.
@@ -65,17 +58,177 @@
         endif
     " }
 
+    " Setup Bundle support {
+        " The next three lines ensure that the ~/.vim/bundle/ system works
+        filetype off
+        set rtp+=~/.vim/bundle/Vundle.vim
+        call vundle#rc()
+    " }
+
+    " Add an UnBundle command {
+        function! UnBundle(arg, ...)
+            let bundle = vundle#config#init_bundle(a:arg, a:000)
+            call filter(g:vundle#bundles, 'v:val["name_spec"] != "' . a:arg . '"')
+        endfunction
+
+        com! -nargs=+         UnBundle
+        \ call UnBundle(<args>)
+    " }
 " }
 
-" Use before config if available {
-    if filereadable(expand("~/.vimrc.before"))
-        source ~/.vimrc.before
+" Bundles {
+    " Deps {
+        Bundle 'VundleVim/Vundle.vim'
+        Bundle 'MarcWeber/vim-addon-mw-utils'
+        Bundle 'tomtom/tlib_vim'
+        if executable('ag')
+            Bundle 'mileszs/ack.vim'
+            let g:ackprg = 'ag --nogroup --nocolor --column --smart-case'
+        elseif executable('ack-grep')
+            let g:ackprg="ack-grep -H --nocolor --nogroup --column"
+            Bundle 'mileszs/ack.vim'
+        elseif executable('ack')
+            Bundle 'mileszs/ack.vim'
+        endif
+    " }
+    
+    " list only the plugin groups you will use
+    if !exists('g:vimrc_bundle_groups')
+        let g:vimrc_bundle_groups = ['general', 'writing', 'neocomplete', 'programming', 'python', 'javascript', 'html', 'go']
     endif
-" }
 
-" Use bundles config {
-    if filereadable(expand("~/.vimrc.bundles"))
-        source ~/.vimrc.bundles
+    " To override all the included bundles, add the following to your
+    " .vimrc file:
+    " let g:override_vimrc_bundles = 1
+    if !exists("g:override_vimrc_bundles")
+        " General {
+            if count(g:vimrc_bundle_groups, 'general')
+                Bundle 'scrooloose/nerdtree'
+                Bundle 'altercation/vim-colors-solarized'
+                Bundle 'spf13/vim-colors'
+                Bundle 'tpope/vim-surround'
+                Bundle 'tpope/vim-repeat'
+                Bundle 'rhysd/conflict-marker.vim'
+                Bundle 'jiangmiao/auto-pairs'
+                Bundle 'ctrlpvim/ctrlp.vim'
+                Bundle 'tacahiroy/ctrlp-funky'
+                Bundle 'terryma/vim-multiple-cursors'
+                Bundle 'vim-scripts/sessionman.vim'
+                Bundle 'matchit.zip'
+                if (has("python") || has("python3")) && exists('g:vimrc_use_powerline') && !exists('g:vimrc_use_old_powerline')
+                    Bundle 'Lokaltog/powerline', {'rtp':'/powerline/bindings/vim'}
+                elseif exists('g:vimrc_use_powerline') && exists('g:vimrc_use_old_powerline')
+                    Bundle 'Lokaltog/vim-powerline'
+                else
+                    Bundle 'vim-airline/vim-airline'
+                    Bundle 'vim-airline/vim-airline-themes'
+                endif
+                Bundle 'powerline/fonts'
+                Bundle 'bling/vim-bufferline'
+                Bundle 'easymotion/vim-easymotion'
+                Bundle 'jistr/vim-nerdtree-tabs'
+                Bundle 'flazz/vim-colorschemes'
+                Bundle 'mbbill/undotree'
+                Bundle 'nathanaelkane/vim-indent-guides'
+                if !exists('g:spf13_no_views')
+                    Bundle 'vim-scripts/restore_view.vim'
+                endif
+                Bundle 'mhinz/vim-signify'
+                Bundle 'tpope/vim-abolish.git'
+                Bundle 'osyo-manga/vim-over'
+                Bundle 'kana/vim-textobj-user'
+                Bundle 'kana/vim-textobj-indent'
+                Bundle 'gcmt/wildfire.vim'
+            endif
+        " }
+        
+        " writing {
+            if count(g:vimrc_bundle_groups, 'writing')
+                Bundle 'reedes/vim-litecorrect'
+                Bundle 'reedes/vim-textobj-sentence'
+                Bundle 'reedes/vim-textobj-quote'
+                Bundle 'reedes/vim-wordy'
+            endif
+        " }
+
+        " General Programming {
+            if count(g:vimrc_bundle_groups, 'programming')
+                " Pick one of the checksyntax, jslint, or syntastic
+                Bundle 'scrooloose/syntastic'
+                Bundle 'tpope/vim-fugitive'
+                Bundle 'mattn/webapi-vim'
+                Bundle 'mattn/gist-vim'
+                Bundle 'scrooloose/nerdcommenter'
+                Bundle 'tpope/vim-commentary'
+                Bundle 'godlygeek/tabular'
+                Bundle 'luochen1990/rainbow'
+                if executable('ctags')
+                    Bundle 'majutsushi/tagbar'
+                endif
+            endif
+        " }
+
+        " Snippets & AutoComplete {
+            if count(g:vimrc_bundle_groups, 'snipmate')
+                Bundle 'garbas/vim-snipmate'
+                Bundle 'honza/vim-snippets'
+                " Source support_function.vim to support vim-snippets.
+                if filereadable(expand("~/.vim/bundle/vim-snippets/snippets/support_functions.vim"))
+                    source ~/.vim/bundle/vim-snippets/snippets/support_functions.vim
+                endif
+            elseif count(g:vimrc_bundle_groups, 'youcompleteme')
+                Bundle 'Valloric/YouCompleteMe'
+                Bundle 'SirVer/ultisnips'
+                Bundle 'honza/vim-snippets'
+            elseif count(g:vimrc_bundle_groups, 'neocomplcache')
+                Bundle 'Shougo/neocomplcache'
+                Bundle 'Shougo/neosnippet'
+                Bundle 'Shougo/neosnippet-snippets'
+                Bundle 'honza/vim-snippets'
+            elseif count(g:vimrc_bundle_groups, 'neocomplete')
+                Bundle 'Shougo/neocomplete.vim.git'
+                Bundle 'Shougo/neosnippet'
+                Bundle 'Shougo/neosnippet-snippets'
+                Bundle 'honza/vim-snippets'
+            endif
+        " }
+        
+        " Python {
+        if count(g:vimrc_bundle_groups, 'python')
+            " Pick either python-mode or pyflakes & pydoc
+            Bundle 'klen/python-mode'
+            Bundle 'yssource/python.vim'
+            Bundle 'python_match.vim'
+            Bundle 'pythoncomplete'
+        endif
+        " }
+
+        " Javascript {
+            if count(g:vimrc_bundle_groups, 'javascript')
+                Bundle 'elzr/vim-json'
+                Bundle 'groenewege/vim-less'
+                Bundle 'pangloss/vim-javascript'
+                Bundle 'briancollins/vim-jst'
+                Bundle 'kchmck/vim-coffee-script'
+            endif
+        " }
+        
+        " HTML {
+        if count(g:vimrc_bundle_groups, 'html')
+            Bundle 'amirh/HTML-AutoCloseTag'
+            Bundle 'hail2u/vim-css3-syntax'
+            Bundle 'gorodinskiy/vim-coloresque'
+            Bundle 'tpope/vim-haml'
+            Bundle 'mattn/emmet-vim'
+        endif
+        " }
+
+        " Go Lang {
+        if count(g:vimrc_bundle_groups, 'go')
+            "Bundle 'Blackrush/vim-gocode'
+            Bundle 'fatih/vim-go'
+        endif
+        " }
     endif
 " }
 
@@ -116,7 +269,7 @@
     " a new buffer is opened; to prevent this behavior, add the following to
     " your .vimrc.before.local file:
     "   let g:spf13_no_autochdir = 1
-    if !exists('g:spf13_no_autochdir')
+    if !exists('g:vimrc_no_autochdir')
         autocmd BufEnter * if bufname("") !~ "^\[A-Za-z0-9\]*://" | lcd %:p:h | endif
         " Always switch to the current file directory
     endif
@@ -140,7 +293,7 @@
     " Restore cursor to file position in previous editing session
     " To disable this, add the following to your .vimrc.before.local file:
     "   let g:spf13_no_restore_cursor = 1
-    if !exists('g:spf13_no_restore_cursor')
+    if !exists('g:vimrc_no_restore_cursor')
         function! ResCur()
             if line("'\"") <= line("$")
                 silent! normal! g`"
@@ -164,7 +317,7 @@
 
         " To disable views add the following to your .vimrc.before.local file:
         "   let g:spf13_no_views = 1
-        if !exists('g:spf13_no_views')
+        if !exists('g:vimrc_no_views')
             " Add exclusions to mkview and loadview
             " eg: *.*, svn-commit.tmp
             let g:skipview_files = [
@@ -177,7 +330,7 @@
 
 " Vim UI {
 
-    if !exists('g:override_spf13_bundles') && filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+    if !exists('g:override_vimrc_bundles') && filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
         let g:solarized_termcolors=256
         let g:solarized_termtrans=1
         let g:solarized_contrast="normal"
@@ -207,7 +360,7 @@
         " Broken down into easily includeable segments
         set statusline=%<%f\                     " Filename
         set statusline+=%w%h%m%r                 " Options
-        if !exists('g:override_spf13_bundles')
+        if !exists('g:override_vimrc_bundles')
             set statusline+=%{fugitive#statusline()} " Git Hotness
         endif
         set statusline+=\ [%{&ff}/%Y]            " Filetype
@@ -253,7 +406,7 @@
     " To disable the stripping of whitespace, add the following to your
     " .vimrc.before.local file:
     "   let g:spf13_keep_trailing_whitespace = 1
-    autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
+    autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:vimrc_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
     "autocmd FileType go autocmd BufWritePre <buffer> Fmt
     autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
     autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
@@ -270,196 +423,196 @@
 
 " Key (re)Mappings {
 
-    " The default leader is '\', but many people prefer ',' as it's in a standard
-    " location. To override this behavior and set it back to '\' (or any other
+    " the default leader is '\', but many people prefer ',' as it's in a standard
+    " location. to override this behavior and set it back to '\' (or any other
     " character) add the following to your .vimrc.before.local file:
     "   let g:spf13_leader='\'
-    if !exists('g:spf13_leader')
-        let mapleader = ','
+    if !exists('g:vimrc_leader')
+        let mapleader = ' '
     else
-        let mapleader=g:spf13_leader
+        let mapleader=g:vimrc_leader
     endif
-    if !exists('g:spf13_localleader')
-        let maplocalleader = '_'
+    if !exists('g:vimrc_localleader')
+        let maplocalleader = ' '
     else
-        let maplocalleader=g:spf13_localleader
+        let maplocalleader=g:vimrc_localleader
     endif
 
-    " The default mappings for editing and applying the spf13 configuration
-    " are <leader>ev and <leader>sv respectively. Change them to your preference
+    " the default mappings for editing and applying the spf13 configuration
+    " are <leader>ev and <leader>sv respectively. change them to your preference
     " by adding the following to your .vimrc.before.local file:
     "   let g:spf13_edit_config_mapping='<leader>ec'
     "   let g:spf13_apply_config_mapping='<leader>sc'
-    if !exists('g:spf13_edit_config_mapping')
-        let s:spf13_edit_config_mapping = '<leader>ev'
+    if !exists('g:vimrc_edit_config_mapping')
+        let s:vimrc_edit_config_mapping = '<leader>ev'
     else
-        let s:spf13_edit_config_mapping = g:spf13_edit_config_mapping
+        let s:vimrc_edit_config_mapping = g:vimrc_edit_config_mapping
     endif
-    if !exists('g:spf13_apply_config_mapping')
-        let s:spf13_apply_config_mapping = '<leader>sv'
+    if !exists('g:vimrc_apply_config_mapping')
+        let s:vimrc_apply_config_mapping = '<leader>sv'
     else
-        let s:spf13_apply_config_mapping = g:spf13_apply_config_mapping
+        let s:vimrc_apply_config_mapping = g:vimrc_apply_config_mapping
     endif
 
-    " Easier moving in tabs and windows
-    " The lines conflict with the default digraph mapping of <C-K>
-    " If you prefer that functionality, add the following to your
+    " easier moving in tabs and windows
+    " the lines conflict with the default digraph mapping of <c-k>
+    " if you prefer that functionality, add the following to your
     " .vimrc.before.local file:
-    "   let g:spf13_no_easyWindows = 1
-    if !exists('g:spf13_no_easyWindows')
-        map <C-J> <C-W>j<C-W>_
-        map <C-K> <C-W>k<C-W>_
-        map <C-L> <C-W>l<C-W>_
-        map <C-H> <C-W>h<C-W>_
+    "   let g:spf13_no_easywindows = 1
+    if !exists('g:vimrc_no_easywindows')
+        map <c-j> <c-w>j<c-w>_
+        map <c-k> <c-w>k<c-w>_
+        map <c-l> <c-w>l<c-w>_
+        map <c-h> <c-w>h<c-w>_
     endif
 
-    " Wrapped lines goes down/up to next row, rather than next line in file.
+    " wrapped lines goes down/up to next row, rather than next line in file.
     noremap j gj
     noremap k gk
 
-    " End/Start of line motion keys act relative to row/wrap width in the
+    " end/start of line motion keys act relative to row/wrap width in the
     " presence of `:set wrap`, and relative to line for `:set nowrap`.
-    " Default vim behaviour is to act relative to text line in both cases
-    " If you prefer the default behaviour, add the following to your
+    " default vim behaviour is to act relative to text line in both cases
+    " if you prefer the default behaviour, add the following to your
     " .vimrc.before.local file:
-    "   let g:spf13_no_wrapRelMotion = 1
-    if !exists('g:spf13_no_wrapRelMotion')
-        " Same for 0, home, end, etc
-        function! WrapRelativeMotion(key, ...)
-            let vis_sel=""
-            if a:0
-                let vis_sel="gv"
-            endif
-            if &wrap
-                execute "normal!" vis_sel . "g" . a:key
-            else
-                execute "normal!" vis_sel . a:key
-            endif
-        endfunction
+    "   let g:spf13_no_wraprelmotion = 1
+    "if !exists('g:vimrc_no_wraprelmotion')
+    "    " same for 0, home, end, etc
+    "    function! wraprelativemotion(key, ...)
+    "        let vis_sel=""
+    "        if a:0
+    "            let vis_sel="gv"
+    "        endif
+    "        if &wrap
+    "            execute "normal!" vis_sel . "g" . a:key
+    "        else
+    "            execute "normal!" vis_sel . a:key
+    "        endif
+    "    endfunction
+    "
+    "    " map g* keys in normal, operator-pending, and visual+select
+    "    noremap $ :call wraprelativemotion("$")<cr>
+    "    noremap <end> :call wraprelativemotion("$")<cr>
+    "    noremap 0 :call wraprelativemotion("0")<cr>
+    "    noremap <home> :call wraprelativemotion("0")<cr>
+    "    noremap ^ :call wraprelativemotion("^")<cr>
+    "    " overwrite the operator pending $/<end> mappings from above
+    "    " to force inclusive motion with :execute normal!
+    "    onoremap $ v:call wraprelativemotion("$")<cr>
+    "    onoremap <end> v:call wraprelativemotion("$")<cr>
+    "    " overwrite the visual+select mode mappings from above
+    "    " to ensure the correct vis_sel flag is passed to function
+    "    vnoremap $ :<c-u>call wraprelativemotion("$", 1)<cr>
+    "    vnoremap <end> :<c-u>call wraprelativemotion("$", 1)<cr>
+    "    vnoremap 0 :<c-u>call wraprelativemotion("0", 1)<cr>
+    "    vnoremap <home> :<c-u>call wraprelativemotion("0", 1)<cr>
+    "    vnoremap ^ :<c-u>call wraprelativemotion("^", 1)<cr>
+    "endif
 
-        " Map g* keys in Normal, Operator-pending, and Visual+select
-        noremap $ :call WrapRelativeMotion("$")<CR>
-        noremap <End> :call WrapRelativeMotion("$")<CR>
-        noremap 0 :call WrapRelativeMotion("0")<CR>
-        noremap <Home> :call WrapRelativeMotion("0")<CR>
-        noremap ^ :call WrapRelativeMotion("^")<CR>
-        " Overwrite the operator pending $/<End> mappings from above
-        " to force inclusive motion with :execute normal!
-        onoremap $ v:call WrapRelativeMotion("$")<CR>
-        onoremap <End> v:call WrapRelativeMotion("$")<CR>
-        " Overwrite the Visual+select mode mappings from above
-        " to ensure the correct vis_sel flag is passed to function
-        vnoremap $ :<C-U>call WrapRelativeMotion("$", 1)<CR>
-        vnoremap <End> :<C-U>call WrapRelativeMotion("$", 1)<CR>
-        vnoremap 0 :<C-U>call WrapRelativeMotion("0", 1)<CR>
-        vnoremap <Home> :<C-U>call WrapRelativeMotion("0", 1)<CR>
-        vnoremap ^ :<C-U>call WrapRelativeMotion("^", 1)<CR>
-    endif
-
-    " The following two lines conflict with moving to top and
+    " the following two lines conflict with moving to top and
     " bottom of the screen
-    " If you prefer that functionality, add the following to your
+    " if you prefer that functionality, add the following to your
     " .vimrc.before.local file:
-    "   let g:spf13_no_fastTabs = 1
-    if !exists('g:spf13_no_fastTabs')
-        map <S-H> gT
-        map <S-L> gt
+    "   let g:spf13_no_fasttabs = 1
+    if !exists('g:vimrc_no_fasttabs')
+        map <s-h> gt
+        map <s-l> gt
     endif
 
-    " Stupid shift key fixes
-    if !exists('g:spf13_no_keyfixes')
-        if has("user_commands")
-            command! -bang -nargs=* -complete=file E e<bang> <args>
-            command! -bang -nargs=* -complete=file W w<bang> <args>
-            command! -bang -nargs=* -complete=file Wq wq<bang> <args>
-            command! -bang -nargs=* -complete=file WQ wq<bang> <args>
-            command! -bang Wa wa<bang>
-            command! -bang WA wa<bang>
-            command! -bang Q q<bang>
-            command! -bang QA qa<bang>
-            command! -bang Qa qa<bang>
-        endif
+    " stupid shift key fixes
+    "if !exists('g:vimrc_no_keyfixes')
+    "    if has("user_commands")
+    "        command! -bang -nargs=* -complete=file e e<bang> <args>
+    "        command! -bang -nargs=* -complete=file w w<bang> <args>
+    "        command! -bang -nargs=* -complete=file wq wq<bang> <args>
+    "        command! -bang -nargs=* -complete=file wq wq<bang> <args>
+    "        command! -bang wa wa<bang>
+    "        command! -bang wa wa<bang>
+    "        command! -bang q q<bang>
+    "        command! -bang qa qa<bang>
+    "        command! -bang qa qa<bang>
+    "    endif
+    "
+    "    cmap tabe tabe
+    "endif
 
-        cmap Tabe tabe
-    endif
+    " yank from the cursor to the end of the line, to be consistent with c and d.
+    nnoremap y y$
 
-    " Yank from the cursor to the end of the line, to be consistent with C and D.
-    nnoremap Y y$
+    " code folding options
+    nmap <leader>f0 :set foldlevel=0<cr>
+    nmap <leader>f1 :set foldlevel=1<cr>
+    nmap <leader>f2 :set foldlevel=2<cr>
+    nmap <leader>f3 :set foldlevel=3<cr>
+    nmap <leader>f4 :set foldlevel=4<cr>
+    nmap <leader>f5 :set foldlevel=5<cr>
+    nmap <leader>f6 :set foldlevel=6<cr>
+    nmap <leader>f7 :set foldlevel=7<cr>
+    nmap <leader>f8 :set foldlevel=8<cr>
+    nmap <leader>f9 :set foldlevel=9<cr>
 
-    " Code folding options
-    nmap <leader>f0 :set foldlevel=0<CR>
-    nmap <leader>f1 :set foldlevel=1<CR>
-    nmap <leader>f2 :set foldlevel=2<CR>
-    nmap <leader>f3 :set foldlevel=3<CR>
-    nmap <leader>f4 :set foldlevel=4<CR>
-    nmap <leader>f5 :set foldlevel=5<CR>
-    nmap <leader>f6 :set foldlevel=6<CR>
-    nmap <leader>f7 :set foldlevel=7<CR>
-    nmap <leader>f8 :set foldlevel=8<CR>
-    nmap <leader>f9 :set foldlevel=9<CR>
-
-    " Most prefer to toggle search highlighting rather than clear the current
-    " search results. To clear search highlighting rather than toggle it on
+    " most prefer to toggle search highlighting rather than clear the current
+    " search results. to clear search highlighting rather than toggle it on
     " and off, add the following to your .vimrc.before.local file:
     "   let g:spf13_clear_search_highlight = 1
-    if exists('g:spf13_clear_search_highlight')
-        nmap <silent> <leader>/ :nohlsearch<CR>
+    if exists('g:vimrc_clear_search_highlight')
+        nmap <silent> <leader>/ :nohlsearch<cr>
     else
-        nmap <silent> <leader>/ :set invhlsearch<CR>
+        nmap <silent> <leader>/ :set invhlsearch<cr>
     endif
 
 
-    " Find merge conflict markers
-    map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
+    " find merge conflict markers
+    map <leader>fc /\v^[<\|=>]{7}( .*\|$)<cr>
 
-    " Shortcuts
-    " Change Working Directory to that of the current file
+    " shortcuts
+    " change working directory to that of the current file
     cmap cwd lcd %:p:h
     cmap cd. lcd %:p:h
 
-    " Visual shifting (does not exit Visual mode)
+    " visual shifting (does not exit visual mode)
     vnoremap < <gv
     vnoremap > >gv
 
-    " Allow using the repeat operator with a visual selection (!)
+    " allow using the repeat operator with a visual selection (!)
     " http://stackoverflow.com/a/8064607/127816
-    vnoremap . :normal .<CR>
+    vnoremap . :normal .<cr>
 
-    " For when you forget to sudo.. Really Write the file.
+    " for when you forget to sudo.. really write the file.
     cmap w!! w !sudo tee % >/dev/null
 
-    " Some helpers to edit mode
+    " some helpers to edit mode
     " http://vimcasts.org/e/14
-    cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>
+    cnoremap %% <c-r>=fnameescape(expand('%:h')).'/'<cr>
     map <leader>ew :e %%
     map <leader>es :sp %%
     map <leader>ev :vsp %%
     map <leader>et :tabe %%
 
-    " Adjust viewports to the same size
-    map <Leader>= <C-w>=
+    " adjust viewports to the same size
+    map <leader>= <c-w>=
 
-    " Map <Leader>ff to display all lines with keyword under cursor
+    " map <leader>ff to display all lines with keyword under cursor
     " and ask which one to jump to
-    nmap <Leader>ff [I:let nr = input("Which one: ")<Bar>exe "normal " . nr ."[\t"<CR>
+    nmap <leader>ff [i:let nr = input("which one: ")<bar>exe "normal " . nr ."[\t"<cr>
 
-    " Easier horizontal scrolling
-    map zl zL
-    map zh zH
+    " easier horizontal scrolling
+    map zl zl
+    map zh zh
 
-    " Easier formatting
+    " easier formatting
     nnoremap <silent> <leader>q gwip
 
-    " FIXME: Revert this f70be548
-    " fullscreen mode for GVIM and Terminal, need 'wmctrl' in you PATH
-    map <silent> <F11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<CR>
+    " fixme: revert this f70be548
+    " fullscreen mode for gvim and terminal, need 'wmctrl' in you path
+    map <silent> <f11> :call system("wmctrl -ir " . v:windowid . " -b toggle,fullscreen")<cr>
 
 " }
 
 " Plugins {
 
     " GoLang {
-        if count(g:spf13_bundle_groups, 'go')
+        if count(g:vimrc_bundle_groups, 'go')
             let g:go_highlight_functions = 1
             let g:go_highlight_methods = 1
             let g:go_highlight_structs = 1
@@ -482,7 +635,7 @@
 
 
     " TextObj Sentence {
-        if count(g:spf13_bundle_groups, 'writing')
+        if count(g:vimrc_bundle_groups, 'writing')
             augroup textobj_sentence
               autocmd!
               autocmd FileType markdown call textobj#sentence#init()
@@ -493,7 +646,7 @@
     " }
 
     " TextObj Quote {
-        if count(g:spf13_bundle_groups, 'writing')
+        if count(g:vimrc_bundle_groups, 'writing')
             augroup textobj_quote
                 autocmd!
                 autocmd FileType markdown call textobj#quote#init()
@@ -522,7 +675,7 @@
     " OmniComplete {
         " To disable omni complete, add the following to your .vimrc.before.local file:
         "   let g:spf13_no_omni_complete = 1
-        if !exists('g:spf13_no_omni_complete')
+        if !exists('g:vimrc_no_omni_complete')
             if has("autocmd") && exists("+omnifunc")
                 autocmd Filetype *
                     \if &omnifunc == "" |
@@ -536,7 +689,7 @@
 
             " Some convenient mappings
             "inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
-            if exists('g:spf13_map_cr_omni_complete')
+            if exists('g:vimrc_map_cr_omni_complete')
                 inoremap <expr> <CR>     pumvisible() ? "\<C-y>" : "\<CR>"
             endif
             inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
@@ -710,7 +863,7 @@
     "}
 
     " YouCompleteMe {
-        if count(g:spf13_bundle_groups, 'youcompleteme')
+        if count(g:vimrc_bundle_groups, 'youcompleteme')
             let g:acp_enableAtStartup = 0
 
             " enable completion from tags
@@ -738,7 +891,7 @@
             endif
 
             " For snippet_complete marker.
-            if !exists("g:spf13_no_conceal")
+            if !exists("g:vimrc_no_conceal")
                 if has('conceal')
                     set conceallevel=2 concealcursor=i
                 endif
@@ -752,7 +905,7 @@
     " }
 
     " neocomplete {
-        if count(g:spf13_bundle_groups, 'neocomplete')
+        if count(g:vimrc_bundle_groups, 'neocomplete')
             let g:acp_enableAtStartup = 0
             let g:neocomplete#enable_at_startup = 1
             let g:neocomplete#enable_smart_case = 1
@@ -776,11 +929,11 @@
 
             " Plugin key-mappings {
                 " These two lines conflict with the default digraph mapping of <C-K>
-                if !exists('g:spf13_no_neosnippet_expand')
+                if !exists('g:vimrc_no_neosnippet_expand')
                     imap <C-k> <Plug>(neosnippet_expand_or_jump)
                     smap <C-k> <Plug>(neosnippet_expand_or_jump)
                 endif
-                if exists('g:spf13_noninvasive_completion')
+                if exists('g:vimrc_noninvasive_completion')
                     inoremap <CR> <CR>
                     " <ESC> takes you out of insert mode
                     inoremap <expr> <Esc>   pumvisible() ? "\<C-y>\<Esc>" : "\<Esc>"
@@ -866,7 +1019,7 @@
             let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\h\w*\|\h\w*::'
     " }
     " neocomplcache {
-        elseif count(g:spf13_bundle_groups, 'neocomplcache')
+        elseif count(g:vimrc_bundle_groups, 'neocomplcache')
             let g:acp_enableAtStartup = 0
             let g:neocomplcache_enable_at_startup = 1
             let g:neocomplcache_enable_camel_case_completion = 1
@@ -893,7 +1046,7 @@
                 " These two lines conflict with the default digraph mapping of <C-K>
                 imap <C-k> <Plug>(neosnippet_expand_or_jump)
                 smap <C-k> <Plug>(neosnippet_expand_or_jump)
-                if exists('g:spf13_noninvasive_completion')
+                if exists('g:vimrc_noninvasive_completion')
                     inoremap <CR> <CR>
                     " <ESC> takes you out of insert mode
                     inoremap <expr> <Esc>   pumvisible() ? "\<C-y>\<Esc>" : "\<Esc>"
@@ -968,7 +1121,7 @@
     " Normal Vim omni-completion {
     " To disable omni complete, add the following to your .vimrc.before.local file:
     "   let g:spf13_no_omni_complete = 1
-        elseif !exists('g:spf13_no_omni_complete')
+        elseif !exists('g:vimrc_no_omni_complete')
             " Enable omni-completion.
             autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
             autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
@@ -982,8 +1135,8 @@
     " }
 
     " Snippets {
-        if count(g:spf13_bundle_groups, 'neocomplcache') ||
-                    \ count(g:spf13_bundle_groups, 'neocomplete')
+        if count(g:vimrc_bundle_groups, 'neocomplcache') ||
+                    \ count(g:vimrc_bundle_groups, 'neocomplete')
 
             " Use honza's snippets.
             let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
@@ -992,7 +1145,7 @@
             let g:neosnippet#enable_snipmate_compatibility = 1
 
             " For snippet_complete marker.
-            if !exists("g:spf13_no_conceal")
+            if !exists("g:vimrc_no_conceal")
                 if has('conceal')
                     set conceallevel=2 concealcursor=i
                 endif
@@ -1072,7 +1225,7 @@
     if has('gui_running')
         set guioptions-=T           " Remove the toolbar
         set lines=40                " 40 lines of text instead of 24
-        if !exists("g:spf13_no_big_font")
+        if !exists("g:vimrc_no_big_font")
             if LINUX() && has("gui_running")
                 set guifont=Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
             elseif OSX() && has("gui_running")
@@ -1110,8 +1263,8 @@
         " your .vimrc.before.local file:
         "   let g:spf13_consolidated_directory = <full path to desired directory>
         "   eg: let g:spf13_consolidated_directory = $HOME . '/.vim/'
-        if exists('g:spf13_consolidated_directory')
-            let common_dir = g:spf13_consolidated_directory . prefix
+        if exists('g:vimrc_consolidated_directory')
+            let common_dir = g:vimrc_consolidated_directory . prefix
         else
             let common_dir = parent . '/.' . prefix
         endif
@@ -1186,7 +1339,7 @@
     " e.g. Grep current file for <search_term>: Shell grep -Hn <search_term> %
     " }
 
-    function! s:IsSpf13Fork()
+    function! s:IsVimrcFork()
         let s:is_fork = 0
         let s:fork_files = ["~/.vimrc.fork", "~/.vimrc.before.fork", "~/.vimrc.bundles.fork"]
         for fork_file in s:fork_files
@@ -1202,7 +1355,7 @@
         execute a:command . " " . expand(a:file, ":p")
     endfunction
      
-    function! s:EditSpf13Config()
+    function! s:EditVimrcConfig()
         call <SID>ExpandFilenameAndExecute("tabedit", "~/.vimrc")
         call <SID>ExpandFilenameAndExecute("vsplit", "~/.vimrc.before")
         call <SID>ExpandFilenameAndExecute("vsplit", "~/.vimrc.bundles")
@@ -1214,7 +1367,7 @@
         wincmd l
         call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.bundles.local")
      
-        if <SID>IsSpf13Fork()
+        if <SID>IsVimrcFork()
             execute bufwinnr(".vimrc") . "wincmd w"
             call <SID>ExpandFilenameAndExecute("split", "~/.vimrc.fork")
             wincmd l
@@ -1226,8 +1379,8 @@
         execute bufwinnr(".vimrc.local") . "wincmd w"
     endfunction
      
-    execute "noremap " . s:spf13_edit_config_mapping " :call <SID>EditSpf13Config()<CR>"
-    execute "noremap " . s:spf13_apply_config_mapping . " :source ~/.vimrc<CR>"
+    execute "noremap " . s:vimrc_edit_config_mapping " :call <SID>EditVimrcConfig()<CR>"
+    execute "noremap " . s:vimrc_apply_config_mapping . " :source ~/.vimrc<CR>"
 " }
 
 " Use fork vimrc if available {
