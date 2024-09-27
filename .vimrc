@@ -1,35 +1,20 @@
 " Modeline and Notes {
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
 "
-"            _____                    _____                    _____'
-"           /\    \                  /\    \                  /\    \'
-"          /::\____\                /::\    \                /::\____\'
-"         /:::/    /                \:::\    \              /::::|   |'
-"        /:::/    /                  \:::\    \            /:::::|   |'
-"       /:::/    /                    \:::\    \          /::::::|   |'
-"      /:::/____/                      \:::\    \        /:::/|::|   |'
-"      |::|    |                       /::::\    \      /:::/ |::|   |'
-"      |::|    |     _____    ____    /::::::\    \    /:::/  |::|___|______'
-"      |::|    |    /\    \  /\   \  /:::/\:::\    \  /:::/   |::::::::\    \'
-"      |::|    |   /::\____\/::\   \/:::/  \:::\____\/:::/    |:::::::::\____\'
-"      |::|    |  /:::/    /\:::\  /:::/    \::/    /\::/    / ~~~~~/:::/    /'
-"      |::|    | /:::/    /  \:::\/:::/    / \/____/  \/____/      /:::/    /'
-"      |::|____|/:::/    /    \::::::/    /                       /:::/    /'
-"      |:::::::::::/    /      \::::/____/                       /:::/    /'
-"      \::::::::::/____/        \:::\    \                      /:::/    /'
-"       ~~~~~~~~~~               \:::\    \                    /:::/    /'
-"                                 \:::\    \                  /:::/    /'
-"                                  \:::\____\                /:::/    /'
-"                                   \::/    /                \::/    /'
-"                                    \/____/                  \/____/'
+"                    __ _ _____              _
+"         ___ _ __  / _/ |___ /      __   __(_)_ __ ___
+"        / __| '_ \| |_| | |_ \ _____\ \ / /| | '_ ` _ \
+"        \__ \ |_) |  _| |___) |_____|\ V / | | | | | | |
+"        |___/ .__/|_| |_|____/        \_/  |_|_| |_| |_|
+"            |_|
 "
-"   This is the personal .vimrc file of Bruce.
+"   This is the personal .vimrc file of Steve Francia.
 "   While much of it is beneficial for general use, I would
 "   recommend picking out the parts you want and understand.
 "
-"   You can find me at http://guodongq.github.io
+"   You can find me at http://spf13.com
 "
-"   Copyright 2024 Bruce
+"   Copyright 2014 Steve Francia
 "
 "   Licensed under the Apache License, Version 2.0 (the "License");
 "   you may not use this file except in compliance with the License.
@@ -72,7 +57,7 @@
           set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
         endif
     " }
-
+    
     " Arrow Key Fix {
         " https://github.com/spf13/spf13-vim/issues/780
         if &term[:4] == "xterm" || &term[:5] == 'screen' || &term[:3] == 'rxvt'
@@ -127,7 +112,7 @@
         endif
     endif
 
-      " Most prefer to automatically switch to the current file directory when
+    " Most prefer to automatically switch to the current file directory when
     " a new buffer is opened; to prevent this behavior, add the following to
     " your .vimrc.before.local file:
     "   let g:spf13_no_autochdir = 1
@@ -1264,7 +1249,3 @@
         endif
     endif
 " }
-
-
-
-
