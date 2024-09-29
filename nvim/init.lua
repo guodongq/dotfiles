@@ -152,10 +152,10 @@ vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right win
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
-vim.keymap.set("n", "<leader>wd", "<cmd>wincmd c<cr>", { desc = "[D]elete Current Window" })
-vim.keymap.set("n", "<leader>wD", "<cmd>wincmd o<cr>", { desc = "[D]elete Other Windows" })
-vim.keymap.set("n", "<leader>ws", "<cmd>sp<cr>", { desc = "[S]plit Window" })
-vim.keymap.set("n", "<leader>wv", "<cmd>vsp<cr>", { desc = "Split Window [V]ertically" })
+vim.keymap.set("n", "<leader>wd", "<cmd>wincmd c<cr>", { desc = "[D]elete Current [W]indow" })
+vim.keymap.set("n", "<leader>wD", "<cmd>wincmd o<cr>", { desc = "[D]elete Other [W]indows" })
+vim.keymap.set("n", "<leader>ws", "<cmd>sp<cr>", { desc = "[S]plit [W]indow" })
+vim.keymap.set("n", "<leader>wv", "<cmd>vsp<cr>", { desc = "Split [W]indow [V]ertically" })
 
 -- Buffer navigation
 vim.keymap.set("n", "<S-l>", "<cmd>bnext<CR>", { desc = "Next buffer" })
@@ -248,18 +248,18 @@ require("lazy").setup({
 	--    require('gitsigns').setup({ ... })
 	--
 	-- See `:help gitsigns` to understand what the configuration keys do
-	{ -- Adds git related signs to the gutter, as well as utilities for managing changes
-		"lewis6991/gitsigns.nvim",
-		opts = {
-			signs = {
-				add = { text = "+" },
-				change = { text = "~" },
-				delete = { text = "_" },
-				topdelete = { text = "‾" },
-				changedelete = { text = "~" },
-			},
-		},
-	},
+	-- { -- Adds git related signs to the gutter, as well as utilities for managing changes
+	-- 	"lewis6991/gitsigns.nvim",
+	-- 	opts = {
+	-- 		signs = {
+	-- 			add = { text = "+" },
+	-- 			change = { text = "~" },
+	-- 			delete = { text = "_" },
+	-- 			topdelete = { text = "‾" },
+	-- 			changedelete = { text = "~" },
+	-- 		},
+	-- 	},
+	-- },
 
 	-- NOTE: Plugins can also be configured to run Lua code when they are loaded.
 	--
@@ -1670,13 +1670,13 @@ require("lazy").setup({
 		event = "VeryLazy",
 		opts = {},
 		keys = {
-			{ "<leader>wm", "<cmd>lua require('maximizer').toggle()<cr>", desc = "[M]aximize Current Window" },
+			{ "<leader>wm", "<cmd>lua require('maximizer').toggle()<cr>", desc = "[M]aximize Current [W]indow" },
 		},
 	},
 	{ -- Pick a window
 		"yorickpeterse/nvim-window",
 		keys = {
-			{ "<leader>wp", "<cmd>lua require('nvim-window').pick()<cr>", desc = "[P]ick Window" },
+			{ "<leader>wp", "<cmd>lua require('nvim-window').pick()<cr>", desc = "[P]ick [W]indow" },
 		},
 		opts = {
 			-- The characters available for hinting windows.
