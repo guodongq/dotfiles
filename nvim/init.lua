@@ -79,6 +79,21 @@ vim.schedule(function()
 	vim.opt.clipboard = "unnamedplus"
 end)
 
+if vim.fn.has("wsl") == 1 then
+	vim.g.clipboard = {
+		name = "WslClipboard",
+		copy = {
+			["+"] = "clip.exe",
+			["*"] = "clip.exe",
+		},
+		paste = {
+			["+"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+			["*"] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+		},
+		cache_enabled = 0,
+	}
+end
+
 -- Enable break indent
 vim.opt.breakindent = true
 
@@ -1294,7 +1309,7 @@ require("lazy").setup({
 		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
 		"folke/tokyonight.nvim",
 		priority = 1000, -- Make sure to load this before all the other start plugins.
-		enabled = true,
+		enabled = false,
 		init = function()
 			-- Load the colorscheme here.
 			-- Like many other themes, this one has different styles, and you could load
@@ -1307,7 +1322,7 @@ require("lazy").setup({
 	},
 	{ -- Gruvbox
 		"ellisonleao/gruvbox.nvim",
-		enabled = false,
+		enabled = true,
 		--lazy = false,
 		-- config = false,
 		priority = 1000,
@@ -1776,6 +1791,7 @@ require("lazy").setup({
 	{ -- Highlight todo, notes, etc in comments
 		"folke/todo-comments.nvim",
 		event = "VimEnter",
+		enabled = false,
 		dependencies = { "nvim-lua/plenary.nvim" },
 		opts = { signs = false },
         -- stylua: ignore
