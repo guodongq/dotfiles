@@ -116,27 +116,7 @@
 " }
 
 " General {
-    set background=dark " Assume a dark background
-
-    " Allow to trigger background
-    function! ToggleBG()
-        let s:tbg = &background
-        if s:tbg == "dark"
-            set background=light
-        else
-            set background=dark
-        endif
-    endfunction
-" }
-
-" Vim UI {
-    if filereadable(expand("~/.vim/bundle/gruvbox/colors/gruvbox.vim"))
-    color gruvbox
-    endif
-" }
-
-" Key (re)Mappings {
-    " let g:leader=' '
+    " Leader key {
     if !exists('g:leader')
         let mapleader = ' '
     else
@@ -147,33 +127,62 @@
     else
         let maplocalleader=g:localleader
     endif
-" }
+    " }
 
-" Plugins {
+
     " Which-Key {
     if isdirectory(expand("~/.vim/bundle/vim-which-key"))
         nnoremap <silent> <leader> :<c-u>WhichKey '<Space>'<CR>
         vnoremap <silent> <leader> :<c-u>WhichKeyVisual '<Space>'<CR>
         let g:which_key_map = {}
         let g:which_key_map.b = {
-            \ 'name' : '+buffer',
-            \ 'a': 'Delete all buffer',
-            \ 'd': 'Delete current buffer',
-            \ 'g': 'Trigger background',
-            \ 'n': 'Switch to next buffer or tab',
-            \ 'p': 'Switch to previous buffer or tab',
-            \ 'D': 'Delete all buffer except current one',
+            \ 'name' : '+[B]uffer',
+            \ 'a': '[D]elete [A]ll Buffers',
+            \ 'd': '[D]elete Current Buffer',
+            \ 'D': '[D]elete Other Buffers',
+            \ 'g': 'Trigger back[g]round color',
+            \ 'n': '[N]ext Buffer',
+            \ 'p': '[P]revious Buffer',
+            \ 'l': '[L]ist Buffers',
             \ }
+        let g:which_key_map.e = 'Toggle [E]xplorer'
+        let g:which_key_map.H = 'Clear [H]ighlights'
+        let g:which_key_map.S = '[S]ave file'
+        let g:which_key_map.Q = '[Q]uit Vim'
 
         call which_key#register('<Space>', "g:which_key_map")
-
-        map <silent> <leader>bg :call ToggleBG()<CR>
     endif
     " }
 
+    " Allow to trigger background
+    function! ToggleBG()
+        let s:tbg = &background
+        if s:tbg == "dark"
+            set background=light
+        else
+            set background=dark
+        endif
+    endfunction
+    map <silent> <leader>bg :call ToggleBG()<CR>
+" }
+
+" Vim UI {
+    if filereadable(expand("~/.vim/bundle/gruvbox/colors/gruvbox.vim"))
+    set background=dark
+    color gruvbox
+    endif
+" }
+
+" Key (re)Mappings {
+    noremap <leader>H :nohlsearch<CR>
+    noremap <leader>Q :confirm qall<CR>
+    noremap <leader>S :w!<CR>
+" }
+
+" Plugins {
     " NerdTree {
     if isdirectory(expand("~/.vim/bundle/nerdtree"))
-        nmap <leader>e :NERDTreeFind<CR>
+        nmap <leader>e :NERDTreeToggle<CR>
 
         let NERDTreeShowBookmarks=1
         let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
