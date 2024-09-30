@@ -159,8 +159,8 @@ fi
 # >>> alias >>>
 ##########################
 alias k=kubectl
-# alias vim=nvim
-# alias vi=nvim
+alias vim=nvim
+alias vi=nvim
 alias python=python3
 alias pip=pip3
 if [ -f /etc/wsl.conf ]; then
