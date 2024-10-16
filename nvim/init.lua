@@ -1412,7 +1412,7 @@ require("lazy").setup({
 	{ -- Dashboard
 		"goolord/alpha-nvim",
 		event = "VimEnter",
-		enabled = true,
+		enabled = false,
 		opts = function()
 			local dashboard = require("alpha.themes.dashboard")
 			-- Set header
