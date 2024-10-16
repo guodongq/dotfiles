@@ -139,14 +139,16 @@ export PATH=/opt/anaconda3/bin:$PATH
 ##########################
 # >>> golang >>>
 ##########################
-export GOROOT=${HOMEBREW_CELLAR}/go/1.23.1/libexec
+export GOROOT=${HOMEBREW_CELLAR}/go/1.23.2/libexec
 export GOPATH=${HOME}/Workspaces
 export PATH=$PATH:${GOPATH}/bin
 
 ##########################
 # >>> gnu-sed >>>
 ##########################
-PATH=$PATH:/opt/homebrew/opt/gnu-sed/libexec/gnubin
+if [ "$(uname)" = "Darwin" ]; then
+    PATH=$PATH:/opt/homebrew/opt/gnu-sed/libexec/gnubin
+fi
 
 ##########################
 # >>> node >>>

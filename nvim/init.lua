@@ -299,7 +299,7 @@ require("lazy").setup({
 		opts = {
 			icons = {
 				-- set icon mappings to true if you have a Nerd Font
-				mappings = vim.g.have_nerd_font,
+				mappings = false, --vim.g.have_nerd_font,
 				-- If you are using a Nerd Font: set icons.keys to an empty table which will use the
 				-- default whick-key.nvim defined Nerd Font icons, otherwise define a string table
 				keys = vim.g.have_nerd_font and {} or {
@@ -487,7 +487,7 @@ require("lazy").setup({
 			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
 		},
 		keys = {
-			{ "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Toggle [E]xplorer", silent = true },
+			{ "<leader>e", "<cmd>NvimTreeFindFileToggle<cr>", desc = "Toggle [E]xplorer", silent = true },
 		},
 		opts = {
 			on_attach = function(bufnr)
@@ -1798,6 +1798,27 @@ require("lazy").setup({
         keys = {
             { '<leader>tt', '<cmd>TodoTelescope<cr>', desc = '[T]oggle [T]odo Comments' },
         },
+	},
+	{ -- Markdown highlight
+		"tpope/vim-markdown",
+		config = function()
+			vim.g.markdown_syntax_conceal = 0
+			vim.g.markdown_fenced_languages = {
+				"python",
+				"bash=sh",
+				"html",
+				"json",
+				"java",
+				"js=javascript",
+				"sql",
+				"yaml",
+				"xml",
+				"Dockerfile",
+				"Rust",
+				"lua",
+				"go",
+			}
+		end,
 	},
 	-- }
 
