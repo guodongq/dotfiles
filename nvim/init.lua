@@ -121,7 +121,7 @@ vim.opt.splitbelow = true
 -- Sets how neovim will display certain whitespace characters in the editor.
 --  See `:help 'list'`
 --  and `:help 'listchars'`
-vim.opt.list = true
+-- vim.opt.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Preview substitutions live, as you type!
@@ -297,6 +297,7 @@ require("lazy").setup({
 		"folke/which-key.nvim",
 		event = "VimEnter", -- Sets the loading event to 'VimEnter'
 		opts = {
+			delay = 0,
 			icons = {
 				-- set icon mappings to true if you have a Nerd Font
 				mappings = false, --vim.g.have_nerd_font,
@@ -567,17 +568,17 @@ require("lazy").setup({
 			-- Simple and easy statusline.
 			--  You could remove this setup call if you don't like it,
 			--  and try some other statusline plugin
-			local statusline = require("mini.statusline")
+			-- local statusline = require("mini.statusline")
 			-- set use_icons to true if you have a Nerd Font
-			statusline.setup({ use_icons = vim.g.have_nerd_font })
+			-- statusline.setup({ use_icons = vim.g.have_nerd_font })
 
 			-- You can configure sections in the statusline by overriding their
 			-- default behavior. For example, here we set the section for
 			-- cursor location to LINE:COLUMN
 			---@diagnostic disable-next-line: duplicate-set-field
-			statusline.section_location = function()
-				return "%2l:%-2v"
-			end
+			-- statusline.section_location = function()
+			-- 	return "%2l:%-2v"
+			-- end
 
 			-- ... and there is more!
 			--  Check out: https://github.com/echasnovski/mini.nvim
@@ -594,22 +595,22 @@ require("lazy").setup({
 		opts = {
 			library = {
 				-- Load luvit types when the `vim.uv` word is found
-				{ path = "luvit-meta/library", words = { "vim%.uv" } },
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
 			},
 		},
 	},
-	{ "Bilal2453/luvit-meta", lazy = true },
 	{
 		-- Main LSP Configuration
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			-- Automatically install LSPs and related tools to stdpath for Neovim
-			{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
+			-- Mason must be loaded before its dependents so we need to set it up here.
+			-- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
+			{ "williamboman/mason.nvim", opts = {} },
 			"williamboman/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 
 			-- Useful status updates for LSP.
-			-- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
 			{ "j-hui/fidget.nvim", opts = {} },
 
 			-- Allows extra capabilities provided by nvim-cmp
@@ -777,13 +778,14 @@ require("lazy").setup({
 						local util = require("lspconfig/util")
 						local path = util.path
 
+						-- Function to get the Python executable path
 						local function get_python_path(workspace)
-							-- Use activated virtualenv.
+							-- Use activated virtual environment if available
 							if vim.env.VIRTUAL_ENV then
 								return path.join(vim.env.VIRTUAL_ENV, "bin", "python")
 							end
 
-							-- Find and use virtualenv in workspace directory.
+							-- Search for virtualenv in the workspace directory
 							for _, pattern in ipairs({ "*", ".*" }) do
 								local match = vim.fn.glob(path.join(workspace, pattern, "pyvenv.cfg"))
 								if match ~= "" then
@@ -791,10 +793,11 @@ require("lazy").setup({
 								end
 							end
 
-							-- Fallback to system Python.
-							return exepath("python3") or exepath("python") or "python"
+							-- Fallback to system Python
+							return vim.fn.exepath("python3") or vim.fn.exepath("python") or "python"
 						end
 
+						-- Set the Python path in the pyright config
 						config.settings.python.pythonPath = get_python_path(config.root_dir)
 					end,
 				},
@@ -901,9 +904,6 @@ require("lazy").setup({
 			--  other tools, you can run
 			--    :Mason
 			--
-			--  You can press `g?` for help in this menu.
-			require("mason").setup()
-
 			-- You can add other tools here that you want Mason to install
 			-- for you, so that they are available from within Neovim.
 			local ensure_installed = vim.tbl_keys(servers or {})
@@ -1293,7 +1293,12 @@ require("lazy").setup({
 			vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
 				group = lint_augroup,
 				callback = function()
-					lint.try_lint()
+					-- Only run the linter in buffers that you can modify in order to
+					-- avoid superfluous noise, notably within the handy LSP pop-ups that
+					-- describe the hovered symbol using Markdown.
+					if vim.opt_local.modifiable:get() then
+						lint.try_lint()
+					end
 				end,
 			})
 		end,
@@ -1309,12 +1314,12 @@ require("lazy").setup({
 		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
 		"folke/tokyonight.nvim",
 		priority = 1000, -- Make sure to load this before all the other start plugins.
-		enabled = false,
+		enabled = true,
 		init = function()
 			-- Load the colorscheme here.
 			-- Like many other themes, this one has different styles, and you could load
-			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-			vim.cmd.colorscheme("tokyonight-night")
+			-- any other, such as 'tokyonight-storm', 'tokyonight-moon', 'tokyonight-night', or 'tokyonight-day'
+			vim.cmd.colorscheme("tokyonight")
 
 			-- You can configure highlights by doing something like:
 			vim.cmd.hi("Comment gui=none")
@@ -1322,7 +1327,7 @@ require("lazy").setup({
 	},
 	{ -- Gruvbox
 		"ellisonleao/gruvbox.nvim",
-		enabled = true,
+		enabled = false,
 		--lazy = false,
 		-- config = false,
 		priority = 1000,
@@ -1412,7 +1417,7 @@ require("lazy").setup({
 	{ -- Dashboard
 		"goolord/alpha-nvim",
 		event = "VimEnter",
-		enabled = false,
+		enabled = true,
 		opts = function()
 			local dashboard = require("alpha.themes.dashboard")
 			-- Set header
@@ -1644,7 +1649,7 @@ require("lazy").setup({
 	},
 	{ -- Lualine
 		"nvim-lualine/lualine.nvim",
-		enabled = false,
+		enabled = true,
 		event = "VeryLazy",
 		dependencies = {
 			{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
@@ -1664,6 +1669,22 @@ require("lazy").setup({
 	-- }
 
 	-- Tools {
+	{ -- Noice
+		"folke/noice.nvim",
+		enabled = false,
+		event = "VeryLazy",
+		opts = {
+			-- add any options here
+		},
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+		},
+	},
 	{ -- Hop is a Neovim plugin to jump to any location in the visible area
 		"smoka7/hop.nvim",
 		version = "*",
@@ -1746,7 +1767,7 @@ require("lazy").setup({
 	{ -- Terminal
 		"akinsho/toggleterm.nvim",
 		version = "*",
-		enabled = false,
+		enabled = true,
 		event = "VeryLazy",
 		opts = {
 			size = 20,
@@ -1819,6 +1840,15 @@ require("lazy").setup({
 				"go",
 			}
 		end,
+	},
+	{ -- Markdown preview
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		build = "cd app && yarn install",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
+		end,
+		ft = { "markdown" },
 	},
 	-- }
 

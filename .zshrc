@@ -11,7 +11,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
 #ZSH_THEME="af-magic"
-ZSH_THEME="mgutz"
+ZSH_THEME="agnoster" # set by `omz`
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -120,26 +120,9 @@ else
 fi
 
 ##########################
-# >>> anaconda3 >>>
-##########################
-#!! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-export PATH=/opt/anaconda3/bin:$PATH
-
-##########################
 # >>> golang >>>
 ##########################
-export GOROOT=${HOMEBREW_CELLAR}/go/1.23.2/libexec
+export GOROOT=${HOMEBREW_CELLAR}/go/1.24.0/libexec
 export GOPATH=${HOME}/Workspaces
 export PATH=$PATH:${GOPATH}/bin
 
@@ -179,3 +162,13 @@ if [ "$(uname)" = "Darwin" ]; then
     export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
     export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 fi
+
+export LDFLAGS="-L/opt/homebrew/opt/openblas/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/openblas/include"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
+
+# fix scipy error in python
+# export OPENBLAS="$(brew --prefix openblas)"
+# export CFLAGS="-I${OPENBLAS}/include"
+# export LDFLAGS="-L${OPENBLAS}/lib"
+# export PATH="${OPENBLAS}/bin:$PATH"
