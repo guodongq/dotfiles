@@ -11,7 +11,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
 #ZSH_THEME="af-magic"
-ZSH_THEME="agnoster" # set by `omz`
+ZSH_THEME="clean" # set by `omz`
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -95,6 +95,8 @@ source $ZSH/oh-my-zsh.sh
 # else
 #   export EDITOR='mvim'
 # fi
+export EDITOR=nvim
+export VISUAL=nvim
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -122,7 +124,7 @@ fi
 ##########################
 # >>> golang >>>
 ##########################
-export GOROOT=${HOMEBREW_CELLAR}/go/1.24.0/libexec
+export GOROOT=${HOMEBREW_CELLAR}/go/1.24.2/libexec
 export GOPATH=${HOME}/Workspaces
 export PATH=$PATH:${GOPATH}/bin
 
@@ -172,3 +174,6 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
 # export CFLAGS="-I${OPENBLAS}/include"
 # export LDFLAGS="-L${OPENBLAS}/lib"
 # export PATH="${OPENBLAS}/bin:$PATH"
+#
+# Mongodb database tools
+export PATH=$PATH:/Users/guodongq/Applications/mongodb-database-tools/bin

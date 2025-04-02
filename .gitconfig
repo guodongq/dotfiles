@@ -13,6 +13,7 @@
 [core]
   pager=less -FRSX
   editor=code --wait
+  ignorecase = false
 
 [help]
   autocorrect=1
