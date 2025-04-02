@@ -30,14 +30,14 @@ require("lazy").setup({
 	require("plugins/conform"),
 	require("plugins/cmp"),
 	require("plugins/mini"),
-    require("plugins/treesitter"),
-    require("plugins/tree"),
-    require("plugins/code"),
-    require("plugins/debug"),
-    require("plugins/lint"),
-    require("plugins/tools"),
-    require("plugins/ui"),
-    require("plugins/colorscheme"),
+	require("plugins/treesitter"),
+	require("plugins/tree"),
+	require("plugins/code"),
+	require("plugins/debug"),
+	require("plugins/lint"),
+	require("plugins/tools"),
+	require("plugins/ui"),
+	require("plugins/colorscheme"),
 
 	-- The following two comments only work if you have downloaded the kickstart repo, not just copy pasted the
 	-- init.lua. If you want these files, they are in the repository, so you can just download them and
@@ -82,4 +82,3 @@ require("lazy").setup({
 		},
 	},
 })
-

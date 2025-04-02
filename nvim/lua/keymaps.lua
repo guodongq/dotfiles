@@ -68,4 +68,3 @@ vim.keymap.set("n", "*", "*zz")
 vim.keymap.set("n", "#", "#zz")
 vim.keymap.set("n", "g*", "g*zz")
 vim.keymap.set("n", "g#", "g#zz")
-
