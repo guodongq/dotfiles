@@ -1,4 +1,4 @@
-return {
+local M = {
 	{ -- https://github.com/nvim-tree/nvim-tree.lua
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
@@ -67,3 +67,5 @@ return {
 		end,
 	},
 }
+
+return M
