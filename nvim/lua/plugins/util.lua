@@ -205,11 +205,11 @@ return {
 			"rcarriga/nvim-notify",
 		},
 	},
-	-- Dashboard
+	-- Dashboard 
 	{
 		"goolord/alpha-nvim",
 		event = "VimEnter",
-		enabled = false,
+		enabled = true,
 		opts = function()
 			local dashboard = require("alpha.themes.dashboard")
 			-- Set header
@@ -230,7 +230,7 @@ return {
 				dashboard.button("g", " " .. " Search by Grep", ":Telescope live_grep <CR>"),
 				dashboard.button("p", " " .. " Search Projects", ":Telescope project<CR>"),
 				dashboard.button("r", " " .. " Search Recent Files", ":Telescope oldfiles <CR>"),
-				dashboard.button("n", " " .. " New File", [[<cmd> ene <BAR> startinsert <cr>]]),
+				dashboard.button("a", " " .. " New File", [[<cmd> ene <BAR> startinsert <cr>]]),
 				dashboard.button("c", " " .. " Config", ":e $MYVIMRC <CR>"),
 				dashboard.button("l", "󰒲 " .. " Lazy", "<cmd> Lazy <cr>"),
 				dashboard.button("q", " " .. " Quit", "<cmd> qa <cr>"),

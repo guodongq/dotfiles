@@ -1,6 +1,6 @@
 vim.loader.enable()
-if vim.g.vscode ~= nil then 
-	return require("vscode") 
+if vim.g.vscode ~= nil then
+	return require("vscode")
 end
 
 require("setting")
