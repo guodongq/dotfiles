@@ -124,7 +124,7 @@ fi
 ##########################
 # >>> golang >>>
 ##########################
-export GOROOT=${HOMEBREW_CELLAR}/go/1.24.3/libexec
+export GOROOT=${HOMEBREW_CELLAR}/go/1.24.4/libexec
 export GOPATH=${HOME}/Workspaces
 export PATH=$PATH:${GOPATH}/bin
 
@@ -177,3 +177,22 @@ export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
 #
 # Mongodb database tools
 export PATH=$PATH:/Users/guodongq/Applications/mongodb-database-tools/bin
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/opt/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+if command -v ngrok &>/dev/null; then
+    eval "$(ngrok completion)"
+  fi

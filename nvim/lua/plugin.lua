@@ -20,7 +20,7 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require("lazy").setup({
-    'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+	"NMAC427/guess-indent.nvim", -- Detect tabstop and shiftwidth automatically
 
 	-- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
 	--    This is the easiest way to modularize your config.

@@ -50,7 +50,7 @@ return {
 		end,
 	},
 	-- maximized is a Neovim plugin to maximize the current window
-	{ 
+	{
 		"0x00-ketsu/maximizer.nvim",
 		event = "VeryLazy",
 		opts = {},
@@ -58,7 +58,7 @@ return {
 			{ "<leader>wm", "<cmd>lua require('maximizer').toggle()<cr>", desc = "[M]aximize Current [W]indow" },
 		},
 	},
-	 -- Hop is a Neovim plugin to jump to any location in the visible area
+	-- Hop is a Neovim plugin to jump to any location in the visible area
 	{
 		"smoka7/hop.nvim",
 		version = "*",
@@ -75,7 +75,7 @@ return {
 			keys = "etovxqpdygfblzhckisuran",
 		},
 	},
-	 -- Terminal
+	-- Terminal
 	{
 		"akinsho/toggleterm.nvim",
 		version = "*",
@@ -188,10 +188,10 @@ return {
 			render = "float",
 		},
 	},
-	 -- Noice.nvim is a Neovim plugin that provides a unified interface for displaying messages
+	-- Noice.nvim is a Neovim plugin that provides a unified interface for displaying messages
 	{
 		"folke/noice.nvim",
-		enabled = true,
+		enabled = false,
 		event = "VeryLazy",
 		opts = {
 			-- add any options here
@@ -205,7 +205,7 @@ return {
 			"rcarriga/nvim-notify",
 		},
 	},
-	-- Dashboard 
+	-- Dashboard
 	{
 		"goolord/alpha-nvim",
 		event = "VimEnter",
