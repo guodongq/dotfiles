@@ -124,7 +124,7 @@ fi
 ##########################
 # >>> golang >>>
 ##########################
-export GOROOT=${HOMEBREW_CELLAR}/go/1.24.4/libexec
+export GOROOT=${HOMEBREW_CELLAR}/go/1.25.1/libexec
 export GOPATH=${HOME}/Workspaces
 export PATH=$PATH:${GOPATH}/bin
 
@@ -196,3 +196,11 @@ unset __conda_setup
 if command -v ngrok &>/dev/null; then
     eval "$(ngrok completion)"
   fi
+
+# pnpm
+export PNPM_HOME="/Users/guodongq/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
