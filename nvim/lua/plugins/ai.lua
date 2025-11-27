@@ -5,7 +5,7 @@ return {
 	build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
 		or "make",
 	event = "VeryLazy",
-	enable = false,
+	enabled = false,
 	version = false, -- 永远不要将此值设置为 "*"！永远不要！
 	---@module 'avante'
 	---@type avante.Config

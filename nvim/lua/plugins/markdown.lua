@@ -1,6 +1,6 @@
 return {
 	{ -- Markdown highlight
-		"tpope/vim-markdown",
+        "tpope/vim-markdown",
 		config = function()
 			vim.g.markdown_syntax_conceal = 0
 			vim.g.markdown_fenced_languages = {
