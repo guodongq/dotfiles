@@ -124,7 +124,7 @@ fi
 ##########################
 # >>> golang >>>
 ##########################
-export GOROOT=${HOMEBREW_CELLAR}/go/1.25.4/libexec
+export GOROOT=${HOMEBREW_CELLAR}/go/1.25.5/libexec
 export GOPATH=${HOME}/Workspaces
 export PATH=$PATH:${GOPATH}/bin
 
