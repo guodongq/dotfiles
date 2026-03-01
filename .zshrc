@@ -124,7 +124,7 @@ fi
 ##########################
 # >>> golang >>>
 ##########################
-export GOROOT=${HOMEBREW_CELLAR}/go/1.25.5/libexec
+export GOROOT=${HOMEBREW_PREFIX}/opt/go/libexec
 export GOPATH=${HOME}/Workspaces
 export PATH=$PATH:${GOPATH}/bin
 
@@ -168,6 +168,7 @@ fi
 export LDFLAGS="-L/opt/homebrew/opt/openblas/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/openblas/include"
 export PKG_CONFIG_PATH="/opt/homebrew/opt/openblas/lib/pkgconfig"
+export CMAKE_PREFIX_PATH="/opt/homebrew/opt/openblas"
 
 # fix scipy error in python
 # export OPENBLAS="$(brew --prefix openblas)"
