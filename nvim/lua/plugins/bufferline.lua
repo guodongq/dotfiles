@@ -2,7 +2,7 @@ local M = {
 	-- Bufferline
 	"akinsho/bufferline.nvim",
 	event = "VeryLazy",
-	enabled = true,
+	enabled = false,
 	version = "*",
 	dependencies = {
 		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },

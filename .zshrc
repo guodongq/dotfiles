@@ -11,7 +11,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
 #ZSH_THEME="af-magic"
-ZSH_THEME="clean" # set by `omz`
+ZSH_THEME="cloud" # set by `omz`
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -176,8 +176,6 @@ export CMAKE_PREFIX_PATH="/opt/homebrew/opt/openblas"
 # export LDFLAGS="-L${OPENBLAS}/lib"
 # export PATH="${OPENBLAS}/bin:$PATH"
 #
-# Mongodb database tools
-export PATH=$PATH:/Users/guodongq/Applications/mongodb-database-tools/bin
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -205,3 +203,6 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+# OpenClaw Completion
+source "/Users/guodongq/.openclaw/completions/openclaw.zsh"
