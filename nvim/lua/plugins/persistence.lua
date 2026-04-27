@@ -1,16 +1,15 @@
-return {
-	{ -- 持久化会话（恢复上次编辑状态）
-		"folke/persistence.nvim",
-		event = "BufReadPre", -- 读取文件前加载
-		enabled = false,
-		opts = {
-			dir = vim.fn.stdpath("data") .. "/persistence/", -- 会话文件路径
-			options = { "buffers", "curdir", "tabpages", "winsize" }, -- 保存的内容
-		},
-		keys = {
-			{ "<leader>ps", "<cmd>lua require('persistence').save()<cr>", desc = "Quick [S]ave session" },
-			{ "<leader>pr", "<cmd>lua require('persistence').load()<cr>", desc = "Quick [R]estore session" },
-			{ "<leader>pd", "<cmd>lua require('persistence').stop()<cr>", desc = "Quick [D]elete session" },
-		},
-	},
+local M = {
+	"folke/persistence.nvim",
+	event = "BufReadPre",
 }
+
+M.opts = {}
+
+M.keys = {
+	{ "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
+	{ "<leader>qS", function() require("persistence").select() end, desc = "Select Session" },
+	{ "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
+	{ "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session" },
+}
+
+return M
