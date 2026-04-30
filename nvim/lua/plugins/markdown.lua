@@ -1,35 +1,23 @@
-local M1 = {
+local M = {
 	"tpope/vim-markdown",
 }
 
-M1.config = function()
+M.config = function()
 	vim.g.markdown_syntax_conceal = 0
 	vim.g.markdown_fenced_languages = {
-		"python",
-		"bash=sh",
-		"html",
-		"json",
-		"java",
-		"js=javascript",
-		"sql",
-		"yaml",
-		"xml",
-		"Dockerfile",
-		"Rust",
-		"lua",
-		"go",
+		"python", "bash=sh", "html", "json", "java", "js=javascript",
+		"sql", "yaml", "xml", "Dockerfile", "Rust", "lua", "go",
 	}
 end
 
 local M2 = {
 	"iamcco/markdown-preview.nvim",
-	cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-	build = "cd app && yarn install",
 	ft = { "markdown" },
+	build = "cd app && yarn install",
 }
 
-M2.init = function()
+M2.config = function()
 	vim.g.mkdp_filetypes = { "markdown" }
 end
 
-return { M1, M2 }
+return { M, M2 }

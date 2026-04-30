@@ -1,6 +1,6 @@
 local M = {
 	"saghen/blink.cmp",
-	event = "VimEnter",
+	event = { "InsertEnter", "CmdlineEnter" },
 	version = "1.*",
 	dependencies = {
 		{
@@ -12,7 +12,6 @@ local M = {
 				end
 				return "make install_jsregexp"
 			end)(),
-			opts = {},
 		},
 	},
 }

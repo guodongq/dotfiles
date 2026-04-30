@@ -1,82 +1,10 @@
-local M1 = {
-	"folke/which-key.nvim",
-	event = "VimEnter",
-}
-
----@module 'which-key'
----@type wk.Opts
----@diagnostic disable-next-line: missing-fields
-M1.opts = {
-	delay = 0,
-	icons = { mappings = vim.g.have_nerd_font },
-	spec = {
-		{ "<leader>s", group = "[S]earch", mode = { "n", "v" } },
-		{ "<leader>t", group = "[T]oggle" },
-		{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
-		{ "gr", group = "LSP Actions", mode = { "n" } },
-
-		{ "<leader>c", group = "[C]ode", mode = { "n", "x" } },
-		{ "<leader>d", group = "[D]ocument" },
-		{ "<leader>w", group = "[W]indows" },
-		{ "<leader>b", group = "[B]uffer" },
-		{ "<leader>j", group = "[J]ump" },
-		{ "<leader>p", group = "[P]ersistence" },
-
-		{ "s", group = "[S]urround" },
-		{ "z", group = "Fold" },
-
-		{ "<leader>H", "<cmd>nohlsearch<cr>", desc = "Clear [H]ighlights" },
-		{ "<leader>Q", "<cmd>confirm qall<cr>", desc = "[Q]uit Neovim" },
-		{ "<leader>S", "<cmd>w!<cr>", desc = "[S]ave file" },
-	},
-}
-
-local M2 = {
-	"0x00-ketsu/maximizer.nvim",
-	event = "VeryLazy",
-	opts = {},
-	keys = {
-		{ "<leader>wm", "<cmd>lua require('maximizer').toggle()<cr>", desc = "[M]aximize Current [W]indow" },
-	},
-}
-
-local M3 = {
-	"yorickpeterse/nvim-window",
-	keys = {
-		{ "<leader>wp", "<cmd>lua require('nvim-window').pick()<cr>", desc = "[P]ick [W]indow" },
-	},
-}
-
-M3.opts = {
-	chars = {
-		"a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
-		"k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
-		"u", "v", "w", "x", "y", "z",
-	},
-	normal_hl = "Normal",
-	hint_hl = "Bold",
-	border = "single",
-	render = "float",
-}
-
-local M4 = {
-	"folke/noice.nvim",
-	enabled = false,
-	event = "VeryLazy",
-	opts = {},
-	dependencies = {
-		"MunifTanjim/nui.nvim",
-		"rcarriga/nvim-notify",
-	},
-}
-
-local M5 = {
+local M = {
 	"goolord/alpha-nvim",
 	event = "VimEnter",
 	enabled = true,
 }
 
-M5.opts = function()
+M.opts = function()
 	local dashboard = require("alpha.themes.dashboard")
 	dashboard.section.header.val = {
 		[[       /^v^\         |    |    |]],
@@ -110,7 +38,7 @@ M5.opts = function()
 	return dashboard
 end
 
-M5.config = function(_, dashboard)
+M.config = function(_, dashboard)
 	if vim.o.filetype == "lazy" then
 		vim.cmd.close()
 		vim.api.nvim_create_autocmd("User", {
@@ -145,10 +73,10 @@ M5.config = function(_, dashboard)
 		pattern = "AlphaReady",
 		callback = function()
 			vim.cmd([[
-                       set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3
-                    ]])
+		               set laststatus=0 | autocmd BufUnload <buffer> set laststatus=3
+		            ]])
 		end,
 	})
 end
 
-return { M1, M2, M3, M4, M5 }
+return M

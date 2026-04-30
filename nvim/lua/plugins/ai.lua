@@ -1,20 +1,15 @@
 local M = {
 	"yetone/avante.nvim",
-	-- 如果您想从源代码构建，请执行 `make BUILD_FROM_SOURCE=true`
 	build = vim.fn.has("win32") ~= 0 and "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
 		or "make",
-	event = "VeryLazy",
-	enabled = false,
+	cmd = { "AvanteAsk", "AvanteChat", "AvanteToggle", "AvanteBuild" },
+	enabled = true,
 	version = false,
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"MunifTanjim/nui.nvim",
-		"echasnovski/mini.pick",
 		"nvim-telescope/telescope.nvim",
-		"hrsh7th/nvim-cmp",
-		"ibhagwan/fzf-lua",
 		"nvim-tree/nvim-web-devicons",
-		"zbirenbaum/copilot.lua",
 		{
 			"HakonHarnes/img-clip.nvim",
 			event = "VeryLazy",

@@ -1,37 +1,28 @@
 local M = {
 	"stevearc/conform.nvim",
-	event = { "BufWritePre" },
-	cmd = { "ConformInfo" },
+	event = "BufWritePre",
+	cmd = "ConformInfo",
 	keys = {
-		{
-			"<leader>f",
-			function()
-				require("conform").format({ async = true, lsp_format = "fallback" })
-			end,
-			mode = "",
-			desc = "[F]ormat buffer",
-		},
+		{ "<leader>f", function() require("conform").format({ async = true }) end, desc = "Format" },
 	},
 }
 
----@module 'conform'
----@type conform.setupOpts
 M.opts = {
 	notify_on_error = false,
-	format_on_save = function(bufnr)
-		local disable_filetypes = { c = true, cpp = true }
-		if disable_filetypes[vim.bo[bufnr].filetype] then
-			return nil
-		else
-			return {
-				timeout_ms = 500,
-				lsp_format = "fallback",
-			}
-		end
-	end,
+	format_on_save = {
+		timeout_ms = 1000,
+		lsp_format = "fallback",
+	},
 	formatters_by_ft = {
 		lua = { "stylua" },
-		markdown = { "prettierd", "prettier", stop_after_first = true },
+		go = { "gofumpt", "goimports" },
+		python = { "ruff_format" },
+		javascript = { "prettier" },
+		typescript = { "prettier" },
+		json = { "prettier" },
+		yaml = { "prettier" },
+		markdown = { "prettier" },
+		css = { "prettier" },
 	},
 }
 
