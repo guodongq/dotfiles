@@ -1,7 +1,6 @@
 local M = {
 	"smoka7/hop.nvim",
 	version = "*",
-	enabled = true,
 	keys = {
 		{ "<leader>j1", "<cmd>HopChar1<cr>", desc = "[J]ump [1] Character", mode = "n" },
 		{ "<leader>j2", "<cmd>HopChar2<cr>", desc = "[J]ump [2] Characters", mode = "n" },

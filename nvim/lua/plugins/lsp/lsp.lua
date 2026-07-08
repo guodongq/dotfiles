@@ -42,7 +42,7 @@ M.config = function()
 				map("gW", vim.lsp.buf.workspace_symbol, "Workspace Symbols")
 
 				-- Actions
-				map("gr", vim.lsp.buf.rename, "[R]ename")
+				map("grn", vim.lsp.buf.rename, "[R]ename")
 				map("ga", vim.lsp.buf.code_action, "Code Actions", { "n", "x" })
 				map("go", "<cmd>AerialToggle!<cr>", "Outline")
 
