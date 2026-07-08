@@ -4,7 +4,6 @@ local M = {
 	version = "*",
 	dependencies = {
 		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
-		"nvim-telescope/telescope.nvim",
 	},
 	keys = {
 		{ "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },

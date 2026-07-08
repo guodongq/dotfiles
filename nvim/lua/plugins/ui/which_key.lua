@@ -18,6 +18,8 @@ M.opts = {
 		{ "<leader>b", group = "[B]uffer" },
 		{ "<leader>j", group = "[J]ump" },
 		{ "gr",        group = "LSP [R]efactor", mode = { "n" } },
+		{ "]",         group = "Next" },
+		{ "[",         group = "Prev" },
 		{ "s",         group = "[S]urround" },
 		{ "z",         group = "Fold" },
 		{ "<leader>H", "<cmd>nohlsearch<cr>",   desc = "Clear [H]ighlights" },

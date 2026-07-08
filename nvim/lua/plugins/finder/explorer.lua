@@ -49,17 +49,13 @@ M.opts = {
 }
 
 M.config = function(_, opts)
-	vim.g.loaded_netrw = 1
-	vim.g.loaded_netrwPlugin = 1
-	vim.opt.termguicolors = vim.g.have_nerd_font
-
+	vim.opt.termguicolors = true
 	require("nvim-tree").setup(opts)
-
 	vim.cmd([[
-		:hi      NvimTreeExecFile    guifg=#ffa0a0
-		:hi      NvimTreeSpecialFile guifg=#ff80ff gui=underline
-		:hi      NvimTreeSymlink     guifg=Yellow  gui=italic
-		:hi link NvimTreeImageFile   Title
+		hi      NvimTreeExecFile    guifg=#ffa0a0
+		hi      NvimTreeSpecialFile guifg=#ff80ff gui=underline
+		hi      NvimTreeSymlink     guifg=Yellow  gui=italic
+		hi link NvimTreeImageFile   Title
 	]])
 end
 

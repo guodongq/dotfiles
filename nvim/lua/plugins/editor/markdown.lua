@@ -1,5 +1,6 @@
 local M = {
 	"tpope/vim-markdown",
+	ft = { "markdown" },
 }
 
 M.config = function()
