@@ -117,19 +117,20 @@ M.config = function(_, opts)
 			-- Navigation
 			map("gd",  vim.lsp.buf.definition,      "[G]oto [D]efinition")
 			map("gD",  vim.lsp.buf.declaration,     "[G]oto [D]eclaration")
-			map("gy",  vim.lsp.buf.type_definition, "[G]oto T[y]pe Definition")
-			map("gi",  vim.lsp.buf.implementation,  "[G]oto [I]mplementation")
-			map("gr",  vim.lsp.buf.references,      "[G]oto [R]eferences")
+			map("grt",  vim.lsp.buf.type_definition, "[G]oto [T]ype Definition")
+			map("gri",  vim.lsp.buf.implementation,  "[G]oto [I]mplementation")
+			map("grr",  vim.lsp.buf.references,      "[G]oto [R]eferences")
 			-- Documentation
 			map("K",   vim.lsp.buf.hover,           "Hover Documentation")
 			map("gK",  vim.lsp.buf.signature_help,  "Signature Help")
 			-- Symbols
-			map("gO",  vim.lsp.buf.document_symbol,  "Document Symbols")
-			map("gW",  vim.lsp.buf.workspace_symbol, "Workspace Symbols")
+			map("grd",  vim.lsp.buf.document_symbol,  "Document Symbols")
+			map("grw",  vim.lsp.buf.workspace_symbol, "Workspace Symbols")
 			-- Actions
-			map("grn",        vim.lsp.buf.rename,      "[R]ename")
-			map("<leader>ca", vim.lsp.buf.code_action, "Code [A]ction", { "n", "x" })
-			map("<leader>co", "<cmd>AerialToggle!<cr>", "Code [O]utline")
+			map("grn",        vim.lsp.buf.rename,      "Re[n]ame")
+			map("gra", vim.lsp.buf.code_action, "Code [A]ction", { "n", "x" })
+			map("grx", vim.lsp.codelens.run, "Code [X] Lens Action")
+			map("gro", "<cmd>AerialToggle!<cr>", "Code [O]utline")
 			-- Diagnostic navigation
 			map("]d", vim.diagnostic.goto_next, "Next [D]iagnostic")
 			map("[d", vim.diagnostic.goto_prev, "Prev [D]iagnostic")

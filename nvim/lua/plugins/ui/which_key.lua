@@ -17,7 +17,6 @@ M.opts = {
 		{ "<leader>w", group = "[W]indows" },
 		{ "<leader>b", group = "[B]uffer" },
 		{ "<leader>j", group = "[J]ump" },
-		{ "gr",        group = "LSP [R]efactor", mode = { "n" } },
 		{ "]",         group = "Next" },
 		{ "[",         group = "Prev" },
 		{ "s",         group = "[S]urround" },

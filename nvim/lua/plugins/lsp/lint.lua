@@ -11,7 +11,6 @@ M.opts = {
 		typescriptreact = { "eslint" },
 		python = { "ruff" },
 		go = { "revive" },
-		lua = { "luacheck" },
 	},
 }
 

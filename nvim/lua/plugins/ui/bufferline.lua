@@ -9,6 +9,8 @@ local M = {
 		{ "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
 		{ "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
 		{ "<leader>bd", "<cmd>BufferLinePickClose<cr>", desc = "Close Buffer" },
+		{ "<leader>bl", function() require("telescope.builtin").buffers() end, desc = "List Buffers" },
+		{ "<leader>bD", "<cmd>%bd|e#|bd#<cr>", desc = "Close All Buffers" },
 	},
 }
 
