@@ -102,6 +102,7 @@ M.opts = {
 		"gofumpt", "goimports",
 		"clang-format", "isort", "black",
 		"eslint", "ruff", "revive", "markdownlint",
+		"copilot-language-server", -- GitHub Copilot LSP, used by sidekick.nvim
 	},
 }
 
@@ -173,6 +174,10 @@ M.config = function(_, opts)
 		vim.lsp.config(name, config)
 		vim.lsp.enable(name)
 	end
+
+	-- GitHub Copilot LSP (default config provided by nvim-lspconfig).
+	-- Powers sidekick.nvim's Next Edit Suggestions. Sign in with :LspCopilotSignIn
+	vim.lsp.enable("copilot")
 
 	-- Install server executables + extra tools via mason-tool-installer
 	local tools = vim.list_extend(vim.deepcopy(opts.tools), vim.tbl_keys(opts.servers))

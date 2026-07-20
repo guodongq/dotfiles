@@ -3,7 +3,13 @@ local M = {
 	event = "BufWritePre",
 	cmd = "ConformInfo",
 	keys = {
-		{ "<leader>f", function() require("conform").format({ async = true }) end, desc = "Format" },
+		{
+			"<leader>f",
+			function()
+				require("conform").format({ async = true })
+			end,
+			desc = "[F]ormat",
+		},
 	},
 }
 

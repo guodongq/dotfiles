@@ -13,7 +13,7 @@ local M = {
 		{ "<S-F8>", function() require("dap").step_out() end, desc = "Debug: Step Out" },
 		{ "<F9>", function() require("dap").continue() end, desc = "Debug: Start/Continue" },
 		{ "<leader>tb", function() require("dap").toggle_breakpoint() end, desc = "Debug: Toggle Breakpoint" },
-		{ "<leader>B", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "Debug: Set Breakpoint" },
+		{ "<leader>B", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "Debug: Set [B]reakpoint" },
 		{ "<F5>", function() require("dapui").toggle() end, desc = "Debug: See last session result." },
 	},
 }
