@@ -83,7 +83,7 @@ map("n", "[d",        action("editor.action.marker.prev"),       { desc = "Prev 
 map("n", "<leader>q", action("workbench.action.problems.focus"), { desc = "Problems [Q]uickfix" })
 
 -- ─── Git hunks ────────────────────────────────────────────────────────────────
--- Aligned with main config git/gitsigns.lua keybindings
+-- Aligned with main config editor/gitsigns.lua keybindings
 map("n", "]h",         action("workbench.action.editor.nextChange"),     { desc = "Next [H]unk" })
 map("n", "[h",         action("workbench.action.editor.previousChange"), { desc = "Prev [H]unk" })
 map("n", "<leader>hs", action("git.stageSelectedRanges"),                { desc = "[H]unk [S]tage" })

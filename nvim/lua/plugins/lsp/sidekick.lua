@@ -6,7 +6,8 @@ local M = {
 	"folke/sidekick.nvim",
 	opts = {
 		cli = {
-			-- use telescope for tool/file/prompt pickers (snacks.nvim isn't installed)
+			-- telescope stays the one picker in this config; snacks.nvim is
+			-- installed but its own picker module is deliberately left disabled
 			picker = "telescope",
 		},
 	},

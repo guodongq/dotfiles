@@ -10,12 +10,6 @@ local M = {
 		"mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		{ "j-hui/fidget.nvim", opts = {} },
-		{
-			"stevearc/aerial.nvim",
-			cmd = { "AerialToggle" },
-			opts = {},
-			dependencies = { "nvim-treesitter/nvim-treesitter" },
-		},
 	},
 }
 
@@ -52,7 +46,7 @@ M.opts = {
 				},
 			},
 		},
-		ts_ls = {
+		vtsls = {
 			filetypes = {
 				"javascript", "javascriptreact", "javascript.jsx",
 				"typescript", "typescriptreact", "typescript.tsx",
@@ -128,7 +122,8 @@ M.config = function(_, opts)
 			map("grn",        vim.lsp.buf.rename,      "Re[n]ame")
 			map("gra", vim.lsp.buf.code_action, "Code [A]ction", { "n", "x" })
 			map("grx", vim.lsp.codelens.run, "Code [X] Lens Action")
-			map("gro", "<cmd>AerialToggle!<cr>", "Code [O]utline")
+			-- Symbol outline, now via Trouble (was aerial.nvim)
+			map("gro", "<cmd>Trouble symbols toggle focus=false<cr>", "Code [O]utline")
 			-- Diagnostic navigation
 			map("]d", vim.diagnostic.goto_next, "Next [D]iagnostic")
 			map("[d", vim.diagnostic.goto_prev, "Prev [D]iagnostic")

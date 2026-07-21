@@ -27,6 +27,7 @@ M.opts = {
 				{ icon = " ", key = "f", desc = "Search Files", action = ":Telescope find_files" },
 				{ icon = " ", key = "g", desc = "Search by Grep", action = ":Telescope live_grep" },
 				{ icon = " ", key = "r", desc = "Search Recent Files", action = ":Telescope oldfiles" },
+				{ icon = " ", key = "s", desc = "Restore Session", section = "session" },
 				{ icon = " ", key = "a", desc = "New File", action = ":ene | startinsert" },
 				{ icon = " ", key = "c", desc = "Config", action = ":edit $MYVIMRC" },
 				{ icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
@@ -37,10 +38,13 @@ M.opts = {
 	indent = { enabled = true },
 	notifier = { enabled = true },
 	zen = { enabled = true },
+	terminal = { enabled = true },
 }
 
 M.keys = {
 	{ "<leader>wm", function() Snacks.zen.zoom() end, desc = "Maximize Window" },
+	{ "<c-/>", function() Snacks.terminal() end, desc = "Toggle Terminal", mode = { "n", "t" } },
+	{ "<c-_>", function() Snacks.terminal() end, desc = "Toggle Terminal", mode = { "n", "t" } },
 }
 
 return M

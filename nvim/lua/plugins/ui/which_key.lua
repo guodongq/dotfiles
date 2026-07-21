@@ -12,6 +12,9 @@ M.opts = {
 	spec = {
 		{ "<leader>s", group = "[S]earch",   mode = { "n", "v" } },
 		{ "<leader>t", group = "[T]oggle" },
+		{ "<leader>T", group = "[T]est" },
+		{ "<leader>x", group = "Trouble/Diagnostics" },
+		{ "<leader>p", group = "[P]ersistence/Session" },
 		{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
 		{ "<leader>c", group = "[C]ode",     mode = { "n", "x" } },
 		{ "<leader>w", group = "[W]indows" },
