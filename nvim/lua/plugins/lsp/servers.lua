@@ -14,10 +14,7 @@ local M = {
 			"stevearc/aerial.nvim",
 			cmd = { "AerialToggle" },
 			opts = {},
-			dependencies = {
-				"nvim-treesitter/nvim-treesitter",
-				{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
-			},
+			dependencies = { "nvim-treesitter/nvim-treesitter" },
 		},
 	},
 }

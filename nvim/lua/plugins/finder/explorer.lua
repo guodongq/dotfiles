@@ -1,9 +1,6 @@
 local M = {
 	"nvim-tree/nvim-tree.lua",
 	version = "*",
-	dependencies = {
-		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
-	},
 	keys = {
 		{ "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Toggle [E]xplorer", silent = true },
 	},

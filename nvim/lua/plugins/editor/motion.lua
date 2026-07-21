@@ -1,15 +1,14 @@
+-- Search-label motion with treesitter integration (replaces hop.nvim).
+-- Bound under <leader>j* instead of flash's default bare `s`/`S`, since `s`
+-- is already used by mini.surround.
 local M = {
-	"smoka7/hop.nvim",
-	version = "*",
+	"folke/flash.nvim",
+	event = "VeryLazy",
+	---@type Flash.Config
+	opts = {},
 	keys = {
-		{ "<leader>j1", "<cmd>HopChar1<cr>", desc = "[J]ump [1] Character", mode = "n" },
-		{ "<leader>j2", "<cmd>HopChar2<cr>", desc = "[J]ump [2] Characters", mode = "n" },
-		{ "<leader>jl", "<cmd>HopLine<cr>", desc = "[J]ump [L]ine", mode = "n" },
-		{ "<leader>jp", "<cmd>HopPattern<cr>", desc = "[J]ump By [P]attern", mode = "n" },
-		{ "<leader>jw", "<cmd>HopWord<cr>", desc = "[J]ump To [W]ord", mode = "n" },
-	},
-	opts = {
-		keys = "etovxqpdygfblzhckisuran",
+		{ "<leader>jw", function() require("flash").jump() end, mode = { "n", "x", "o" }, desc = "[J]ump To [W]ord" },
+		{ "<leader>jt", function() require("flash").treesitter() end, mode = { "n", "x", "o" }, desc = "[J]ump [T]reesitter Node" },
 	},
 }
 

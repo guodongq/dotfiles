@@ -1,5 +1,5 @@
 -- GitHub Copilot integration via sidekick.nvim
--- Requires the `copilot` LSP server (enabled in plugins/lsp/lsp.lua).
+-- Requires the `copilot` LSP server (enabled in plugins/lsp/servers.lua).
 -- First-time setup: run `:LspCopilotSignIn` to authenticate, then `:checkhealth sidekick`.
 
 local M = {

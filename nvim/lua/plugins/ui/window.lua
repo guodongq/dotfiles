@@ -1,11 +1,6 @@
+-- Window zoom now lives in ui/snacks.lua (Snacks.zen.zoom); this plugin only
+-- handles picking a window by label, which snacks.nvim doesn't provide.
 local M = {
-	"0x00-ketsu/maximizer.nvim",
-	keys = {
-		{ "<leader>wm", function() require("maximizer").toggle() end, desc = "Maximize Window" },
-	},
-}
-
-local M2 = {
 	"yorickpeterse/nvim-window",
 	keys = {
 		{ "<leader>wp", function() require("nvim-window").pick() end, desc = "Pick Window" },
@@ -19,4 +14,4 @@ local M2 = {
 	},
 }
 
-return { M, M2 }
+return M

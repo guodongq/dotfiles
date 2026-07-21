@@ -1,9 +1,6 @@
 local M = {
 	"nvim-lualine/lualine.nvim",
 	event = "VeryLazy",
-	dependencies = {
-		{ "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
-	},
 }
 
 M.init = function()

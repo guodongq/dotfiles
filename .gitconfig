@@ -28,15 +28,22 @@
 [pull]
 	rebase = true
 
+[fetch]
+	prune = true
+
 [branch "master"]
 	mergeoptions = --no-edit
 
 [diff]
 	colorMoved = default
 	tool = nvimdiff
+	algorithm = histogram
 
 [merge]
 	conflictstyle = diff3
+
+[rerere]
+	enabled = true
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f
