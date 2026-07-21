@@ -1,10 +1,13 @@
 # ==========================
 # Oh My Zsh
 # ==========================
-export ZSH="$HOME/.oh-my-zsh"
+export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
+export ZSH_CUSTOM="${ZSH_CUSTOM:-$ZSH/custom}"
 ZSH_THEME="cloud"
 plugins=(git zsh-autosuggestions zsh-completions zsh-syntax-highlighting zsh-history-substring-search)
-source "$ZSH/oh-my-zsh.sh"
+if [ -r "$ZSH/oh-my-zsh.sh" ]; then
+  source "$ZSH/oh-my-zsh.sh"
+fi
 
 # ==========================
 # Editor
@@ -15,19 +18,12 @@ export VISUAL=nvim
 # ==========================
 # Homebrew
 # ==========================
-if [ "$(uname)" = "Darwin" ]; then
+if [ -x "/opt/homebrew/bin/brew" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [ -x "/usr/local/bin/brew" ]; then
+  eval "$(/usr/local/bin/brew shellenv)"
 elif [ -d "/home/linuxbrew/.linuxbrew" ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
-
-# ==========================
-# Golang
-# ==========================
-if [ -n "$HOMEBREW_PREFIX" ] && [ -d "$HOMEBREW_PREFIX/opt/go/libexec" ]; then
-  export GOROOT="$HOMEBREW_PREFIX/opt/go/libexec"
-  export GOPATH="$HOME/Workspaces"
-  export PATH="$PATH:$GOPATH/bin"
 fi
 
 # ==========================
@@ -45,52 +41,10 @@ if [ -d "$HOME/.npm-global" ]; then
 fi
 
 # ==========================
-# pnpm
-# ==========================
-export PNPM_HOME="$HOME/Library/pnpm"
-if [ -d "$PNPM_HOME" ]; then
-  case ":$PATH:" in
-    *":$PNPM_HOME:"*) ;;
-    *) export PATH="$PNPM_HOME:$PATH" ;;
-  esac
-fi
-
-# ==========================
-# Java (macOS)
-# ==========================
-if [ "$(uname)" = "Darwin" ] && [ -d "$HOMEBREW_PREFIX/opt/openjdk/bin" ]; then
-  export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
-  export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openjdk/include"
-fi
-
-# ==========================
-# OpenBLAS
-# ==========================
-if [ -n "$HOMEBREW_PREFIX" ] && [ -d "$HOMEBREW_PREFIX/opt/openblas" ]; then
-  export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openblas/lib"
-  export CPPFLAGS="${CPPFLAGS:+$CPPFLAGS }-I$HOMEBREW_PREFIX/opt/openblas/include"
-  export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/openblas/lib/pkgconfig"
-  export CMAKE_PREFIX_PATH="$HOMEBREW_PREFIX/opt/openblas"
-fi
-
-# ==========================
 # pipx / local bin
 # ==========================
 if [ -d "$HOME/.local/bin" ]; then
   export PATH="$PATH:$HOME/.local/bin"
-fi
-
-# ==========================
-# Conda
-# ==========================
-if [ -f "/opt/anaconda3/bin/conda" ]; then
-  __conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2>/dev/null)"
-  if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-  elif [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-    . "/opt/anaconda3/etc/profile.d/conda.sh"
-  fi
-  unset __conda_setup
 fi
 
 # ==========================
@@ -106,5 +60,8 @@ command -v kubectl &>/dev/null && alias k=kubectl
 # ==========================
 # Completions (conditional)
 # ==========================
-command -v ngrok &>/dev/null && eval "$(ngrok completion)"
+(( $+functions[compdef] )) && command -v ngrok &>/dev/null && eval "$(ngrok completion)"
 [ -f "$HOME/.openclaw/completions/openclaw.zsh" ] && source "$HOME/.openclaw/completions/openclaw.zsh"
+
+# Machine-specific language runtimes and paths belong in this untracked file.
+[ -r "$HOME/.zshrc.local" ] && source "$HOME/.zshrc.local"

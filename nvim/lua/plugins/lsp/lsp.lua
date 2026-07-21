@@ -100,7 +100,7 @@ M.opts = {
 	tools = {
 		"stylua", "prettier",
 		"gofumpt", "goimports",
-		"clang-format", "isort", "black",
+		"clang-format",
 		"eslint", "ruff", "revive", "markdownlint",
 		"copilot-language-server", -- GitHub Copilot LSP, used by sidekick.nvim
 	},

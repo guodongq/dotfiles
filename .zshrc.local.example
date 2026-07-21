@@ -1,0 +1,41 @@
+# Machine-specific shell settings. This file is copied to ~/.zshrc.local during installation.
+
+# Go
+if [ -n "$HOMEBREW_PREFIX" ] && [ -d "$HOMEBREW_PREFIX/opt/go/libexec" ]; then
+  export GOPATH="$HOME/Workspaces"
+  export PATH="$PATH:$GOPATH/bin"
+fi
+
+# pnpm (macOS default)
+export PNPM_HOME="$HOME/Library/pnpm"
+if [ -d "$PNPM_HOME" ]; then
+  case ":$PATH:" in
+    *":$PNPM_HOME:"*) ;;
+    *) export PATH="$PNPM_HOME:$PATH" ;;
+  esac
+fi
+
+# Java (macOS)
+if [ "$(uname)" = "Darwin" ] && [ -d "$HOMEBREW_PREFIX/opt/openjdk/bin" ]; then
+  export PATH="$HOMEBREW_PREFIX/opt/openjdk/bin:$PATH"
+  export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openjdk/include"
+fi
+
+# OpenBLAS
+if [ -n "$HOMEBREW_PREFIX" ] && [ -d "$HOMEBREW_PREFIX/opt/openblas" ]; then
+  export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openblas/lib"
+  export CPPFLAGS="${CPPFLAGS:+$CPPFLAGS }-I$HOMEBREW_PREFIX/opt/openblas/include"
+  export PKG_CONFIG_PATH="$HOMEBREW_PREFIX/opt/openblas/lib/pkgconfig"
+  export CMAKE_PREFIX_PATH="$HOMEBREW_PREFIX/opt/openblas"
+fi
+
+# Conda
+if [ -f "/opt/anaconda3/bin/conda" ]; then
+  __conda_setup="$(/opt/anaconda3/bin/conda 'shell.zsh' 'hook' 2>/dev/null)"
+  if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+  elif [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+    . "/opt/anaconda3/etc/profile.d/conda.sh"
+  fi
+  unset __conda_setup
+fi
