@@ -3,11 +3,10 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- Set to true if a Nerd Font is installed and selected in the terminal
-vim.g.have_nerd_font = true
+vim.g.have_nerd_font = false
 
--- Disable built-in netrw early (replaced by nvim-tree)
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+-- True color support (colorscheme loads before nvim-tree would otherwise set this)
+vim.o.termguicolors = true
 
 -- See `:help option-list`
 vim.o.number = true

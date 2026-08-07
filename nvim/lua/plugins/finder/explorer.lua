@@ -46,7 +46,6 @@ M.opts = {
 }
 
 M.config = function(_, opts)
-	vim.opt.termguicolors = true
 	require("nvim-tree").setup(opts)
 	vim.cmd([[
 		hi      NvimTreeExecFile    guifg=#ffa0a0

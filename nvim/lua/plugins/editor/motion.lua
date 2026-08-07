@@ -5,7 +5,17 @@ local M = {
 	"folke/flash.nvim",
 	event = "VeryLazy",
 	---@type Flash.Config
-	opts = {},
+	opts = {
+		modes = {
+			-- Restrict f/F/t/T to the current line only, matching vanilla Vim
+			-- behavior (flash.nvim defaults to jumping across lines).
+			char = {
+				multi_line = false,
+				-- Don't dim the rest of the buffer when using f/F/t/T.
+				highlight = { backdrop = false },
+			},
+		},
+	},
 	keys = {
 		{ "<leader>jw", function() require("flash").jump() end, mode = { "n", "x", "o" }, desc = "[J]ump To [W]ord" },
 		{ "<leader>jt", function() require("flash").treesitter() end, mode = { "n", "x", "o" }, desc = "[J]ump [T]reesitter Node" },

@@ -6,7 +6,7 @@ local M = {
 		{ "<leader>bn", "<cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
 		{ "<leader>bp", "<cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
 		{ "<leader>bd", "<cmd>BufferLinePickClose<cr>", desc = "Close Buffer" },
-		{ "<leader>bD", "<cmd>%bd|e#|bd#<cr>", desc = "Close All Buffers" },
+		{ "<leader>bD", function() Snacks.bufdelete.other() end, desc = "Close Other Buffers" },
 	},
 }
 

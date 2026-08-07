@@ -7,27 +7,28 @@ local M = {
 ---@type wk.Opts
 ---@diagnostic disable-next-line: missing-fields
 M.opts = {
+	preset = "modern",
 	delay = 0,
 	icons = { mappings = vim.g.have_nerd_font },
 	spec = {
-		{ "<leader>s", group = "[S]earch",   mode = { "n", "v" } },
+		{ "<leader>s", group = "[S]earch", mode = { "n", "v" } },
 		{ "<leader>t", group = "[T]oggle" },
 		{ "<leader>T", group = "[T]est" },
 		{ "<leader>x", group = "Trouble/Diagnostics" },
 		{ "<leader>p", group = "[P]ersistence/Session" },
 		{ "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
-		{ "<leader>c", group = "[C]ode",     mode = { "n", "x" } },
+		{ "<leader>c", group = "[C]ode", mode = { "n", "x" } },
 		{ "<leader>w", group = "[W]indows" },
 		{ "<leader>b", group = "[B]uffer" },
 		{ "<leader>j", group = "[J]ump" },
 		{ "<leader>a", group = "[A]I" },
-		{ "]",         group = "Next" },
-		{ "[",         group = "Prev" },
-		{ "s",         group = "[S]urround" },
-		{ "z",         group = "Fold" },
-		{ "<leader>H", "<cmd>nohlsearch<cr>",   desc = "Clear [H]ighlights" },
+		{ "]", group = "Next" },
+		{ "[", group = "Prev" },
+		{ "s", group = "[S]urround" },
+		{ "z", group = "Fold" },
+		{ "<leader>H", "<cmd>nohlsearch<cr>", desc = "Clear [H]ighlights" },
 		{ "<leader>Q", "<cmd>confirm qall<cr>", desc = "[Q]uit Neovim" },
-		{ "<leader>S", "<cmd>w!<cr>",           desc = "[S]ave file" },
+		{ "<leader>S", "<cmd>w!<cr>", desc = "[S]ave file" },
 	},
 }
 
