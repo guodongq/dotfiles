@@ -7,7 +7,7 @@ local map = vim.keymap.set
 ---@param cmd string
 ---@return function
 local function action(cmd)
-    return function() vim.fn.VSCodeNotify(cmd) end
+	return function() vim.fn.VSCodeNotify(cmd) end
 end
 
 -- Settings (aligned with main config)
@@ -43,6 +43,7 @@ map("n", "<S-h>",      action("workbench.action.previousEditor"),    { desc = "P
 map("n", "<S-l>",      action("workbench.action.nextEditor"),        { desc = "Next Editor" })
 map("n", "<leader>bd", action("workbench.action.closeActiveEditor"), { desc = "[B]uffer [D]elete" })
 map("n", "<leader>e",  action("workbench.view.explorer"),            { desc = "Toggle [E]xplorer" })
+map("n", "<leader>E",  action("workbench.files.action.showActiveFileInExplorer"), { desc = "Reveal current file in [E]xplorer" })
 
 -- Window/split navigation (aligned with main keybind.lua: <C-h/j/k/l>)
 map({ "n", "x" }, "<C-h>", action("workbench.action.focusLeftGroup"),     { desc = "Focus Left" })
@@ -95,6 +96,6 @@ map("n", "<leader>hb", action("gitlens.toggleFileBlame"),                { desc 
 
 -- Yank highlight (modern API, aligned with main autocmd.lua)
 vim.api.nvim_create_autocmd("TextYankPost", {
-    group = vim.api.nvim_create_augroup("vscode-highlight-yank", { clear = true }),
-    callback = function() vim.hl.on_yank() end,
+	group = vim.api.nvim_create_augroup("vscode-highlight-yank", { clear = true }),
+	callback = function() vim.hl.on_yank() end,
 })

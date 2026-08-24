@@ -10,6 +10,7 @@ vim.o.termguicolors = true
 
 -- See `:help option-list`
 vim.o.number = true
+vim.o.relativenumber = true
 vim.o.mouse = "a"
 vim.o.showmode = false
 
@@ -41,13 +42,29 @@ vim.o.scrolloff = 10
 -- Prompt to save instead of failing on unsaved changes (e.g. `:q`)
 vim.o.confirm = true
 
+-- Folding (use treesitter-based folding when available)
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
+-- Persistent undo directory (ensure undofile works across sessions)
+local undodir = vim.fn.stdpath('state') .. '/undo'
+if vim.fn.isdirectory(undodir) == 0 then vim.fn.mkdir(undodir, 'p') end
+vim.o.undodir = undodir
+
+-- Toggle relative number: on in Normal, off in Insert to reduce distraction
+vim.api.nvim_create_autocmd('InsertEnter', { callback = function() vim.o.relativenumber = false end })
+vim.api.nvim_create_autocmd('InsertLeave', { callback = function() vim.o.relativenumber = true end })
+
 -- Diagnostics display configuration
 vim.diagnostic.config({
 	update_in_insert = false,
 	severity_sort = true,
 	float = { border = "rounded", source = "if_many" },
 	underline = { severity = { min = vim.diagnostic.severity.WARN } },
-	virtual_text = true,
+	virtual_text = { spacing = 4, prefix = '●', severity = { min = vim.diagnostic.severity.ERROR } },
 	virtual_lines = false,
 	jump = { float = true },
 })

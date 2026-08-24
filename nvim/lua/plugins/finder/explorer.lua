@@ -3,6 +3,24 @@ local M = {
 	version = "*",
 	keys = {
 		{ "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Toggle [E]xplorer", silent = true },
+		{
+			"<leader>E",
+			function()
+				local current_buffer = vim.api.nvim_get_current_buf()
+				if vim.api.nvim_buf_get_name(current_buffer) == "" then
+					return
+				end
+
+				require("nvim-tree.api").tree.find_file({
+					buf = current_buffer,
+					open = true,
+					focus = true,
+					update_root = true,
+				})
+			end,
+			desc = "Find current buffer in [E]xplorer",
+			silent = true,
+		},
 	},
 }
 
@@ -22,7 +40,9 @@ M.opts = {
 	end,
 	update_focused_file = {
 		enable = true,
-		update_cwd = false,
+		update_root = {
+			enable = false,
+		},
 	},
 	sort = {
 		sorter = "case_sensitive",
