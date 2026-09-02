@@ -1,4 +1,4 @@
--- Icon provider for nvim-tree, telescope, bufferline, lualine.
+-- Icon provider for nvim-tree, telescope, lualine.
 -- Mocks the nvim-web-devicons API so those plugins work unmodified while only
 -- mini.icons is actually installed (one less plugin to track).
 local M = {

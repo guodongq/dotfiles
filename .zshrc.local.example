@@ -16,6 +16,10 @@ if [[ $OSTYPE == darwin* && -d "$HOMEBREW_PREFIX/opt/openjdk/bin" ]]; then
   export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openjdk/include"
 fi
 
+# Secrets and personal aliases (never commit real tokens to the tracked .zshrc)
+# export COPILOT_GITHUB_TOKEN="ghp_..."
+# alias copilot-uu="command copilot --deny-tool='shell(rm*)' --deny-tool='shell(git push*)'"
+
 # OpenBLAS
 if [[ -n "$HOMEBREW_PREFIX" && -d "$HOMEBREW_PREFIX/opt/openblas" ]]; then
   export LDFLAGS="-L$HOMEBREW_PREFIX/opt/openblas/lib"

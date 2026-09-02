@@ -29,6 +29,8 @@ M.opts = {
 		yaml = { "prettier" },
 		markdown = { "prettier" },
 		css = { "prettier" },
+		c = { "clang_format" },
+		proto = { "buf" },
 	},
 }
 

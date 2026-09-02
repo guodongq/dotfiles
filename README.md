@@ -28,3 +28,10 @@ under `lua/plugins/{ui,editor,lsp,finder}/` by concern. LSP servers and CLI
 tools are installed automatically via `mason-tool-installer` on first launch —
 no manual setup beyond `:Lazy sync`.
 
+### AI
+
+[sidekick.nvim](https://github.com/folke/sidekick.nvim) provides inline Next
+Edit Suggestions (`<Tab>`) plus a terminal CLI toggle for tools like the
+Copilot CLI (`<leader>a{a,c,s,d,p,f,t,v}`), backed by the `copilot` LSP server
+in `plugins/lsp/servers.lua` (sign in with `:LspCopilotSignIn`).
+
