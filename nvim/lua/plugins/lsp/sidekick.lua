@@ -6,9 +6,7 @@ local M = {
 	"folke/sidekick.nvim",
 	opts = {
 		cli = {
-			-- telescope stays the one picker in this config; snacks.nvim is
-			-- installed but its own picker module is deliberately left disabled
-			picker = "telescope",
+			picker = "snacks",
 		},
 	},
 	keys = {

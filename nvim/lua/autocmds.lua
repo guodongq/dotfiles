@@ -28,12 +28,10 @@ vim.filetype.add({
 vim.api.nvim_create_autocmd("TermOpen", {
 	group = vim.api.nvim_create_augroup("term-open", { clear = true }),
 	callback = function(data)
-		if not string.find(vim.bo[data.buf].filetype, "^[fF][tT]erm") then
-			vim.api.nvim_set_option_value("number", false, { scope = "local" })
-			vim.api.nvim_set_option_value("relativenumber", false, { scope = "local" })
-			vim.api.nvim_set_option_value("signcolumn", "no", { scope = "local" })
-			vim.api.nvim_command("startinsert")
-		end
+		vim.api.nvim_set_option_value("number", false, { scope = "local" })
+		vim.api.nvim_set_option_value("relativenumber", false, { scope = "local" })
+		vim.api.nvim_set_option_value("signcolumn", "no", { scope = "local" })
+		vim.api.nvim_command("startinsert")
 	end,
 })
 

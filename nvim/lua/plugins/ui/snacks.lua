@@ -1,6 +1,5 @@
--- folke/snacks.nvim: consolidates dashboard (was alpha-nvim), indent guides
--- (was indent-blankline.nvim) and window zoom (was maximizer.nvim), and adds
--- a nicer vim.notify.
+-- folke/snacks.nvim consolidates dashboard, indent guides, window zoom,
+-- notifications, file finding, and the explorer.
 local M = {
 	"folke/snacks.nvim",
 	priority = 1000,
@@ -9,6 +8,21 @@ local M = {
 
 ---@type snacks.Config
 M.opts = {
+	picker = {
+		enabled = true,
+		sources = {
+			explorer = {
+				win = {
+					list = {
+						keys = {
+							["o"] = "confirm",
+						},
+					},
+				},
+			},
+		},
+	},
+	explorer = { enabled = true },
 	dashboard = {
 		enabled = true,
 		preset = {
@@ -24,9 +38,9 @@ M.opts = {
        ><> ^^^     ^^    ><> ^^     ^^    ^      
 ]],
 			keys = {
-				{ icon = " ", key = "f", desc = "Search Files", action = ":Telescope find_files" },
-				{ icon = " ", key = "g", desc = "Search by Grep", action = ":Telescope live_grep" },
-				{ icon = " ", key = "r", desc = "Search Recent Files", action = ":Telescope oldfiles" },
+				{ icon = " ", key = "f", desc = "Search Files", action = ":lua Snacks.picker.files()" },
+				{ icon = " ", key = "g", desc = "Search by Grep", action = ":lua Snacks.picker.grep()" },
+				{ icon = " ", key = "r", desc = "Search Recent Files", action = ":lua Snacks.picker.recent()" },
 				{ icon = " ", key = "s", desc = "Restore Session", section = "session" },
 				{ icon = " ", key = "a", desc = "New File", action = ":ene | startinsert" },
 				{ icon = " ", key = "c", desc = "Config", action = ":edit $MYVIMRC" },
@@ -42,6 +56,20 @@ M.opts = {
 }
 
 M.keys = {
+	{ "<leader>sf", function() Snacks.picker.files() end, desc = "[S]earch [F]iles" },
+	{ "<leader>sg", function() Snacks.picker.grep() end, desc = "[S]earch by [G]rep" },
+	{ "<leader>sb", function() Snacks.picker.buffers() end, desc = "[S]earch [B]uffers" },
+	{ "<leader>sh", function() Snacks.picker.help() end, desc = "[S]earch [H]elp" },
+	{ "<leader>sc", function() Snacks.picker.commands() end, desc = "[S]earch [C]ommands" },
+	{ "<leader>e", function() Snacks.picker.explorer() end, desc = "Toggle [E]xplorer" },
+	{
+		"<leader>E",
+		function()
+			local path = vim.api.nvim_buf_get_name(0)
+			if path ~= "" then Snacks.picker.explorer({ cwd = vim.fs.dirname(path) }) end
+		end,
+		desc = "Open Current Buffer Directory in [E]xplorer",
+	},
 	{ "<leader>wm", function() Snacks.zen.zoom() end, desc = "Maximize Window" },
 	{ "<c-/>", function() Snacks.terminal() end, desc = "Toggle Terminal", mode = { "n", "t" } },
 	{ "<c-_>", function() Snacks.terminal() end, desc = "Toggle Terminal", mode = { "n", "t" } },
