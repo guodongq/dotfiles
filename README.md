@@ -20,6 +20,27 @@ recorded in `install.conf.yaml`. Machine-specific shell settings live in
 is absent. Edit that local file for language runtimes, package paths, and other
 machine-only settings.
 
+## Homebrew
+
+`Brewfile` is the source of truth for CLI tools, taps, and casks; the installer
+runs `brew bundle install` automatically on `./install`. Keep it in sync with
+what's actually installed:
+
+```
+# After installing/removing something with brew, update the tracked file:
+brew bundle dump --file=Brewfile --force --formula --cask
+
+# Check drift without changing anything:
+brew bundle check --file=Brewfile --verbose
+
+# Remove anything installed but not listed in Brewfile (destructive, review first):
+brew bundle cleanup --file=Brewfile
+```
+
+`--formula --cask` intentionally excludes `npm`/`go`/`uv`-installed global
+packages that recent Homebrew Bundle versions also capture — those are managed
+by their own toolchains, not Homebrew.
+
 ## Git
 
 Shared settings live in `.gitconfig`. Per-machine identity or tokens go in an

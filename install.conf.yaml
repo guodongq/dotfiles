@@ -16,6 +16,12 @@
       path: nvim
 
 - shell:
+    - description: Installing Homebrew packages from Brewfile
+      command: |
+        command -v brew &>/dev/null && brew bundle install --file=Brewfile --no-lock || true
+      stdin: true
+      stdout: true
+      stderr: true
     - description: Installing pinned Oh My Zsh dependencies
       command: |
         install_git_repo() {
