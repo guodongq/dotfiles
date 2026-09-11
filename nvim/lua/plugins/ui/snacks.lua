@@ -22,7 +22,6 @@ M.opts = {
 			},
 		},
 	},
-	explorer = { enabled = true },
 	dashboard = {
 		enabled = true,
 		preset = {
@@ -61,15 +60,6 @@ M.keys = {
 	{ "<leader>sb", function() Snacks.picker.buffers() end, desc = "[S]earch [B]uffers" },
 	{ "<leader>sh", function() Snacks.picker.help() end, desc = "[S]earch [H]elp" },
 	{ "<leader>sc", function() Snacks.picker.commands() end, desc = "[S]earch [C]ommands" },
-	{ "<leader>e", function() Snacks.picker.explorer() end, desc = "Toggle [E]xplorer" },
-	{
-		"<leader>E",
-		function()
-			local path = vim.api.nvim_buf_get_name(0)
-			if path ~= "" then Snacks.picker.explorer({ cwd = vim.fs.dirname(path) }) end
-		end,
-		desc = "Open Current Buffer Directory in [E]xplorer",
-	},
 	{ "<leader>wm", function() Snacks.zen.zoom() end, desc = "Maximize Window" },
 	{ "<c-/>", function() Snacks.terminal() end, desc = "Toggle Terminal", mode = { "n", "t" } },
 	{ "<c-_>", function() Snacks.terminal() end, desc = "Toggle Terminal", mode = { "n", "t" } },

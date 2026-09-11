@@ -1,0 +1,12 @@
+# Per-machine git overrides. Copy to ~/.gitconfig.local (never committed) and
+# edit as needed. It is included LAST by the tracked .gitconfig, so any value
+# here overrides the shared defaults (e.g. swap work/personal identity).
+[user]
+	name = guodongq
+	email = your.name@example.com
+
+# Optional: pick identity automatically by repository path.
+# [includeIf "gitdir:~/Work/"]
+# 	path = ~/.gitconfig-work
+# [includeIf "gitdir:~/Personal/"]
+# 	path = ~/.gitconfig-personal

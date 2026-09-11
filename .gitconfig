@@ -50,3 +50,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
+# Optional per-machine overrides (identity, tokens). Loaded last so it wins;
+# git silently ignores it when the file does not exist.
+# Copy .gitconfig.local.example to ~/.gitconfig.local and edit as needed.
+[include]
+	path = ~/.gitconfig.local

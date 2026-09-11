@@ -45,3 +45,11 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 		end
 	end,
 })
+
+-- Relative line numbers: on in Normal, off in Insert to reduce distraction
+vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
+	group = vim.api.nvim_create_augroup("toggle-relative-number", { clear = true }),
+	callback = function(event)
+		vim.o.relativenumber = event.event == "InsertLeave"
+	end,
+})

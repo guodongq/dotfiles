@@ -4,3 +4,4 @@
 *.swo
 *~
 .zshrc.local
+.gitconfig.local

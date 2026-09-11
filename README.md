@@ -20,6 +20,14 @@ recorded in `install.conf.yaml`. Machine-specific shell settings live in
 is absent. Edit that local file for language runtimes, package paths, and other
 machine-only settings.
 
+## Git
+
+Shared settings live in `.gitconfig`. Per-machine identity or tokens go in an
+untracked `~/.gitconfig.local` (copy `.gitconfig.local.example`); it is
+`[include]`d last so its values win, and git silently ignores it when absent.
+The example also shows `includeIf` for automatic work/personal switching by
+repository path.
+
 ## Neovim
 
 Config lives in `nvim/` (symlinked to `~/.config/nvim`) and uses
