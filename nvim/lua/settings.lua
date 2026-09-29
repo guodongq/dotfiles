@@ -5,7 +5,7 @@ vim.g.maplocalleader = " "
 -- Set to true if a Nerd Font is installed and selected in the terminal
 vim.g.have_nerd_font = true
 
--- True color support (colorscheme loads before nvim-tree would otherwise set this)
+-- True color support for the colorscheme
 vim.o.termguicolors = true
 
 -- See `:help option-list`
@@ -14,7 +14,7 @@ vim.o.relativenumber = true
 vim.o.mouse = "a"
 vim.o.showmode = false
 
--- Sync OS clipboard; scheduled after UiEnter so it doesn't slow startup
+-- Defer clipboard integration so it doesn't slow startup
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
@@ -44,19 +44,12 @@ vim.o.scrolloff = 10
 -- Prompt to save instead of failing on unsaved changes (e.g. `:q`)
 vim.o.confirm = true
 
--- Folding (use treesitter-based folding when available)
+-- Neovim's native Treesitter fold expression works without a parser, too
 vim.o.foldmethod = "expr"
-vim.o.foldexpr = "nvim_treesitter#foldexpr()"
+vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
-
--- Persistent undo directory (ensure undofile works across sessions)
-local undodir = vim.fn.stdpath("state") .. "/undo"
-if vim.fn.isdirectory(undodir) == 0 then
-	vim.fn.mkdir(undodir, "p")
-end
-vim.o.undodir = undodir
 
 -- Diagnostics display configuration
 vim.diagnostic.config({

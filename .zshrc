@@ -8,14 +8,11 @@
 # ─────────────────────────────────────────────────────────────────────
 typeset -U path PATH
 
-# Homebrew (Apple Silicon / Intel / Linux, in that order)
-if [[ -x /opt/homebrew/bin/brew ]]; then
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-elif [[ -x /usr/local/bin/brew ]]; then
-  eval "$(/usr/local/bin/brew shellenv)"
-elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-fi
+# Homebrew (Apple Silicon / Intel / Linux, first match wins)
+for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+  [[ -x $_brew ]] && eval "$("$_brew" shellenv)" && break
+done
+unset _brew
 
 # Oh My Zsh
 export ZSH="${ZSH:-$HOME/.oh-my-zsh}"

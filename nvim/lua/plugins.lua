@@ -8,8 +8,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	end
 end
 
-local rtp = vim.opt.rtp
-rtp:prepend(lazypath)
+vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{ import = "plugins.ui" },
@@ -32,14 +31,6 @@ require("lazy").setup({
 			start = "🚀",
 			task = "📌",
 			lazy = "💤 ",
-		},
-	},
-	performance = {
-		rtp = {
-			disabled_plugins = {
-				"netrw", "netrwPlugin", "netrwSettings", "netrwFileHandlers",
-				"gzip", "tarPlugin", "tohtml", "tutor", "zipPlugin",
-			},
 		},
 	},
 })

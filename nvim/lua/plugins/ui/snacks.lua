@@ -1,5 +1,5 @@
--- folke/snacks.nvim consolidates dashboard, indent guides, window zoom,
--- notifications, file finding, and the explorer.
+-- folke/snacks.nvim provides dashboard, indent guides, window zoom,
+-- notifications, terminals, and file finding; nvim-tree handles the explorer.
 local M = {
 	"folke/snacks.nvim",
 	priority = 1000,
@@ -10,17 +10,6 @@ local M = {
 M.opts = {
 	picker = {
 		enabled = true,
-		sources = {
-			explorer = {
-				win = {
-					list = {
-						keys = {
-							["o"] = "confirm",
-						},
-					},
-				},
-			},
-		},
 	},
 	dashboard = {
 		enabled = true,
@@ -55,14 +44,64 @@ M.opts = {
 }
 
 M.keys = {
-	{ "<leader>sf", function() Snacks.picker.files() end, desc = "[S]earch [F]iles" },
-	{ "<leader>sg", function() Snacks.picker.grep() end, desc = "[S]earch by [G]rep" },
-	{ "<leader>sb", function() Snacks.picker.buffers() end, desc = "[S]earch [B]uffers" },
-	{ "<leader>sh", function() Snacks.picker.help() end, desc = "[S]earch [H]elp" },
-	{ "<leader>sc", function() Snacks.picker.commands() end, desc = "[S]earch [C]ommands" },
-	{ "<leader>wm", function() Snacks.zen.zoom() end, desc = "Maximize Window" },
-	{ "<c-/>", function() Snacks.terminal() end, desc = "Toggle Terminal", mode = { "n", "t" } },
-	{ "<c-_>", function() Snacks.terminal() end, desc = "Toggle Terminal", mode = { "n", "t" } },
+	{
+		"<leader>sf",
+		function()
+			Snacks.picker.files()
+		end,
+		desc = "[S]earch [F]iles",
+	},
+	{
+		"<leader>sg",
+		function()
+			Snacks.picker.grep()
+		end,
+		desc = "[S]earch by [G]rep",
+	},
+	{
+		"<leader>sb",
+		function()
+			Snacks.picker.buffers()
+		end,
+		desc = "[S]earch [B]uffers",
+	},
+	{
+		"<leader>sh",
+		function()
+			Snacks.picker.help()
+		end,
+		desc = "[S]earch [H]elp",
+	},
+	{
+		"<leader>sc",
+		function()
+			Snacks.picker.commands()
+		end,
+		desc = "[S]earch [C]ommands",
+	},
+	{
+		"<leader>wm",
+		function()
+			Snacks.zen.zoom()
+		end,
+		desc = "Maximize Window",
+	},
+	{
+		"<c-/>",
+		function()
+			Snacks.terminal()
+		end,
+		desc = "Toggle Terminal",
+		mode = { "n", "t" },
+	},
+	{
+		"<c-_>",
+		function()
+			Snacks.terminal()
+		end,
+		desc = "Toggle Terminal",
+		mode = { "n", "t" },
+	},
 }
 
 return M

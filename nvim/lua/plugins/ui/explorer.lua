@@ -48,11 +48,12 @@ M.opts = {
 	},
 }
 
-M.config = function(_, opts)
+M.init = function()
 	vim.g.loaded_netrw = 1
 	vim.g.loaded_netrwPlugin = 1
-	vim.opt.termguicolors = vim.g.have_nerd_font
+end
 
+M.config = function(_, opts)
 	require("nvim-tree").setup(opts)
 
 	vim.cmd([[

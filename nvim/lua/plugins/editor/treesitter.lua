@@ -1,21 +1,50 @@
-local M = {
+local parsers = {
+	"bash",
+	"c",
+	"cpp",
+	"diff",
+	"html",
+	"java",
+	"javascript",
+	"json",
+	"lua",
+	"luadoc",
+	"markdown",
+	"markdown_inline",
+	"python",
+	"query",
+	"regex",
+	"toml",
+	"tsx",
+	"typescript",
+	"vim",
+	"vimdoc",
+	"yaml",
+	"go",
+	"gomod",
+	"gowork",
+	"css",
+	"scss",
+}
+
+return {
 	"nvim-treesitter/nvim-treesitter",
+	branch = "main",
+	lazy = false,
 	build = ":TSUpdate",
-	event = { "BufReadPost", "BufNewFile" },
-}
+	config = function()
+		require("nvim-treesitter").setup({ install_dir = vim.fn.stdpath("data") .. "/site" })
 
-M.opts = {
-	ensure_installed = {
-		"bash", "c", "cpp", "diff", "html", "java", "javascript",
-		"json", "lua", "luadoc", "markdown", "markdown_inline",
-		"python", "query", "regex", "toml", "tsx", "typescript",
-		"vim", "vimdoc", "yaml", "go", "gomod", "gowork",
-		"css", "scss",
-	},
-	sync_install = false,
-	highlight = { enable = true, additional_vim_regex_highlighting = false },
-	indent = { enable = true },
-	incremental_selection = { enable = true, keymaps = { init_selection = "<C-space>" } },
+		vim.api.nvim_create_autocmd("FileType", {
+			group = vim.api.nvim_create_augroup("treesitter-highlight", { clear = true }),
+			callback = function(event)
+				local lang = vim.treesitter.language.get_lang(event.match) or event.match
+				if #vim.api.nvim_get_runtime_file("parser/" .. lang .. ".*", false) > 0 then
+					vim.treesitter.start(event.buf, lang)
+				elseif vim.list_contains(parsers, lang) then
+					require("nvim-treesitter").install({ lang })
+				end
+			end,
+		})
+	end,
 }
-
-return M

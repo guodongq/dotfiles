@@ -22,6 +22,8 @@ brew "ffmpeg"
 brew "gcc"
 # GitHub command-line tool
 brew "gh"
+# Git Large File Storage, required by the shared Git config
+brew "git-lfs"
 # GNU implementation of the famous stream editor
 brew "gnu-sed"
 # Open source programming language to build simple/reliable/efficient software
@@ -51,7 +53,7 @@ brew "mockery"
 # Incremental parsing library
 brew "tree-sitter"
 # Clean C library for processing UTF-8 Unicode data
-brew "utf8proc", args: ["HEAD"]
+brew "utf8proc"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
 # No Nonsense Neovim Client in Rust

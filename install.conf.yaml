@@ -8,22 +8,24 @@
 - link:
     ~/.zshrc: .zshrc
     ~/.npmrc: .npmrc
-    ~/.gitconfig:
-      force: true
-      path: .gitconfig
-    ~/.config/nvim:
-      force: true
-      path: nvim
+    ~/.gitconfig: .gitconfig
+    ~/.config/nvim: nvim
 
 - shell:
     - description: Installing Homebrew packages from Brewfile
       command: |
-        command -v brew &>/dev/null && brew bundle install --file=Brewfile --no-lock || true
+        if ! command -v brew >/dev/null 2>&1; then
+          printf '%s\n' 'Homebrew is required for Brewfile; install it and rerun ./install.' >&2
+          exit 1
+        fi
+        brew bundle install --file=Brewfile --no-lock
       stdin: true
       stdout: true
       stderr: true
     - description: Installing pinned Oh My Zsh dependencies
       command: |
+        set -eu
+
         install_git_repo() {
           repo="$1"
           target="$2"

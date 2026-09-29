@@ -2,9 +2,18 @@
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<leader>H", "<cmd>nohlsearch<cr>", { desc = "Clear [H]ighlights" })
+vim.keymap.set("n", "<leader>S", "<cmd>write<cr>", { desc = "[S]ave file" })
+vim.keymap.set("n", "<leader>Q", "<cmd>confirm qall<cr>", { desc = "[Q]uit Neovim" })
 
 -- Diagnostics
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+vim.keymap.set("n", "]d", function()
+	vim.diagnostic.jump({ count = 1 })
+end, { desc = "Next [D]iagnostic" })
+vim.keymap.set("n", "[d", function()
+	vim.diagnostic.jump({ count = -1 })
+end, { desc = "Prev [D]iagnostic" })
 
 -- Exit terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
@@ -16,7 +25,7 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower win
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
 -- Paste from system clipboard in insert mode
-vim.keymap.set("i", "<D-v>", "<C-r>+", { noremap = true, desc = "Paste from system clipboard" })
+vim.keymap.set("i", "<D-v>", "<C-r>+", { desc = "Paste from system clipboard" })
 
 -- Window management
 vim.keymap.set("n", "<leader>wd", "<cmd>wincmd c<cr>", { desc = "[D]elete Current [W]indow" })
@@ -35,8 +44,6 @@ vim.keymap.set("n", "<M-j>", ":m .+1<CR>==", { desc = "Move current line down" }
 vim.keymap.set("n", "<M-k>", ":m .-2<CR>==", { desc = "Move current line up" })
 vim.keymap.set("i", "<M-j>", "<Esc>:m .+1<CR>==gi", { desc = "Move current line down" })
 vim.keymap.set("i", "<M-k>", "<Esc>:m .-2<CR>==gi", { desc = "Move current line up" })
-vim.keymap.set("x", "<M-j>", ":m '>+1<CR>gv=gv", { desc = "Move selected lines down" })
-vim.keymap.set("x", "<M-k>", ":m '<-2<CR>gv=gv", { desc = "Move selected lines up" })
 
 -- Better paste (don't yank replaced text)
 vim.keymap.set("v", "p", '"_dP')

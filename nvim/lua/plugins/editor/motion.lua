@@ -17,8 +17,22 @@ local M = {
 		},
 	},
 	keys = {
-		{ "<leader>jw", function() require("flash").jump() end, mode = { "n", "x", "o" }, desc = "[J]ump To [W]ord" },
-		{ "<leader>jt", function() require("flash").treesitter() end, mode = { "n", "x", "o" }, desc = "[J]ump [T]reesitter Node" },
+		{
+			"<leader>jw",
+			function()
+				require("flash").jump()
+			end,
+			mode = { "n", "x", "o" },
+			desc = "[J]ump To [W]ord",
+		},
+		{
+			"<leader>jt",
+			function()
+				require("flash").treesitter()
+			end,
+			mode = { "n", "x", "o" },
+			desc = "[J]ump [T]reesitter Node",
+		},
 	},
 }
 

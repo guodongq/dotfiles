@@ -23,9 +23,6 @@ M.opts = {
 		{ "[", group = "Prev" },
 		{ "s", group = "[S]urround" },
 		{ "z", group = "Fold" },
-		{ "<leader>H", "<cmd>nohlsearch<cr>", desc = "Clear [H]ighlights" },
-		{ "<leader>Q", "<cmd>confirm qall<cr>", desc = "[Q]uit Neovim" },
-		{ "<leader>S", "<cmd>w!<cr>", desc = "[S]ave file" },
 	},
 }
 
