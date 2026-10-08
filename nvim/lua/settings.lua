@@ -59,5 +59,10 @@ vim.diagnostic.config({
 	underline = { severity = { min = vim.diagnostic.severity.WARN } },
 	virtual_text = { spacing = 4, prefix = "●", severity = { min = vim.diagnostic.severity.ERROR } },
 	virtual_lines = false,
-	jump = { float = true },
+	-- `jump.float` was renamed to `jump.on_jump` in Nvim 0.11 (removed in 0.14)
+	jump = {
+		on_jump = function(_, bufnr)
+			vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false })
+		end,
+	},
 })

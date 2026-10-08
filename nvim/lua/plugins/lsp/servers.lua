@@ -132,18 +132,15 @@ M.config = function(_, opts)
 				end
 			end
 
+			-- Nvim >= 0.11 already maps grn/gra/gri/grr/grt/grx/gO globally to the
+			-- matching vim.lsp.buf.*/codelens functions (see `:h lsp-defaults`), so
+			-- only keymaps without a built-in default are added here.
 			map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition", "textDocument/definition")
 			map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration", "textDocument/declaration")
-			map("grt", vim.lsp.buf.type_definition, "[G]oto [T]ype Definition", "textDocument/typeDefinition")
-			map("gri", vim.lsp.buf.implementation, "[G]oto [I]mplementation", "textDocument/implementation")
-			map("grr", vim.lsp.buf.references, "[G]oto [R]eferences", "textDocument/references")
 			map("K", vim.lsp.buf.hover, "Hover Documentation", "textDocument/hover")
 			map("gK", vim.lsp.buf.signature_help, "Signature Help", "textDocument/signatureHelp")
 			map("grd", vim.lsp.buf.document_symbol, "Document Symbols", "textDocument/documentSymbol")
 			map("grw", vim.lsp.buf.workspace_symbol, "Workspace Symbols", "workspace/symbol")
-			map("grn", vim.lsp.buf.rename, "Re[n]ame", "textDocument/rename")
-			map("gra", vim.lsp.buf.code_action, "Code [A]ction", "textDocument/codeAction", { "n", "x" })
-			map("grx", vim.lsp.codelens.run, "Code [X] Lens Action", "textDocument/codeLens")
 			map("gro", "<cmd>Trouble symbols toggle focus=false<cr>", "Code [O]utline", "textDocument/documentSymbol")
 
 			if

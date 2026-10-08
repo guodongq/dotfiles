@@ -27,13 +27,12 @@ M.opts = {
 	end,
 	update_focused_file = {
 		enable = true,
-		update_cwd = true,
+		update_root = true,
 	},
 	sort = {
 		sorter = "case_sensitive",
 	},
 	view = {
-		adaptive_size = true,
 		side = "left",
 	},
 	renderer = {

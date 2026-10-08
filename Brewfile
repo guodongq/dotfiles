@@ -18,6 +18,8 @@ brew "cmake"
 brew "cookiecutter"
 # Play, record, convert, and stream select audio and video codecs
 brew "ffmpeg"
+# Simple, fast and user-friendly alternative to find
+brew "fd"
 # GNU compiler collection
 brew "gcc"
 # GitHub command-line tool
