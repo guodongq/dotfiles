@@ -1,8 +1,7 @@
-# Machine-specific shell settings. This file is copied to ~/.zshrc.local during installation.
-# The tracked .zshrc already enables `typeset -U path PATH`, so prefer the zsh
-# `path` array here (duplicates are removed automatically):
-#   prepend a directory:  path=("/dir" $path)
-#   append a directory:   path+=("/dir")
+# Copied to ~/.zshrc.local on first install; keep machine-specific settings here.
+# PATH entries are deduplicated by .zshrc:
+#   prepend: path=("/dir" "${path[@]}")
+#   append:  path+=("/dir")
 
 # Go
 if [[ -n "$HOMEBREW_PREFIX" && -d "$HOMEBREW_PREFIX/opt/go/libexec" ]]; then
@@ -12,11 +11,11 @@ fi
 
 # pnpm (macOS default)
 export PNPM_HOME="$HOME/Library/pnpm"
-[[ -d "$PNPM_HOME" ]] && path=("$PNPM_HOME" $path)
+[[ -d "$PNPM_HOME" ]] && path=("$PNPM_HOME" "${path[@]}")
 
 # Java (macOS)
 if [[ $OSTYPE == darwin* && -d "$HOMEBREW_PREFIX/opt/openjdk/bin" ]]; then
-  path=("$HOMEBREW_PREFIX/opt/openjdk/bin" $path)
+  path=("$HOMEBREW_PREFIX/opt/openjdk/bin" "${path[@]}")
   export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openjdk/include"
 fi
 

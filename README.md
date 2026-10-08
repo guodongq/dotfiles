@@ -1,86 +1,82 @@
 # Dotfiles
 
-Portable configuration for all the programs I use.
-System-specific changes have their own branch.
+Shared shell, Git and Neovim configuration. Keep machine-specific settings in
+untracked local files rather than changing the shared defaults.
 
 ## Installation
 
-This repo uses [dotbot](https://github.com/anishathalye/dotbot/) for automatically linking the files.
-On macOS, install Homebrew first; `./install` requires it to install `Brewfile`.
-Git and Python 3 are also required for Dotbot.
-Then clone and run `./install`.
+Requires Git, Python 3 and Homebrew. On macOS, install Homebrew first.
 
-```
+```sh
 git clone https://github.com/guodongq/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ./install
 ```
 
-The installer will not overwrite a regular `~/.gitconfig` or `~/.config/nvim`
-directory. Move either existing config aside yourself before rerunning it;
-existing symlinks may be relinked. Homebrew or shell setup failures make
-installation fail rather than silently skipping tools. The installer bootstraps
-Oh My Zsh and its plugins at the revisions recorded in `install.conf.yaml`.
-Machine-specific shell settings live in `~/.zshrc.local`; the installer creates
-it from `.zshrc.local.example` when absent.
+`./install` uses [Dotbot](https://github.com/anishathalye/dotbot/) to link configs,
+installs `Brewfile`, checks out pinned Oh My Zsh dependencies, and creates
+`~/.zshrc.local` if absent. Existing regular files/directories are not overwritten;
+move conflicting configs aside before rerunning. Existing symlinks may be
+relinked. Failed setup commands make installation fail.
+
+## Where to change things
+
+| Configuration                                       | File                                                   |
+| --------------------------------------------------- | ------------------------------------------------------ |
+| Shared shell defaults, aliases and plugins          | `.zshrc`                                               |
+| Machine-only paths, runtimes and secrets            | `~/.zshrc.local` (start with `.zshrc.local.example`)   |
+| Shared Git settings                                 | `.gitconfig`                                           |
+| Git identity or machine-only overrides              | `~/.gitconfig.local` (copy `.gitconfig.local.example`) |
+| Homebrew packages, grouped by purpose               | `Brewfile`                                             |
+| Links, install steps and shell dependency revisions | `install.conf.yaml`                                    |
+| Neovim options, keymaps and autocommands            | `nvim/lua/{settings,keybinds,autocmds}.lua`            |
+| Neovim plugins                                      | `nvim/lua/plugins/{ui,editor,lsp,finder}/`             |
+
+Local shell and Git files are loaded last, so their values override shared
+defaults. Keep credentials out of tracked files. The Git example also shows
+per-directory identities with `includeIf`.
 
 ## Homebrew
 
-`Brewfile` is the source of truth for CLI tools, taps, and casks; the installer
-runs `brew bundle install` automatically on `./install`. Keep it in sync with
-what's actually installed:
+Edit `Brewfile` to add or remove packages, then install or check the list:
 
-```
-# After installing/removing something with brew, update the tracked file:
-brew bundle dump --file=Brewfile --force --formula --cask
-
-# Check drift without changing anything:
+```sh
+brew bundle install --file=Brewfile --no-lock
 brew bundle check --file=Brewfile --verbose
 
-# Remove anything installed but not listed in Brewfile (destructive, review first):
+# Remove unlisted packages (destructive; review first).
 brew bundle cleanup --file=Brewfile
 ```
 
-`--formula --cask` intentionally excludes `npm`/`go`/`uv`-installed global
-packages that recent Homebrew Bundle versions also capture — those are managed
-by their own toolchains, not Homebrew.
-
-## Git
-
-Shared settings (including the default identity) live in `.gitconfig`. Override
-the identity for another machine, or store machine-only credentials, in an
-untracked `~/.gitconfig.local` (copy `.gitconfig.local.example`); it is
-`[include]`d last so its values win, and git silently ignores it when absent.
-The example also shows `includeIf` for work/personal switching by repository
-path. The Git LFS filter uses `git-lfs`, installed by `Brewfile`. Never commit
-real tokens to this repo.
+To regenerate from installed packages, use
+`brew bundle dump --file=Brewfile --force --formula --cask`. This replaces the
+manual grouping and excludes global `npm`/`go`/`uv` packages, which belong to
+their own toolchains.
 
 ## Neovim
 
-Config lives in `nvim/` (symlinked to `~/.config/nvim`). Standalone Neovim
-requires 0.12 or later for the current `nvim-treesitter` branch. `init.lua`
-loads editor settings, autocommands, and keymaps, then bootstraps
-[lazy.nvim](https://github.com/folke/lazy.nvim); VSCode Neovim instead loads
-the minimal `vscode.lua` integration. Plugin specs are grouped under
-`lua/plugins/{ui,editor,lsp,finder}/` by concern. `keybinds.lua` owns editor
-shortcuts; which-key describes their groups instead of being the sole source
-of functional mappings.
+Requires Neovim 0.12+ for the current Treesitter branch. `nvim/` is linked to
+`~/.config/nvim`; `init.lua` loads settings, autocommands, plugins and keymaps.
+VSCode Neovim only loads `lua/vscode.lua`, leaving plugins and UI to VSCode.
 
-Snacks handles search, the dashboard, and the terminal; nvim-tree remains the
-file explorer (`<leader>e` / `<leader>E`). Mason installs configured LSP servers
-and additional formatters/linters on first launch; nvim-lint uses `eslint_d`
-for JavaScript/TypeScript and `markdownlint` for Markdown. Blink uses its
-built-in snippet engine. Treesitter parsers are installed on first opening a
-configured filetype; installation is asynchronous, so reopen that file after
-its first install to activate highlighting. Run `:Lazy sync` to sync plugins
-and `:checkhealth` to diagnose missing tools. Set
-`vim.g.have_nerd_font = false` in `nvim/lua/settings.lua` if your terminal has
-no Nerd Font.
+Plugin files return a single Lazy spec; keep plugin-specific keymaps with that
+spec and editor-only shortcuts in `keybinds.lua`. Which-key labels groups, not
+functional mappings. To add a language, edit `servers` and `tools` in
+`plugins/lsp/servers.lua`, then the filetype lists in `plugins/lsp/{format,lint}.lua`
+and `plugins/editor/treesitter.lua` as needed.
+
+Snacks handles search, dashboard and terminal; nvim-tree is the explorer
+(`<leader>e` / `<leader>E`). Mason installs LSP servers and tools on first launch.
+Blink uses built-in snippets. Treesitter installs parsers asynchronously on
+first use; reopen the file afterward to enable highlighting.
+
+Use `:Lazy sync` to sync plugins and `:checkhealth` for missing tools. Without
+a Nerd Font, set `vim.g.have_nerd_font = false` in `lua/settings.lua`.
 
 ### AI
 
-[sidekick.nvim](https://github.com/folke/sidekick.nvim) provides inline Next
-Edit Suggestions (`<Tab>` in normal mode; after Blink's snippet navigation in
-insert mode) plus a terminal CLI toggle for tools like the Copilot CLI
-(`<leader>a{a,c,s,d,p,f,t,v}`), backed by the `copilot` LSP server in
-`plugins/lsp/servers.lua` (sign in with `:LspCopilotSignIn`).
+[sidekick.nvim](https://github.com/folke/sidekick.nvim) uses the `copilot` LSP
+server for next-edit suggestions. Sign in with `:LspCopilotSignIn`; use `<Tab>`
+to apply/jump (in insert mode, Blink snippet navigation takes precedence).
+`<leader>aa` toggles the CLI and `<leader>ac` opens Copilot. Other AI shortcuts
+live in `plugins/lsp/sidekick.lua` and appear in which-key.

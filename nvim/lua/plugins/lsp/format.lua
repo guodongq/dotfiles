@@ -1,4 +1,4 @@
-local M = {
+return {
 	"stevearc/conform.nvim",
 	event = "BufWritePre",
 	cmd = "ConformInfo",
@@ -11,26 +11,23 @@ local M = {
 			desc = "[F]ormat",
 		},
 	},
-}
-
-M.opts = {
-	format_on_save = {
-		timeout_ms = 1000,
-		lsp_format = "fallback",
+	opts = {
+		format_on_save = {
+			timeout_ms = 1000,
+			lsp_format = "fallback",
+		},
+		formatters_by_ft = {
+			c = { "clang_format" },
+			css = { "prettier" },
+			go = { "gofumpt", "goimports" },
+			javascript = { "prettier" },
+			json = { "prettier" },
+			lua = { "stylua" },
+			markdown = { "prettier" },
+			proto = { "buf" },
+			python = { "ruff_format" },
+			typescript = { "prettier" },
+			yaml = { "prettier" },
+		},
 	},
-	formatters_by_ft = {
-		lua = { "stylua" },
-		go = { "gofumpt", "goimports" },
-		python = { "ruff_format" },
-		javascript = { "prettier" },
-		typescript = { "prettier" },
-		json = { "prettier" },
-		yaml = { "prettier" },
-		markdown = { "prettier" },
-		css = { "prettier" },
-		c = { "clang_format" },
-		proto = { "buf" },
-	},
 }
-
-return M

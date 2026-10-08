@@ -1,7 +1,7 @@
 -- Search-label motion with treesitter integration (replaces hop.nvim).
 -- Bound under <leader>j* instead of flash's default bare `s`/`S`, since `s`
 -- is already used by mini.surround.
-local M = {
+return {
 	"folke/flash.nvim",
 	event = "VeryLazy",
 	---@type Flash.Config
@@ -35,5 +35,3 @@ local M = {
 		},
 	},
 }
-
-return M

@@ -2,7 +2,7 @@
 -- Requires the `copilot` LSP server (enabled in plugins/lsp/servers.lua).
 -- First-time setup: run `:LspCopilotSignIn` to authenticate, then `:checkhealth sidekick`.
 
-local M = {
+return {
 	"folke/sidekick.nvim",
 	opts = {
 		cli = {
@@ -91,5 +91,3 @@ local M = {
 		},
 	},
 }
-
-return M

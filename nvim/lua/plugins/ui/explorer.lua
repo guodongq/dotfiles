@@ -1,4 +1,4 @@
-local M = {
+return {
 	"nvim-tree/nvim-tree.lua",
 	version = "*",
 	lazy = false,
@@ -9,58 +9,53 @@ local M = {
 		{ "<leader>e", "<cmd>NvimTreeFindFileToggle<cr>", desc = "Toggle [E]xplorer", silent = true },
 		{ "<leader>E", "<cmd>NvimTreeFindFile<cr>", desc = "Reveal Current File in [E]xplorer", silent = true },
 	},
-}
+	opts = {
+		on_attach = function(bufnr)
+			local api = require("nvim-tree.api")
 
-M.opts = {
-	on_attach = function(bufnr)
-		local api = require("nvim-tree.api")
+			local function opts(desc)
+				return { desc = "nvim-tree:" .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+			end
 
-		local function opts(desc)
-			return { desc = "nvim-tree:" .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-		end
-
-		api.config.mappings.default_on_attach(bufnr)
-		vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
-		vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
-		vim.keymap.set("n", "C", api.tree.change_root_to_node, opts("CD"))
-		vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
+			api.config.mappings.default_on_attach(bufnr)
+			vim.keymap.set("n", "u", api.tree.change_root_to_parent, opts("Up"))
+			vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
+			vim.keymap.set("n", "C", api.tree.change_root_to_node, opts("CD"))
+			vim.keymap.set("n", "l", api.node.open.edit, opts("Open"))
+		end,
+		update_focused_file = {
+			enable = true,
+			update_root = true,
+		},
+		sort = {
+			sorter = "case_sensitive",
+		},
+		view = {
+			side = "left",
+		},
+		renderer = {
+			group_empty = true,
+		},
+		diagnostics = {
+			enable = true,
+			show_on_dirs = true,
+		},
+		filters = {
+			dotfiles = true,
+		},
+	},
+	init = function()
+		vim.g.loaded_netrw = 1
+		vim.g.loaded_netrwPlugin = 1
 	end,
-	update_focused_file = {
-		enable = true,
-		update_root = true,
-	},
-	sort = {
-		sorter = "case_sensitive",
-	},
-	view = {
-		side = "left",
-	},
-	renderer = {
-		group_empty = true,
-	},
-	diagnostics = {
-		enable = true,
-		show_on_dirs = true,
-	},
-	filters = {
-		dotfiles = true,
-	},
-}
+	config = function(_, opts)
+		require("nvim-tree").setup(opts)
 
-M.init = function()
-	vim.g.loaded_netrw = 1
-	vim.g.loaded_netrwPlugin = 1
-end
-
-M.config = function(_, opts)
-	require("nvim-tree").setup(opts)
-
-	vim.cmd([[
+		vim.cmd([[
 		:hi      NvimTreeExecFile    guifg=#ffa0a0
 		:hi      NvimTreeSpecialFile guifg=#ff80ff gui=underline
 		:hi      NvimTreeSymlink     guifg=Yellow  gui=italic
 		:hi link NvimTreeImageFile   Title
 	]])
-end
-
-return M
+	end,
+}
