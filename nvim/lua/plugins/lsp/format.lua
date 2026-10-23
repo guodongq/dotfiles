@@ -3,13 +3,7 @@ return {
 	event = "BufWritePre",
 	cmd = "ConformInfo",
 	keys = {
-		{
-			"<leader>f",
-			function()
-				require("conform").format({ async = true })
-			end,
-			desc = "[F]ormat",
-		},
+		{ "<leader>f", function() require("conform").format({ async = true }) end, desc = "[F]ormat" },
 	},
 	opts = {
 		format_on_save = {

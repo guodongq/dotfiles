@@ -15,12 +15,13 @@ export ZSH_CUSTOM="${ZSH_CUSTOM:-$ZSH/custom}"
 # the macOS LocalHostName, which drifts and forces a full compinit rebuild.
 export ZSH_COMPDUMP="$HOME/.zcompdump"
 ZSH_THEME="bira"
+# zsh-completions is not an Oh My Zsh plugin; it must be on fpath before compinit.
+fpath+=("$ZSH_CUSTOM/plugins/zsh-completions/src")
 plugins=(
   git
   zsh-autosuggestions
-  zsh-completions
   zsh-syntax-highlighting
-  zsh-history-substring-search
+  history-substring-search # bundled with Oh My Zsh; binds Up/Down, load last
 )
 [[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 

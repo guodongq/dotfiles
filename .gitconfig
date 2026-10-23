@@ -5,14 +5,6 @@
 [core]
 	editor = nvim
 	pager = less -FRSX
-	ignorecase = false
-
-[color]
-	branch = auto
-	diff = auto
-	interactive = auto
-	status = auto
-	ui = auto
 
 [color "branch"]
 	current = green
@@ -40,7 +32,7 @@
 	algorithm = histogram
 
 [merge]
-	conflictstyle = diff3
+	conflictstyle = zdiff3
 
 [rerere]
 	enabled = true

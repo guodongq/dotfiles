@@ -22,7 +22,7 @@
           printf '%s\n' 'Homebrew is required for Brewfile; install it and rerun ./install.' >&2
           exit 1
         fi
-        brew bundle install --file=Brewfile --no-lock
+        brew bundle install --file=Brewfile
     - description: Installing pinned Oh My Zsh dependencies
       command: |
         set -eu
@@ -52,8 +52,6 @@
           "$ZSH_CUSTOM/plugins/zsh-completions" 7a884c75b4f3ce2d8d24df8e55dcc359a020be3f
         install_git_repo https://github.com/zsh-users/zsh-syntax-highlighting \
           "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" e0165eaa730dd0fa321a6a6de74f092fe87630b0
-        install_git_repo https://github.com/zsh-users/zsh-history-substring-search \
-          "$ZSH_CUSTOM/plugins/zsh-history-substring-search" 87ce96b1862928d84b1afe7c173316614b30e301
     - description: Creating local shell settings
       command: |
         [ -e "$HOME/.zshrc.local" ] || cp .zshrc.local.example "$HOME/.zshrc.local"

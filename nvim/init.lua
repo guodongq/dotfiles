@@ -1,8 +1,12 @@
 vim.loader.enable()
-if vim.g.vscode == true or vim.g.vscode == 1 then
-	return require("vscode")
+
+-- VSCode Neovim: only keymaps; VSCode provides the UI and language features.
+if vim.g.vscode then
+	require("config.vscode")
+	return
 end
-require("settings")
-require("autocmds")
-require("plugins")
-require("keybinds")
+
+require("config.options")
+require("config.lazy")
+require("config.autocmds")
+require("config.keymaps")

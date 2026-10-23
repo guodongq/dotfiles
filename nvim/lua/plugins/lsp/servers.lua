@@ -12,7 +12,6 @@ return {
 		-- LSP servers: key = server name, value = lspconfig settings.
 		servers = {
 			gopls = {
-				filetypes = { "go", "gomod", "gowork", "gotmpl" },
 				settings = {
 					gopls = {
 						hints = {
@@ -30,35 +29,10 @@ return {
 					},
 				},
 			},
-			pyright = {
-				settings = {
-					python = {
-						analysis = {
-							autoSearchPaths = true,
-							diagnosticMode = "openFilesOnly",
-							useLibraryCodeForTypes = true,
-						},
-					},
-				},
-			},
-			vtsls = {
-				filetypes = {
-					"javascript",
-					"javascriptreact",
-					"javascript.jsx",
-					"typescript",
-					"typescriptreact",
-					"typescript.tsx",
-				},
-			},
-			clangd = {
-				cmd = { "clangd", "--background-index", "--clang-tidy" },
-				filetypes = { "c", "cpp", "objc", "objcpp" },
-			},
-			jdtls = {
-				cmd = { "jdtls" },
-				filetypes = { "java" },
-			},
+			pyright = {},
+			vtsls = {},
+			clangd = { cmd = { "clangd", "--background-index", "--clang-tidy" } },
+			jdtls = {},
 			lua_ls = {
 				on_init = function(client)
 					local workspace = client.workspace_folders and client.workspace_folders[1]
@@ -108,84 +82,62 @@ return {
 	},
 	config = function(_, opts)
 		local highlight_group = vim.api.nvim_create_augroup("lsp-highlight", { clear = true })
-		local detach_group = vim.api.nvim_create_augroup("lsp-detach", { clear = true })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
 			callback = function(event)
+				local buf = event.buf
 				local client = vim.lsp.get_client_by_id(event.data.client_id)
 				if not client then
-					vim.notify("LspAttach: client not found", vim.log.levels.ERROR)
 					return
 				end
 
-				local function map(keys, func, desc, method, mode)
-					if client:supports_method(method, event.buf) then
-						vim.keymap.set(mode or "n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+				local function map(keys, func, desc, method)
+					if client:supports_method(method, buf) then
+						vim.keymap.set("n", keys, func, { buffer = buf, desc = "LSP: " .. desc })
 					end
 				end
 
-				-- Nvim >= 0.11 already maps grn/gra/gri/grr/grt/grx/gO globally to the
-				-- matching vim.lsp.buf.*/codelens functions (see `:h lsp-defaults`), so
-				-- only keymaps without a built-in default are added here.
+				-- Nvim already maps grn, gra, gri, grr, grt, grx and gO (see `:h lsp-defaults`).
+				-- K is mapped here too: Nvim skips its default when an ftplugin sets 'keywordprg' (Go, Python).
 				map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition", "textDocument/definition")
 				map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration", "textDocument/declaration")
 				map("K", vim.lsp.buf.hover, "Hover Documentation", "textDocument/hover")
 				map("gK", vim.lsp.buf.signature_help, "Signature Help", "textDocument/signatureHelp")
-				map("grd", vim.lsp.buf.document_symbol, "Document Symbols", "textDocument/documentSymbol")
 				map("grw", vim.lsp.buf.workspace_symbol, "Workspace Symbols", "workspace/symbol")
-				map(
-					"gro",
-					"<cmd>Trouble symbols toggle focus=false<cr>",
-					"Code [O]utline",
-					"textDocument/documentSymbol"
-				)
+				map("<leader>th", function()
+					local filter = { bufnr = buf }
+					vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)
+				end, "[T]oggle Inlay [H]ints", "textDocument/inlayHint")
 
-				if
-					client:supports_method("textDocument/documentHighlight", event.buf)
-					and #vim.api.nvim_get_autocmds({
-							group = highlight_group,
-							event = "CursorHold",
-							buffer = event.buf,
-						})
-						== 0
-				then
+				-- Highlight references of the word under the cursor.
+				if client:supports_method("textDocument/documentHighlight", buf) then
+					-- Several clients may attach to one buffer; keep a single set of autocmds.
+					vim.api.nvim_clear_autocmds({ group = highlight_group, buffer = buf })
 					vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-						buffer = event.buf,
 						group = highlight_group,
+						buffer = buf,
 						callback = vim.lsp.buf.document_highlight,
 					})
 					vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-						buffer = event.buf,
 						group = highlight_group,
+						buffer = buf,
 						callback = vim.lsp.buf.clear_references,
 					})
 					vim.api.nvim_create_autocmd("LspDetach", {
-						buffer = event.buf,
-						group = detach_group,
+						group = highlight_group,
+						buffer = buf,
 						callback = function(detach)
-							for _, other in ipairs(vim.lsp.get_clients({ bufnr = detach.buf })) do
-								if
-									other.id ~= detach.data.client_id
-									and other:supports_method("textDocument/documentHighlight", detach.buf)
-								then
+							for _, other in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
+								local method = "textDocument/documentHighlight"
+								if other.id ~= detach.data.client_id and other:supports_method(method, buf) then
 									return
 								end
 							end
-							vim.api.nvim_buf_call(detach.buf, vim.lsp.buf.clear_references)
-							vim.api.nvim_clear_autocmds({ group = highlight_group, buffer = detach.buf })
-							vim.api.nvim_clear_autocmds({ group = detach_group, buffer = detach.buf })
+							vim.lsp.util.buf_clear_references(buf)
+							vim.api.nvim_clear_autocmds({ group = highlight_group, buffer = buf })
 						end,
 					})
-				end
-
-				if client:supports_method("textDocument/inlayHint", event.buf) then
-					map("<leader>th", function()
-						vim.lsp.inlay_hint.enable(
-							not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }),
-							{ bufnr = event.buf }
-						)
-					end, "Toggle Hints", "textDocument/inlayHint")
 				end
 			end,
 		})

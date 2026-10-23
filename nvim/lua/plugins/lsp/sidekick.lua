@@ -1,14 +1,18 @@
--- GitHub Copilot integration via sidekick.nvim
--- Requires the `copilot` LSP server (enabled in plugins/lsp/servers.lua).
--- First-time setup: run `:LspCopilotSignIn` to authenticate, then `:checkhealth sidekick`.
+-- GitHub Copilot next edit suggestions (NES) and AI CLI integration.
+-- Uses the `copilot` LSP enabled in plugins/lsp/servers.lua. First-time setup:
+-- run `:LspCopilotSignIn`, then `:checkhealth sidekick`.
+
+---@param method string sidekick.cli function name
+---@param opts? table
+local function cli(method, opts)
+	-- Pass a copy: sidekick.cli modifies the opts table it receives.
+	return function() require("sidekick.cli")[method](vim.deepcopy(opts or {})) end
+end
 
 return {
 	"folke/sidekick.nvim",
-	opts = {
-		cli = {
-			picker = "snacks",
-		},
-	},
+	event = "VeryLazy", -- load early so suggestions appear without a keypress first
+	opts = {},
 	keys = {
 		{
 			"<tab>",
@@ -18,76 +22,17 @@ return {
 				end
 				return "<Tab>"
 			end,
-			mode = "n",
 			expr = true,
 			desc = "Sidekick: Goto/Apply Next Edit Suggestion",
 		},
-		{
-			"<c-.>",
-			function()
-				require("sidekick.cli").focus()
-			end,
-			mode = { "n", "t", "i", "x" },
-			desc = "Sidekick: Focus CLI",
-		},
-		{
-			"<leader>aa",
-			function()
-				require("sidekick.cli").toggle()
-			end,
-			desc = "[A]I: Toggle CLI",
-		},
-		{
-			"<leader>ac",
-			function()
-				require("sidekick.cli").toggle({ name = "copilot", focus = true })
-			end,
-			desc = "[A]I: Toggle [C]opilot CLI",
-		},
-		{
-			"<leader>as",
-			function()
-				require("sidekick.cli").select()
-			end,
-			desc = "[A]I: [S]elect CLI Tool",
-		},
-		{
-			"<leader>ad",
-			function()
-				require("sidekick.cli").close()
-			end,
-			desc = "[A]I: [D]etach CLI Session",
-		},
-		{
-			"<leader>ap",
-			function()
-				require("sidekick.cli").prompt()
-			end,
-			mode = { "n", "x" },
-			desc = "[A]I: Select [P]rompt",
-		},
-		{
-			"<leader>af",
-			function()
-				require("sidekick.cli").send({ msg = "{file}" })
-			end,
-			desc = "[A]I: Send [F]ile",
-		},
-		{
-			"<leader>at",
-			function()
-				require("sidekick.cli").send({ msg = "{this}" })
-			end,
-			mode = { "n", "x" },
-			desc = "[A]I: Send [T]his",
-		},
-		{
-			"<leader>av",
-			function()
-				require("sidekick.cli").send({ msg = "{selection}" })
-			end,
-			mode = { "x" },
-			desc = "[A]I: Send [V]isual Selection",
-		},
+		{ "<c-.>", cli("focus"), mode = { "n", "t", "i", "x" }, desc = "Sidekick: Focus CLI" },
+		{ "<leader>aa", cli("toggle"), desc = "[A]I: Toggle CLI" },
+		{ "<leader>ac", cli("toggle", { name = "copilot", focus = true }), desc = "[A]I: Toggle [C]opilot CLI" },
+		{ "<leader>as", cli("select"), desc = "[A]I: [S]elect CLI Tool" },
+		{ "<leader>ad", cli("close"), desc = "[A]I: [D]etach CLI Session" },
+		{ "<leader>ap", cli("prompt"), mode = { "n", "x" }, desc = "[A]I: Select [P]rompt" },
+		{ "<leader>af", cli("send", { msg = "{file}" }), desc = "[A]I: Send [F]ile" },
+		{ "<leader>at", cli("send", { msg = "{this}" }), mode = { "n", "x" }, desc = "[A]I: Send [T]his" },
+		{ "<leader>av", cli("send", { msg = "{selection}" }), mode = "x", desc = "[A]I: Send [V]isual Selection" },
 	},
 }

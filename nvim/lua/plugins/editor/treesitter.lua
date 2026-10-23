@@ -1,3 +1,4 @@
+-- Parsers installed automatically the first time a matching file is opened.
 local parsers = {
 	"bash",
 	"c",
@@ -33,8 +34,6 @@ return {
 	lazy = false,
 	build = ":TSUpdate",
 	config = function()
-		require("nvim-treesitter").setup({ install_dir = vim.fn.stdpath("data") .. "/site" })
-
 		vim.api.nvim_create_autocmd("FileType", {
 			group = vim.api.nvim_create_augroup("treesitter-highlight", { clear = true }),
 			callback = function(event)

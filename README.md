@@ -29,8 +29,8 @@ relinked. Failed setup commands make installation fail.
 | Git identity or machine-only overrides              | `~/.gitconfig.local` (copy `.gitconfig.local.example`) |
 | Homebrew packages, grouped by purpose               | `Brewfile`                                             |
 | Links, install steps and shell dependency revisions | `install.conf.yaml`                                    |
-| Neovim options, keymaps and autocommands            | `nvim/lua/{settings,keybinds,autocmds}.lua`            |
-| Neovim plugins                                      | `nvim/lua/plugins/{ui,editor,lsp,finder}/`             |
+| Neovim options, keymaps and autocommands            | `nvim/lua/config/{options,keymaps,autocmds}.lua`       |
+| Neovim plugins                                      | `nvim/lua/plugins/{ui,editor,lsp}/`                    |
 
 Local shell and Git files are loaded last, so their values override shared
 defaults. Keep credentials out of tracked files. The Git example also shows
@@ -41,7 +41,7 @@ per-directory identities with `includeIf`.
 Edit `Brewfile` to add or remove packages, then install or check the list:
 
 ```sh
-brew bundle install --file=Brewfile --no-lock
+brew bundle install --file=Brewfile
 brew bundle check --file=Brewfile --verbose
 
 # Remove unlisted packages (destructive; review first).
@@ -56,12 +56,13 @@ their own toolchains.
 ## Neovim
 
 Requires Neovim 0.12+ for the current Treesitter branch. `nvim/` is linked to
-`~/.config/nvim`; `init.lua` loads settings, autocommands, plugins and keymaps.
-VSCode Neovim only loads `lua/vscode.lua`, leaving plugins and UI to VSCode.
+`~/.config/nvim`; `init.lua` loads options, plugins, autocommands and keymaps
+from `lua/config/`. VSCode Neovim only loads `lua/config/vscode.lua`, leaving
+plugins and UI to VSCode.
 
 Plugin files return a single Lazy spec; keep plugin-specific keymaps with that
-spec and editor-only shortcuts in `keybinds.lua`. Which-key labels groups, not
-functional mappings. To add a language, edit `servers` and `tools` in
+spec and editor-only shortcuts in `config/keymaps.lua`. Which-key labels groups,
+not functional mappings. To add a language, edit `servers` and `tools` in
 `plugins/lsp/servers.lua`, then the filetype lists in `plugins/lsp/{format,lint}.lua`
 and `plugins/editor/treesitter.lua` as needed.
 
@@ -70,8 +71,20 @@ Snacks handles search, dashboard and terminal; nvim-tree is the explorer
 Blink uses built-in snippets. Treesitter installs parsers asynchronously on
 first use; reopen the file afterward to enable highlighting.
 
-Use `:Lazy sync` to sync plugins and `:checkhealth` for missing tools. Without
-a Nerd Font, set `vim.g.have_nerd_font = false` in `lua/settings.lua`.
+Bufferline shows open buffers at the top, including LSP diagnostics. Use `H` / `L`
+to switch buffers, or click a buffer label. Closing a buffer (close icon,
+right-click or `<leader>bd`) keeps the window layout and prompts before discarding
+unsaved changes; `<leader>bo` closes the others.
+
+[live-preview.nvim](https://github.com/brianhuster/live-preview.nvim) previews
+Markdown in the browser without Node.js: run `:LivePreview start` (`<leader>cp`
+in Markdown files) or `:LivePreview pick` to choose a file. The page follows
+edits and the cursor; `:LivePreview close` stops the server. Files are served
+from the working directory (`:pwd`), so the previewed file must be inside it.
+
+Use `:Lazy sync` to sync plugins and `:checkhealth` for missing tools. Icons
+come from mini.icons and need a [Nerd Font](https://www.nerdfonts.com/) in the
+terminal.
 
 ### AI
 
