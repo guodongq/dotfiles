@@ -1,27 +1,19 @@
--- GitHub Copilot next edit suggestions (NES) and AI CLI integration.
--- Uses the `copilot` LSP enabled in plugins/lsp/servers.lua. First-time setup:
--- run `:LspCopilotSignIn`, then `:checkhealth sidekick`.
+-- AI: Copilot next edit suggestions and AI CLIs in a terminal, via sidekick.nvim.
+-- First run `:LspCopilotSignIn`, then `:checkhealth sidekick`.
 
----@param method string sidekick.cli function name
----@param opts? table
+-- sidekick.cli modifies the opts it receives, so each call gets a fresh copy.
 local function cli(method, opts)
-	-- Pass a copy: sidekick.cli modifies the opts table it receives.
 	return function() require("sidekick.cli")[method](vim.deepcopy(opts or {})) end
 end
 
 return {
 	"folke/sidekick.nvim",
-	event = "VeryLazy", -- load early so suggestions appear without a keypress first
+	event = "VeryLazy", -- load early so suggestions show up before the first keypress
 	opts = {},
 	keys = {
 		{
 			"<tab>",
-			function()
-				if require("sidekick").nes_jump_or_apply() then
-					return ""
-				end
-				return "<Tab>"
-			end,
+			function() return require("sidekick").nes_jump_or_apply() and "" or "<Tab>" end,
 			expr = true,
 			desc = "Sidekick: Goto/Apply Next Edit Suggestion",
 		},

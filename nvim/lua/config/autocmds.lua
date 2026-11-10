@@ -1,4 +1,3 @@
--- Loaded after plugins so filetype detection has already run in BufReadPost.
 local function augroup(name) return vim.api.nvim_create_augroup(name, { clear = true }) end
 
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -26,7 +25,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
--- Nvim already hides line numbers and signs in terminals (see `:h terminal-config`).
 vim.api.nvim_create_autocmd("TermOpen", {
 	desc = "Start terminals in insert mode",
 	group = augroup("terminal-insert"),

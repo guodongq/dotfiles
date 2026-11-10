@@ -1,5 +1,4 @@
--- Editor keymaps. Plugin keymaps live in their spec under lua/plugins/; LSP and
--- diagnostic defaults (grn, gra, grr, gri, gO, K, [d, ]d, ...) come from Nvim.
+-- Editor keymaps. Plugin keymaps live with their plugin in lua/plugins/.
 local map = vim.keymap.set
 
 -- General
@@ -36,6 +35,7 @@ map("n", "<M-j>", "<cmd>move .+1<cr>==", { desc = "Move line down" })
 map("n", "<M-k>", "<cmd>move .-2<cr>==", { desc = "Move line up" })
 map("i", "<M-j>", "<Esc><cmd>move .+1<cr>==gi", { desc = "Move line down" })
 map("i", "<M-k>", "<Esc><cmd>move .-2<cr>==gi", { desc = "Move line up" })
+-- `:` rather than `<cmd>`, so the command gets the '<,'> range.
 map("x", "<M-j>", ":move '>+1<cr>gv=gv", { desc = "Move selection down" })
 map("x", "<M-k>", ":move '<-2<cr>gv=gv", { desc = "Move selection up" })
 
