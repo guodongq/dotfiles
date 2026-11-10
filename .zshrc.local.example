@@ -1,24 +1,14 @@
-# Copied to ~/.zshrc.local on first install; keep machine-specific settings here.
-# PATH entries are deduplicated by .zshrc:
-#   prepend: path=("/dir" "${path[@]}")
-#   append:  path+=("/dir")
+# Machine-specific shell settings. ./install copies this file to ~/.zshrc.local.
+# Add to PATH with path=(/dir $path) or path+=(/dir).
 
 # Go
-if [[ -n "$HOMEBREW_PREFIX" && -d "$HOMEBREW_PREFIX/opt/go/libexec" ]]; then
-  export GOPATH="$HOME/Workspaces"
-  path+=("$GOPATH/bin")
-fi
+export GOPATH="$HOME/Workspaces"
+path+=("$GOPATH/bin")
 
-# pnpm (macOS default)
+# pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
-[[ -d "$PNPM_HOME" ]] && path=("$PNPM_HOME" "${path[@]}")
+path=("$PNPM_HOME" $path)
 
-# Java (macOS)
-if [[ $OSTYPE == darwin* && -d "$HOMEBREW_PREFIX/opt/openjdk/bin" ]]; then
-  path=("$HOMEBREW_PREFIX/opt/openjdk/bin" "${path[@]}")
-  export CPPFLAGS="-I$HOMEBREW_PREFIX/opt/openjdk/include"
-fi
-
-# Secrets and personal aliases (never commit real tokens to the tracked .zshrc)
+# Secrets and personal aliases
 # export COPILOT_GITHUB_TOKEN="ghp_..."
 # alias copilot-uu="command copilot --deny-tool='shell(rm*)' --deny-tool='shell(git push*)'"

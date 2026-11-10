@@ -1,11 +1,9 @@
--- VSCode Neovim (https://github.com/vscode-neovim/vscode-neovim).
--- VSCode provides the UI and language features, so this file only maps keys to
--- VSCode commands, mirroring config/keymaps.lua and the plugin keymaps.
--- The extension already maps gd, gf, gh/K, gH, gO, z= and gc/gcc.
+-- VSCode Neovim (https://github.com/vscode-neovim/vscode-neovim): the same keys as
+-- the terminal config, mapped to VSCode commands. The extension already maps gd, gf,
+-- gh/K, gH, gO, z= and gc/gcc.
 local vscode = require("vscode")
 local map = vim.keymap.set
 
----@param cmd string VSCode command id
 local function action(cmd)
 	return function() vscode.action(cmd) end
 end

@@ -1,4 +1,4 @@
--- Bootstrap lazy.nvim, then load every plugin spec under lua/plugins/.
+-- Bootstrap lazy.nvim, then load every plugin spec in lua/plugins/*.lua.
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
 	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
@@ -9,8 +9,4 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup({
-	{ import = "plugins.ui" },
-	{ import = "plugins.editor" },
-	{ import = "plugins.lsp" },
-})
+require("lazy").setup("plugins")

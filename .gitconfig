@@ -1,7 +1,3 @@
-[user]
-	name = guodongq
-	email = guodong.qian@hp.com
-
 [core]
 	editor = nvim
 	pager = less -FRSX
@@ -43,8 +39,6 @@
 	process = git-lfs filter-process
 	required = true
 
-# Optional per-machine overrides (identity, tokens). Loaded last so it wins;
-# git silently ignores it when the file does not exist.
-# Copy .gitconfig.local.example to ~/.gitconfig.local and edit as needed.
+# Name, email and machine-specific settings. Last, so they win.
 [include]
 	path = ~/.gitconfig.local

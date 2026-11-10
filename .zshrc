@@ -1,49 +1,43 @@
-# Shared shell settings; machine-specific overrides belong in ~/.zshrc.local.
-# Keep PATH entries unique, including those added by plugins or local settings.
-typeset -U path PATH
+# Shared shell settings. Machine-specific settings go in ~/.zshrc.local.
+typeset -U path PATH # keep PATH entries unique
 
-# Homebrew (Apple Silicon / Intel / Linux, first match wins)
+# Homebrew (Apple Silicon, Intel or Linux)
 for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
   [[ -x $_brew ]] && eval "$("$_brew" shellenv)" && break
 done
 unset _brew
 
 # Oh My Zsh
-export ZSH="${ZSH:-$HOME/.oh-my-zsh}"
-export ZSH_CUSTOM="${ZSH_CUSTOM:-$ZSH/custom}"
-# Pin the completion dump to a stable path; otherwise Oh My Zsh names it after
-# the macOS LocalHostName, which drifts and forces a full compinit rebuild.
-export ZSH_COMPDUMP="$HOME/.zcompdump"
+export ZSH="$HOME/.oh-my-zsh"
+export ZSH_COMPDUMP="$HOME/.zcompdump" # the default name contains the hostname, which macOS changes
 ZSH_THEME="bira"
-# zsh-completions is not an Oh My Zsh plugin; it must be on fpath before compinit.
-fpath+=("$ZSH_CUSTOM/plugins/zsh-completions/src")
-plugins=(
-  git
-  zsh-autosuggestions
-  zsh-syntax-highlighting
-  history-substring-search # bundled with Oh My Zsh; binds Up/Down, load last
-)
+plugins=(git)
+fpath+=("$HOMEBREW_PREFIX/share/zsh-completions") # must be on fpath before compinit
 [[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 
-# Application defaults
-export EDITOR=nvim
-export VISUAL=nvim
-export HERMES_TUI=1
+# More plugins. Order matters: syntax highlighting after autosuggestions and
+# before history-substring-search, which binds the Up and Down keys.
+for _plugin in \
+  "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" \
+  "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" \
+  "$ZSH/plugins/history-substring-search/history-substring-search.plugin.zsh"; do
+  [[ -r $_plugin ]] && source "$_plugin"
+done
+unset _plugin
 
-# Prefer GNU sed over macOS's BSD sed.
-if [[ $OSTYPE == darwin* && -d "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin" ]]; then
-  path=("$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin" "${path[@]}")
-fi
-[[ -d "$HOME/.npm-global/bin" ]] && path+=("$HOME/.npm-global/bin")
-[[ -d "$HOME/.local/bin" ]] && path+=("$HOME/.local/bin")
+# Environment
+export EDITOR=nvim VISUAL=nvim
+export HERMES_TUI=1
+path=("$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin" $path) # GNU sed instead of BSD sed
+path+=("$HOME/.npm-global/bin" "$HOME/.local/bin")
 
 # Aliases
 alias vim=nvim vi=nvim
 alias python=python3 pip=pip3
-command -v kubectl &>/dev/null && alias k=kubectl
+alias k=kubectl
 [[ -f /etc/wsl.conf ]] && alias open=explorer.exe
 
-# Load last so local settings can override shared defaults.
+# Last, so local settings win
 if [[ -r "$HOME/.zshrc.local" ]]; then
   source "$HOME/.zshrc.local"
 fi
