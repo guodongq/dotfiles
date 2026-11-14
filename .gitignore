@@ -5,3 +5,4 @@
 *~
 .zshrc.local
 .gitconfig.local
+__pycache__/

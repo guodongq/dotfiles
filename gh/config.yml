@@ -1,0 +1,3 @@
+version: 1
+aliases:
+  co: pr checkout

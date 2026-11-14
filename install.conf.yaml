@@ -8,10 +8,21 @@
       stderr: true
 
 - link:
+    ~/.zprofile: .zprofile
     ~/.zshrc: .zshrc
     ~/.npmrc: .npmrc
     ~/.gitconfig: .gitconfig
+    ~/.config/git/ignore: .gitignore_global
+    ~/.config/gh/config.yml: gh/config.yml
     ~/.config/nvim: nvim
+
+- link:
+    ~/Library/Application Support/iTerm2/DynamicProfiles/dotfiles.json:
+      path: iterm2/profile.json
+      if: '[ "$(uname -s)" = Darwin ]'
+    ~/Library/Application Support/Code/User/snippets/go.json:
+      path: vscode/snippets/go.json
+      if: '[ "$(uname -s)" = Darwin ]'
 
 - shell:
     - description: Installing Oh My Zsh

@@ -1,6 +1,6 @@
 # Dotfiles
 
-Small, readable configurations for Zsh, Git and standalone Neovim.
+Small, readable configurations for the shell, development tools and desktop apps.
 Prefer native defaults; keep only everyday behavior here.
 
 ## Install
@@ -20,12 +20,22 @@ It replaces existing symlinks, but not regular files or directories; move
 conflicting paths aside and run `./install` again. It does not clean up other
 links in your home directory.
 
-| File         | Linked to        |
-| ------------ | ---------------- |
-| `.zshrc`     | `~/.zshrc`       |
-| `.gitconfig` | `~/.gitconfig`   |
-| `.npmrc`     | `~/.npmrc`       |
-| `nvim/`      | `~/.config/nvim` |
+| File                | Linked to                 |
+| ------------------- | ------------------------- |
+| `.zprofile`         | `~/.zprofile`             |
+| `.zshrc`            | `~/.zshrc`                |
+| `.gitconfig`        | `~/.gitconfig`            |
+| `.gitignore_global` | `~/.config/git/ignore`    |
+| `gh/config.yml`     | `~/.config/gh/config.yml` |
+| `.npmrc`            | `~/.npmrc`                |
+| `nvim/`             | `~/.config/nvim`          |
+
+On macOS, two individual files are also linked, without replacing their folders:
+
+| File                      | Linked to                                                            |
+| ------------------------- | -------------------------------------------------------------------- |
+| `iterm2/profile.json`     | `~/Library/Application Support/iTerm2/DynamicProfiles/dotfiles.json` |
+| `vscode/snippets/go.json` | `~/Library/Application Support/Code/User/snippets/go.json`           |
 
 Zsh plugins live in `~/.oh-my-zsh/custom/plugins` (or `$ZSH_CUSTOM/plugins`).
 Existing plugin directories are reused without pulling updates.
@@ -33,6 +43,65 @@ Existing plugin directories are reused without pulling updates.
 Machine-specific settings go in `~/.zshrc.local` and `~/.gitconfig.local`.
 They are not tracked and are loaded last. Existing local files are preserved;
 new ones start as commented examples. Fill in your Git identity before committing.
+
+## Keep the layers small
+
+- **Shared behavior:** tracked files above and explicit macOS preferences.
+- **Machine-specific:** Git identity, private paths, aliases and environment
+  variables stay in the existing `*.local` files, outside this repository.
+- **Application state and credentials:** do not copy SSH keys, cloud credentials,
+  CLI login stores, shell history, caches or entire application preference folders.
+
+`.zprofile` initializes Homebrew, a unique PATH, GNU sed, npm/pipx executables and
+optional OrbStack integration. `.zshrc` handles the interactive shell and loads
+`.zprofile` only for non-login shells, so login terminals do not initialize twice.
+Local interactive overrides still load last.
+
+Git's standard global ignore file filters Finder files, editor temporary files
+and private Claude settings. Project `.vscode/`, `.idea/` and shared Claude
+settings are deliberately not globally ignored.
+
+GitHub CLI keeps only the `gh co` checkout alias; native defaults supply the
+other preferences. Authentication in `hosts.yml` stays outside this repository.
+
+## Desktop preferences
+
+**iTerm2:** the [dynamic profile](https://iterm2.com/documentation-dynamic-profiles.html)
+adds a `Dotfiles` profile with the existing Hack Nerd Font at 16 pt. Unspecified
+values inherit the local default profile, so commands, working directories and
+other profiles are not copied or replaced. Select `Dotfiles` from the Profiles
+menu when desired; installation does not switch the active or default profile.
+Edit `iterm2/profile.json` to keep changes in Git. Reopen iTerm2 if it does not
+notice a change through the symlink.
+
+**Editors:** these are small portable baselines, not automatically linked:
+
+| File                   | Preferences                                                   |
+| ---------------------- | ------------------------------------------------------------- |
+| `vscode/settings.json` | Editing, quiet UI, Go/Python/Markdown and Copilot suggestions |
+| `cursor/settings.json` | Diff display, repository discovery and icon themes            |
+| `zed/settings.json`    | Fonts, theme, autosave and HTML formatting                    |
+
+For an existing installation, merge the wanted keys in the application's user
+settings editor; do not overwrite the whole file. Existing settings also contain
+interpreter paths, remote connections or provider configuration. On a new
+machine, the matching baseline can be used as the initial `settings.json`.
+No custom merge program or extra local-override convention is needed.
+
+The Go snippets are managed separately: `pln` inserts `fmt.Println`, and `plf`
+inserts `fmt.Printf`. Other snippets are left alone.
+
+Fonts and themes are referenced, not bundled. Install Hack Nerd Font, JetBrains
+Mono and the selected theme extensions only in the applications you use.
+VS Code's icon theme is `chadalen.vscode-jetbrains-icon-theme`.
+
+Native defaults are intentionally omitted. For example, Zed already supplies
+the [Go inlay hints](https://zed.dev/docs/languages/go#inlay-hints); there is no
+need to repeat them. Let each platform choose its terminal shell rather than
+pinning a Windows executable path in shared settings.
+
+SSH hosts, Copilot/Codex login or trust state, proxy accounts and application
+history stay local. Default-only or empty configurations are not collected.
 
 ## Neovim
 
@@ -64,18 +133,18 @@ only the current window.
 
 | Key                         | Action                                  |
 | --------------------------- | --------------------------------------- |
-| `<Space>`                   | Leader; shows every key that follows it  |
-| `<leader>sf` / `<leader>sg`   | Find files / search text                |
-| `<leader>sw`                 | Search selection / current word         |
-| `<leader>sb` / `<leader>bd`   | Find / close a buffer                   |
-| `<leader>sd`                 | Diagnostics picker                      |
-| `<leader>sh` / `<leader>sk`   | Search help / current keymaps           |
-| `<leader>e`                  | File browser                            |
+| `<Space>`                   | Leader; shows every key that follows it |
+| `<leader>sf` / `<leader>sg` | Find files / search text                |
+| `<leader>sw`                | Search selection / current word         |
+| `<leader>sb` / `<leader>bd` | Find / close a buffer                   |
+| `<leader>sd`                | Diagnostics picker                      |
+| `<leader>sh` / `<leader>sk` | Search help / current keymaps           |
+| `<leader>e`                 | File browser                            |
 | `H` / `L`                   | Previous / next buffer                  |
 | `<leader>f`                 | Format (also runs on save)              |
 | `<C-/>`                     | Terminal                                |
-| `<leader>ac`                 | Copilot CLI                             |
-| `<leader>ap`                 | AI prompts / file / selection context    |
+| `<leader>ac`                | Copilot CLI                             |
+| `<leader>ap`                | AI prompts / file / selection context   |
 | `<Tab>`                     | Apply the next edit suggestion          |
 
 LSP keys stay conventional: `gd` for definitions, `K` for hover, `grn` for rename,
@@ -98,13 +167,41 @@ plugins and `:checkhealth` reports missing tools.
 
 ## Tools
 
-`./install` sets up shell plugins, not development tools. Homebrew is optional;
-if you use it, install the development tools with:
+`./install` sets up shell plugins, not development tools. Homebrew is optional.
+Install the shared tools directly when needed; no Brewfile is required:
 
 ```sh
-brew install neovim ripgrep fd tree-sitter buf git-lfs gnu-sed
+brew install neovim ripgrep fd tree-sitter-cli buf git-lfs gnu-sed gh
 ```
 
-`tree-sitter` builds parsers, `buf` formats `.proto` files, `git-lfs` supports the
-Git filters, and `gnu-sed` provides the preferred `sed`. Mason installs the other
-configured language servers, formatters and linters. Install other tools as needed.
+`tree-sitter-cli` supplies the parser-building executable (`tree-sitter` is only
+the library), `buf` formats `.proto` files, `git-lfs` supports the Git filters, and
+`gnu-sed` provides the preferred `sed`. `gh` handles GitHub operations; `fd` and
+`ripgrep` support file and text search. Mason installs the other configured
+language servers, formatters and linters.
+
+Install project-specific tools and GUI applications only as needed. Zsh plugins
+already come from the Git checkouts managed by Dotbot, so a second Homebrew
+installation is not needed for this setup.
+
+## macOS
+
+```sh
+./macos/defaults.sh
+```
+
+This opt-in script records five existing preferences: key repeat instead of the
+accent picker, no recent apps in the Dock, the scale minimize effect, Finder
+column view and tap-to-click. It does not change security settings, remap
+shortcuts, rearrange the Dock or restart applications. Some changes require a
+new login. It is never run by `./install`.
+
+## Checks
+
+```sh
+python3 -m unittest discover -s tests -v
+```
+
+Tests use temporary home directories to check shell startup modes, local
+overrides, idempotent links, macOS-only desktop links, preservation of existing
+files and Git ignore rules.

@@ -1,0 +1,49 @@
+{
+  "editor.wordWrap": "on",
+  "editor.rulers": [80],
+  "editor.unicodeHighlight.allowedLocales": {
+    "ja": true,
+    "zh-hans": true
+  },
+  "files.autoSave": "onFocusChange",
+  "extensions.ignoreRecommendations": true,
+
+  "workbench.iconTheme": "vscode-jetbrains-icon-theme",
+  "workbench.editor.empty.hint": "hidden",
+  "workbench.editorAssociations": {
+    "*.copilotmd": "vscode.markdown.preview.editor",
+    "*.ipynb": "jupyter-notebook"
+  },
+  "diffEditor.hideUnchangedRegions.enabled": true,
+  "git.openRepositoryInParentFolders": "never",
+  "cmake.configureOnOpen": false,
+
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false
+  },
+  "github.copilot.nextEditSuggestions.enabled": true,
+
+  "go.toolsManagement.autoUpdate": true,
+  "go.editorContextMenuCommands": {
+    "addImport": false,
+    "testCoverage": false,
+    "playground": false,
+    "debugTestAtCursor": false,
+    "testAtCursor": false,
+    "generateTestForFunction": false,
+    "addTags": false,
+    "toggleTestFile": false
+  },
+  "go.enableCodeLens": {
+    "runtest": false
+  },
+  "go.inlayHints.functionTypeParameters": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "notebook.lineNumbers": "on",
+
+  "markdown-preview-enhanced.enableTypographer": true,
+  "markdown-preview-enhanced.useGitHubStyle": true
+}

@@ -1,0 +1,31 @@
+{
+  "show_edit_predictions": false,
+  "icon_theme": "Bearded Icon Theme",
+  "ui_font_family": "JetBrains Mono",
+  "buffer_font_family": "JetBrains Mono",
+  "ui_font_size": 16,
+  "buffer_font_size": 16,
+  "buffer_font_features": {
+    "calt": true
+  },
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "Xcode High Contrast Darker"
+  },
+  "autosave": {
+    "after_delay": {
+      "milliseconds": 500
+    }
+  },
+  "languages": {
+    "HTML": {
+      "language_servers": ["vscode-html-language-server", "superhtml"],
+      "formatter": {
+        "language_server": {
+          "name": "superhtml"
+        }
+      }
+    }
+  }
+}

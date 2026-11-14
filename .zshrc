@@ -1,11 +1,8 @@
 # Shared shell settings. Machine-specific settings go in ~/.zshrc.local.
-typeset -U path PATH # keep PATH entries unique
-
-# Optional Homebrew (Apple Silicon, Intel or Linux)
-for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
-  [[ -x $_brew ]] && eval "$("$_brew" shellenv)" && break
-done
-unset _brew
+# GUI terminals can start interactive shells without reading .zprofile.
+if [[ ! -o login && -r "$HOME/.zprofile" ]]; then
+  source "$HOME/.zprofile"
+fi
 
 # Oh My Zsh
 export ZSH="$HOME/.oh-my-zsh"
@@ -19,11 +16,6 @@ fpath+=("${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-completions/src") # before compi
 # Environment
 export EDITOR=nvim VISUAL=nvim
 export HERMES_TUI=1
-# GNU sed instead of BSD sed, when Homebrew is available.
-if [[ -n ${HOMEBREW_PREFIX:-} ]]; then
-  path=("$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin" $path)
-fi
-path+=("$HOME/.npm-global/bin" "$HOME/.local/bin")
 
 # Aliases
 alias vim=nvim vi=nvim
