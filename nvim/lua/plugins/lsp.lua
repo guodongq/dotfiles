@@ -8,15 +8,6 @@ local servers = {
 	gopls = {
 		settings = {
 			gopls = {
-				hints = {
-					assignVariableTypes = true,
-					compositeLiteralFields = true,
-					compositeLiteralTypes = true,
-					constantValues = true,
-					functionTypeParameters = true,
-					parameterNames = true,
-					rangeVariableTypes = true,
-				},
 				analyses = { unusedparams = true },
 				staticcheck = true,
 				gofumpt = true,
@@ -80,7 +71,6 @@ return {
 			{ "mason-org/mason.nvim", opts = {} },
 			"mason-org/mason-lspconfig.nvim",
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
-			{ "j-hui/fidget.nvim", opts = {} }, -- progress messages
 		},
 		config = function()
 			-- Nvim already maps grn, gra, gri, grr, grt, gO and K (:h lsp-defaults). K is mapped
@@ -96,13 +86,8 @@ return {
 					end
 					map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition", "textDocument/definition")
 					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration", "textDocument/declaration")
-					map("K", vim.lsp.buf.hover, "Hover Documentation", "textDocument/hover")
 					map("gK", vim.lsp.buf.signature_help, "Signature Help", "textDocument/signatureHelp")
 					map("grw", vim.lsp.buf.workspace_symbol, "Workspace Symbols", "workspace/symbol")
-					map("<leader>th", function()
-						local filter = { bufnr = event.buf }
-						vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)
-					end, "[T]oggle Inlay [H]ints", "textDocument/inlayHint")
 				end,
 			})
 

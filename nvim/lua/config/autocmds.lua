@@ -34,13 +34,3 @@ vim.api.nvim_create_autocmd("TermOpen", {
 		end
 	end,
 })
-
-vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
-	desc = "Relative line numbers only in Normal mode",
-	group = augroup("relative-number"),
-	callback = function(event)
-		if vim.bo[event.buf].buftype == "" then
-			vim.wo.relativenumber = event.event == "InsertLeave"
-		end
-	end,
-})

@@ -5,14 +5,10 @@ vim.g.maplocalleader = " "
 -- Appearance
 vim.o.termguicolors = true
 vim.o.number = true
-vim.o.relativenumber = true
 vim.o.cursorline = true
 vim.o.signcolumn = "yes"
-vim.o.showmode = false -- the statusline shows the mode
 vim.o.breakindent = true
 vim.o.scrolloff = 10
-vim.o.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
 -- Editing
 vim.o.mouse = "a"
@@ -46,7 +42,7 @@ vim.diagnostic.config({
 	severity_sort = true,
 	float = { border = "rounded", source = "if_many" },
 	underline = { severity = { min = vim.diagnostic.severity.WARN } },
-	virtual_text = { spacing = 4, prefix = "●", severity = { min = vim.diagnostic.severity.ERROR } },
+	virtual_text = false,
 	-- Show the diagnostic under the cursor after [d / ]d.
 	jump = {
 		on_jump = function(_, bufnr) vim.diagnostic.open_float({ bufnr = bufnr, scope = "cursor", focus = false }) end,

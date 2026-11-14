@@ -34,33 +34,57 @@ Requires Neovim 0.12+ and a [Nerd Font](https://www.nerdfonts.com). Plugins,
 language servers, formatters and Treesitter parsers install themselves on first
 use.
 
+Code-first UI: native statusline, absolute line numbers and on-demand pickers.
+No dashboard, buffer tabs or notification popups.
+
 ```text
 nvim/
 ├── init.lua
 └── lua/
     ├── config/         options, keymaps, autocmds, VSCode Neovim keymaps
     └── plugins/
-        ├── ui.lua      colors, statusline, tabs, file tree, pickers
-        ├── editor.lua  Treesitter, motions, search and replace, sessions
+        ├── ui.lua      theme, file browser, pickers, key hints
+        ├── editor.lua  Treesitter, autopairs, icons, indentation
         ├── lsp.lua     language servers, formatting, linting, completion
         └── ai.lua      Copilot suggestions and AI CLIs (sidekick.nvim)
 ```
 
 To add a language, extend the tables at the top of `plugins/lsp.lua`.
 
+Custom shortcuts focus on everyday actions. Use native `:w` to save, `:q` / `:qa`
+to quit, and `<C-w>s` / `<C-w>v` / `<C-w>c` / `<C-w>o` to split, close or keep
+only the current window. In VSCode, use the editor's built-in actions for these.
+
 | Key                         | Action                                  |
 | --------------------------- | --------------------------------------- |
-| `<Space>`                   | Leader; shows every key that follows it |
-| `<leader>sf` / `<leader>sg` | Find files / search text                |
-| `<leader>e`                 | File tree                               |
+| `<Space>`                   | Leader; shows every key that follows it  |
+| `<leader>sf` / `<leader>sg`   | Find files / search text                |
+| `<leader>sw`                 | Search selection / current word         |
+| `<leader>sb` / `<leader>bd`   | Find / close a buffer                   |
+| `<leader>sh` / `<leader>sk`   | Search help / current keymaps           |
+| `<leader>e`                  | File browser                            |
 | `H` / `L`                   | Previous / next buffer                  |
-| `<leader>R`                 | Search and replace across files         |
 | `<leader>f`                 | Format (also runs on save)              |
-| `<leader>xx`                | Diagnostics                             |
+| `<leader>xx`                 | Diagnostics picker                      |
 | `<C-/>`                     | Terminal                                |
-| `<leader>aa` / `<leader>ac` | AI CLI / Copilot CLI                    |
+| `<leader>ac`                 | Copilot CLI                             |
+| `<leader>ap`                 | AI prompts / file / selection context    |
 | `<Tab>`                     | Apply the next edit suggestion          |
-| `<leader>cp`                | Preview Markdown in the browser         |
+
+LSP keys stay conventional: `gd` for definitions, `K` for hover, `grn` for rename,
+`gra` for code actions, `grr` for references, `gO` for document symbols, and
+`[d` / `]d` for diagnostics. Diagnostics use signs and underlines; jumping opens
+the details instead of displaying messages beside the code. Files and diagnostics
+share the Snacks picker. In the file browser, `h` collapses directories, and
+`o` / `l` / `<CR>` expand directories or open files in the Neovim editor window.
+
+The file browser keeps the former tree shortcuts: `u` goes up, `C` roots the tree
+at the selected directory (or a file's parent), and `?` toggles help. Use `R` to
+refresh. These keys are local to the tree; `u` still undoes edits elsewhere.
+
+Use native motions and text objects instead of another jump/surround key system.
+Session management, project replace and Markdown preview plugins are omitted.
+Other AI tools remain available through `:Sidekick cli select`.
 
 Sign in once with `:LspCopilotSignIn` for the AI features. `:Lazy sync` updates
 plugins and `:checkhealth` reports missing tools.
