@@ -7,7 +7,6 @@ map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
 -- Insert and terminal mode
 map("i", "jk", "<Esc>")
 map("i", "<C-c>", "<Esc>") -- unlike plain <C-c>, this triggers InsertLeave
-map("i", "<D-v>", "<C-r>+", { desc = "Paste from system clipboard" }) -- GUI (Neovide)
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
 -- Windows
