@@ -55,7 +55,8 @@ nvim/
         └── ai.lua      Copilot suggestions and AI CLIs (sidekick.nvim)
 ```
 
-To add a language, extend the tables at the top of `plugins/lsp.lua`.
+To add a language, update the server list and the relevant formatter, linter
+and tool lists in `plugins/lsp.lua`. Each plugin keeps its options together.
 
 Custom shortcuts focus on everyday actions. Use native `:w` to save, `:q` / `:qa`
 to quit, and `<C-w>s` / `<C-w>v` / `<C-w>c` / `<C-w>o` to split, close or keep

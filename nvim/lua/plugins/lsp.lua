@@ -1,5 +1,4 @@
 -- Language support: LSP, formatting, linting and completion.
--- To add a language, extend the four tables below. Mason installs the servers and tools.
 
 -- LSP servers, keyed by nvim-lspconfig name. Values are passed to vim.lsp.config().
 local servers = {
@@ -22,47 +21,6 @@ local servers = {
 	yamlls = {},
 }
 
--- Formatters (conform.nvim). Unlisted filetypes fall back to LSP formatting.
-local formatters = {
-	c = { "clang_format" },
-	css = { "prettier" },
-	go = { "gofumpt", "goimports" },
-	javascript = { "prettier" },
-	javascriptreact = { "prettier" },
-	json = { "prettier" },
-	lua = { "stylua" },
-	markdown = { "prettier" },
-	proto = { "buf" }, -- from Homebrew
-	python = { "ruff_format" },
-	typescript = { "prettier" },
-	typescriptreact = { "prettier" },
-	yaml = { "prettier" },
-}
-
--- Linters (nvim-lint)
-local linters = {
-	go = { "revive" },
-	javascript = { "eslint_d" },
-	javascriptreact = { "eslint_d" },
-	markdown = { "markdownlint" },
-	python = { "ruff" },
-	typescript = { "eslint_d" },
-	typescriptreact = { "eslint_d" },
-}
-
--- Mason packages for the formatters and linters above
-local tools = {
-	"clang-format",
-	"eslint_d",
-	"gofumpt",
-	"goimports",
-	"markdownlint",
-	"prettier",
-	"revive",
-	"ruff",
-	"stylua",
-}
-
 return {
 	-- LSP
 	{
@@ -70,7 +28,22 @@ return {
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },
 			"mason-org/mason-lspconfig.nvim",
-			"WhoIsSethDaniel/mason-tool-installer.nvim",
+			{
+				"WhoIsSethDaniel/mason-tool-installer.nvim",
+				opts = {
+					ensure_installed = {
+						"clang-format",
+						"eslint_d",
+						"gofumpt",
+						"goimports",
+						"markdownlint",
+						"prettier",
+						"revive",
+						"ruff",
+						"stylua",
+					},
+				},
+			},
 		},
 		config = function()
 			-- Keep native LSP mappings; add only the navigation aliases below.
@@ -95,7 +68,6 @@ return {
 			end
 			local names = vim.tbl_keys(servers)
 			require("mason-lspconfig").setup({ ensure_installed = names, automatic_enable = false })
-			require("mason-tool-installer").setup({ ensure_installed = tools })
 			vim.lsp.enable(names)
 		end,
 	},
@@ -112,7 +84,7 @@ return {
 		},
 	},
 
-	-- Formatting, also on save
+	-- Formatting, also on save. Unlisted filetypes fall back to LSP.
 	{
 		"stevearc/conform.nvim",
 		event = "BufWritePre",
@@ -121,7 +93,21 @@ return {
 			{ "<leader>f", function() require("conform").format({ async = true }) end, desc = "[F]ormat" },
 		},
 		opts = {
-			formatters_by_ft = formatters,
+			formatters_by_ft = {
+				c = { "clang_format" },
+				css = { "prettier" },
+				go = { "gofumpt", "goimports" },
+				javascript = { "prettier" },
+				javascriptreact = { "prettier" },
+				json = { "prettier" },
+				lua = { "stylua" },
+				markdown = { "prettier" },
+				proto = { "buf" }, -- from Homebrew
+				python = { "ruff_format" },
+				typescript = { "prettier" },
+				typescriptreact = { "prettier" },
+				yaml = { "prettier" },
+			},
 			format_on_save = { timeout_ms = 1000, lsp_format = "fallback" },
 		},
 	},
@@ -131,10 +117,19 @@ return {
 		"mfussenegger/nvim-lint",
 		event = { "BufReadPost", "BufNewFile" },
 		config = function()
-			require("lint").linters_by_ft = linters
+			local lint = require("lint")
+			lint.linters_by_ft = {
+				go = { "revive" },
+				javascript = { "eslint_d" },
+				javascriptreact = { "eslint_d" },
+				markdown = { "markdownlint" },
+				python = { "ruff" },
+				typescript = { "eslint_d" },
+				typescriptreact = { "eslint_d" },
+			}
 			vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
 				group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
-				callback = function() require("lint").try_lint() end,
+				callback = function() lint.try_lint() end,
 			})
 		end,
 	},
