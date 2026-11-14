@@ -1,8 +1,0 @@
-{
-  "diffEditor.hideUnchangedRegions.enabled": true,
-  "workbench.editor.empty.hint": "hidden",
-  "git.openRepositoryInParentFolders": "never",
-  "go.toolsManagement.autoUpdate": true,
-  "workbench.iconTheme": "developer-icon-theme",
-  "workbench.productIconTheme": "developer-icons"
-}
