@@ -1,8 +1,5 @@
 # Machine-specific git settings. ./install copies this file to ~/.gitconfig.local.
-[user]
-	name = guodongq
-	email = goldon.qian@gmail.com
-
-# Another identity for work repositories:
-# [includeIf "gitdir:~/Work/"]
-# 	path = ~/.gitconfig-work
+# Uncomment and fill in your identity before committing.
+# [user]
+#	name = Your Name
+#	email = you@example.com

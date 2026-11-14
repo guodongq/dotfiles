@@ -2,13 +2,6 @@
 	editor = nvim
 	pager = less -FRSX
 
-[color "branch"]
-	current = green
-	remote = yellow
-
-[help]
-	autocorrect = 1
-
 [push]
 	default = upstream
 	autoSetupRemote = true
@@ -18,9 +11,6 @@
 
 [fetch]
 	prune = true
-
-[branch "master"]
-	mergeoptions = --no-edit
 
 [diff]
 	colorMoved = default

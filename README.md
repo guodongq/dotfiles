@@ -1,10 +1,11 @@
 # Dotfiles
 
-Shell, Git and Neovim configuration.
+Small, readable configurations for Zsh, Git and standalone Neovim.
+Prefer native defaults; keep only everyday behavior here.
 
 ## Install
 
-Requires Git, Python 3 and [Homebrew](https://brew.sh).
+Requires Git and Python 3.
 
 ```sh
 git clone https://github.com/guodongq/dotfiles.git ~/.dotfiles
@@ -12,10 +13,12 @@ cd ~/.dotfiles
 ./install
 ```
 
-[Dotbot](https://github.com/anishathalye/dotbot) links the files below,
-installs Oh My Zsh and three zsh plugins, and creates the local files. It never
-overwrites an existing file: move it aside and run `./install` again, which is
-always safe.
+[Dotbot](https://github.com/anishathalye/dotbot) reads `install.conf.yaml` to link
+the files below, install Oh My Zsh and three zsh plugins, and create the local files.
+`install` only bootstraps Dotbot; keep installation steps in the YAML configuration.
+It replaces existing symlinks, but not regular files or directories; move
+conflicting paths aside and run `./install` again. It does not clean up other
+links in your home directory.
 
 | File         | Linked to        |
 | ------------ | ---------------- |
@@ -24,9 +27,12 @@ always safe.
 | `.npmrc`     | `~/.npmrc`       |
 | `nvim/`      | `~/.config/nvim` |
 
-Machine-specific settings go in `~/.zshrc.local` and `~/.gitconfig.local` (your
-name, email and secrets). They start as copies of the `*.local.example` files,
-are not tracked, and are loaded last.
+Zsh plugins live in `~/.oh-my-zsh/custom/plugins` (or `$ZSH_CUSTOM/plugins`).
+Existing plugin directories are reused without pulling updates.
+
+Machine-specific settings go in `~/.zshrc.local` and `~/.gitconfig.local`.
+They are not tracked and are loaded last. Existing local files are preserved;
+new ones start as commented examples. Fill in your Git identity before committing.
 
 ## Neovim
 
@@ -89,17 +95,15 @@ Other AI tools remain available through `:Sidekick cli select`.
 Sign in once with `:LspCopilotSignIn` for the AI features. `:Lazy sync` updates
 plugins and `:checkhealth` reports missing tools.
 
-## Packages
+## Tools
 
-`./install` doesn't install these; `brew install` what you use. Neovim needs
-`ripgrep`, `fd`, `tree-sitter` (to build parsers) and `buf` (to format `.proto`
-files); Mason installs the rest.
+`./install` sets up shell plugins, not development tools. Homebrew is optional;
+if you use it, install the development tools with:
 
-- **Shell and editors**: bash, fd, gh, git-lfs, gnu-sed, lazygit, neovide,
-  neovim, ripgrep, tree. Casks: iterm2, font-noto-color-emoji.
-- **Languages and build tools**: bazel, buf, cmake, gcc, go, go-task, maven,
-  mockery, node, pipx, pkgconf, tree-sitter, utf8proc, uv.
-- **Cloud and containers**: act, argocd, awscli, flux, helm, istioctl,
-  kubernetes-cli, terragrunt, trivy, veracode-cli. Casks: ngrok, orbstack.
-- **Utilities**: brew-rmtree, cloc, cookiecutter, ffmpeg, grpcui, hf, mdbook,
-  mkcert, tmux, vale. Casks: copilot-cli, db-browser-for-sqlite.
+```sh
+brew install neovim ripgrep fd tree-sitter buf git-lfs gnu-sed
+```
+
+`tree-sitter` builds parsers, `buf` formats `.proto` files, `git-lfs` supports the
+Git filters, and `gnu-sed` provides the preferred `sed`. Mason installs the other
+configured language servers, formatters and linters. Install other tools as needed.

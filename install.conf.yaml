@@ -7,8 +7,6 @@
       stdout: true
       stderr: true
 
-- clean: ["~"]
-
 - link:
     ~/.zshrc: .zshrc
     ~/.npmrc: .npmrc
@@ -16,15 +14,19 @@
     ~/.config/nvim: nvim
 
 - shell:
+    - description: Installing Oh My Zsh
+      command: "[ -d ~/.oh-my-zsh ] || git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh"
     - description: Installing zsh plugins
       command: |
         set -e
-        brew install zsh-completions zsh-autosuggestions zsh-syntax-highlighting
-        # zsh skips completions in group-writable directories (Homebrew's documented fix)
-        chmod go-w "$(brew --prefix)/share"
-    - description: Installing Oh My Zsh
-      command: "[ -d ~/.oh-my-zsh ] || git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh"
+        plugins="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins"
+        mkdir -p "$plugins"
+        for plugin in zsh-completions zsh-autosuggestions zsh-syntax-highlighting; do
+          [ -d "$plugins/$plugin" ] ||
+            git clone --depth=1 "https://github.com/zsh-users/$plugin.git" "$plugins/$plugin"
+        done
     - description: Creating ~/.zshrc.local and ~/.gitconfig.local
       command: |
-        [ -e ~/.zshrc.local ] || cp .zshrc.local.example ~/.zshrc.local
-        [ -e ~/.gitconfig.local ] || cp .gitconfig.local.example ~/.gitconfig.local
+        set -e
+        [ -e ~/.zshrc.local ] || [ -L ~/.zshrc.local ] || cp .zshrc.local.example ~/.zshrc.local
+        [ -e ~/.gitconfig.local ] || [ -L ~/.gitconfig.local ] || cp .gitconfig.local.example ~/.gitconfig.local

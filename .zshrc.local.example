@@ -1,14 +1,3 @@
 # Machine-specific shell settings. ./install copies this file to ~/.zshrc.local.
-# Add to PATH with path=(/dir $path) or path+=(/dir).
-
-# Go
-export GOPATH="$HOME/Workspaces"
-path+=("$GOPATH/bin")
-
-# pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
-path=("$PNPM_HOME" $path)
-
-# Secrets and personal aliases
-# export COPILOT_GITHUB_TOKEN="ghp_..."
-# alias copilot-uu="command copilot --deny-tool='shell(rm*)' --deny-tool='shell(git push*)'"
+# Add local environment variables and aliases here.
+# path=("$HOME/bin" $path)
