@@ -30,18 +30,18 @@ are not tracked, and are loaded last.
 
 ## Neovim
 
-Requires Neovim 0.12+ and a [Nerd Font](https://www.nerdfonts.com). Plugins,
-language servers, formatters and Treesitter parsers install themselves on first
-use.
+Standalone Neovim for the terminal. Requires Neovim 0.12+ and a
+[Nerd Font](https://www.nerdfonts.com). Plugins, language servers, formatters and
+Treesitter parsers install themselves on first use.
 
-Code-first UI: native statusline, absolute line numbers and on-demand pickers.
-No dashboard, buffer tabs or notification popups.
+Code-first UI: native statusline, absolute line numbers, indent guides and
+on-demand pickers. No dashboard, buffer tabs or notification popups.
 
 ```text
 nvim/
 ├── init.lua
 └── lua/
-    ├── config/         options, keymaps, autocmds, VSCode Neovim keymaps
+    ├── config/         options, keymaps, autocmds
     └── plugins/
         ├── ui.lua      theme, file browser, pickers, key hints
         ├── editor.lua  Treesitter, autopairs, icons, indentation
@@ -53,7 +53,7 @@ To add a language, extend the tables at the top of `plugins/lsp.lua`.
 
 Custom shortcuts focus on everyday actions. Use native `:w` to save, `:q` / `:qa`
 to quit, and `<C-w>s` / `<C-w>v` / `<C-w>c` / `<C-w>o` to split, close or keep
-only the current window. In VSCode, use the editor's built-in actions for these.
+only the current window.
 
 | Key                         | Action                                  |
 | --------------------------- | --------------------------------------- |
@@ -61,11 +61,11 @@ only the current window. In VSCode, use the editor's built-in actions for these.
 | `<leader>sf` / `<leader>sg`   | Find files / search text                |
 | `<leader>sw`                 | Search selection / current word         |
 | `<leader>sb` / `<leader>bd`   | Find / close a buffer                   |
+| `<leader>sd`                 | Diagnostics picker                      |
 | `<leader>sh` / `<leader>sk`   | Search help / current keymaps           |
 | `<leader>e`                  | File browser                            |
 | `H` / `L`                   | Previous / next buffer                  |
 | `<leader>f`                 | Format (also runs on save)              |
-| `<leader>xx`                 | Diagnostics picker                      |
 | `<C-/>`                     | Terminal                                |
 | `<leader>ac`                 | Copilot CLI                             |
 | `<leader>ap`                 | AI prompts / file / selection context    |

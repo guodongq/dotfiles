@@ -73,8 +73,7 @@ return {
 			"WhoIsSethDaniel/mason-tool-installer.nvim",
 		},
 		config = function()
-			-- Nvim already maps grn, gra, gri, grr, grt, gO and K (:h lsp-defaults). K is mapped
-			-- again because Nvim skips it when an ftplugin sets 'keywordprg' (Go, Python).
+			-- Keep native LSP mappings; add only the navigation aliases below.
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
 				callback = function(event)
@@ -147,7 +146,6 @@ return {
 		event = { "InsertEnter", "CmdlineEnter" },
 		opts = {
 			keymap = {
-				preset = "default",
 				["<CR>"] = { "accept", "fallback" },
 				-- Snippet jump first, then Sidekick's next edit suggestion, then a literal <Tab>.
 				["<Tab>"] = {

@@ -1,4 +1,4 @@
--- Theme, file browsing, pickers and key hints.
+-- Theme, file browsing, pickers, indent guides and key hints.
 return {
 	-- Colorscheme
 	{
@@ -18,6 +18,7 @@ return {
 		lazy = false,
 		opts = {
 			explorer = { enabled = true },
+			indent = { enabled = true },
 			picker = {
 				enabled = true,
 				sources = {
@@ -49,12 +50,12 @@ return {
 			{ "<leader>sb", function() Snacks.picker.buffers() end, desc = "Find buffers" },
 			{ "<leader>sh", function() Snacks.picker.help() end, desc = "Search help" },
 			{ "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Search keymaps" },
-			{ "<leader>bd", function() Snacks.bufdelete() end, desc = "Close buffer" },
 			{
-				"<leader>xx",
+				"<leader>sd",
 				function() Snacks.picker.diagnostics({ filter = { cwd = false } }) end,
-				desc = "Diagnostics",
+				desc = "Search diagnostics",
 			},
+			{ "<leader>bd", function() Snacks.bufdelete() end, desc = "Close buffer" },
 			{ "<c-/>", function() Snacks.terminal() end, mode = { "n", "t" }, desc = "Toggle terminal" },
 			{ "<c-_>", function() Snacks.terminal() end, mode = { "n", "t" }, desc = "Toggle terminal" }, -- <c-/> in most terminals
 		},
@@ -70,7 +71,6 @@ return {
 				{ "<leader>a", group = "AI", mode = { "n", "x" } },
 				{ "<leader>b", group = "Buffers" },
 				{ "<leader>s", group = "Search", mode = { "n", "x" } },
-				{ "<leader>x", group = "Diagnostics" },
 			},
 		},
 	},
