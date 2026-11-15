@@ -25,6 +25,26 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+	desc = "Show native heading outlines on the right",
+	group = augroup("outline-right"),
+	pattern = "qf",
+	callback = function()
+		-- Nvim marks its heading outlines with this window variable.
+		if vim.w.qf_toc then
+			vim.cmd.wincmd("L")
+			local win = vim.api.nvim_get_current_win()
+			local textoff = vim.fn.getwininfo(win)[1].textoff
+			local width = 40
+			-- Concealed quickfix prefixes still count towards wrapped line width.
+			for _, line in ipairs(vim.api.nvim_buf_get_lines(0, 0, -1, false)) do
+				width = math.max(width, vim.fn.strdisplaywidth(line) + textoff)
+			end
+			vim.api.nvim_win_set_width(win, math.min(width, math.floor(vim.o.columns / 2)))
+		end
+	end,
+})
+
 vim.api.nvim_create_autocmd("TermOpen", {
 	desc = "Start terminals in insert mode",
 	group = augroup("terminal-insert"),

@@ -7,18 +7,14 @@ local servers = {
 	gopls = {
 		settings = {
 			gopls = {
-				analyses = { unusedparams = true },
 				staticcheck = true,
 				gofumpt = true,
 			},
 		},
 	},
-	jsonls = {},
-	lua_ls = {},
 	marksman = {},
 	pyright = {},
 	vtsls = {},
-	yamlls = {},
 }
 
 return {
@@ -40,7 +36,6 @@ return {
 						"prettier",
 						"revive",
 						"ruff",
-						"stylua",
 					},
 				},
 			},
@@ -66,22 +61,11 @@ return {
 			for name, config in pairs(servers) do
 				vim.lsp.config(name, config)
 			end
-			local names = vim.tbl_keys(servers)
-			require("mason-lspconfig").setup({ ensure_installed = names, automatic_enable = false })
-			vim.lsp.enable(names)
+			local server_names = vim.tbl_keys(servers)
+			-- Only enable this list, not every server already installed in Mason.
+			require("mason-lspconfig").setup({ ensure_installed = server_names, automatic_enable = false })
+			vim.lsp.enable(server_names)
 		end,
-	},
-
-	-- Neovim and plugin APIs for lua_ls while editing this config
-	{
-		"folke/lazydev.nvim",
-		ft = "lua",
-		opts = {
-			library = {
-				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
-				{ path = "snacks.nvim", words = { "Snacks" } },
-			},
-		},
 	},
 
 	-- Formatting, also on save. Unlisted filetypes fall back to LSP.
@@ -90,25 +74,23 @@ return {
 		event = "BufWritePre",
 		cmd = "ConformInfo",
 		keys = {
-			{ "<leader>f", function() require("conform").format({ async = true }) end, desc = "[F]ormat" },
+			{ "<leader>f", function() require("conform").format({ async = true }) end, desc = "Format" },
 		},
 		opts = {
+			default_format_opts = { lsp_format = "fallback" },
+			format_on_save = { timeout_ms = 1000 },
 			formatters_by_ft = {
 				c = { "clang_format" },
 				css = { "prettier" },
-				go = { "gofumpt", "goimports" },
+				go = { "goimports", "gofumpt" },
 				javascript = { "prettier" },
 				javascriptreact = { "prettier" },
-				json = { "prettier" },
-				lua = { "stylua" },
 				markdown = { "prettier" },
 				proto = { "buf" }, -- from Homebrew
 				python = { "ruff_format" },
 				typescript = { "prettier" },
 				typescriptreact = { "prettier" },
-				yaml = { "prettier" },
 			},
-			format_on_save = { timeout_ms = 1000, lsp_format = "fallback" },
 		},
 	},
 
@@ -129,6 +111,7 @@ return {
 			}
 			vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
 				group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),
+				-- try_lint expects linter names, not the autocmd event table.
 				callback = function() lint.try_lint() end,
 			})
 		end,

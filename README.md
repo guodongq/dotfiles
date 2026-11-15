@@ -124,6 +124,14 @@ nvim/
         └── ai.lua      Copilot suggestions and AI CLIs (sidekick.nvim)
 ```
 
+LSP support covers C/C++, Go, Python, Markdown and JavaScript/TypeScript.
+Diagnostics combine language-server checks with Ruff, ESLint, Revive and
+Markdownlint.
+
+Formatting uses CLI tools first, with the same LSP fallback on save and
+`<leader>f`. Go runs `goimports` before final `gofumpt` formatting.
+The plain `Format` description lets which-key select its icon automatically.
+
 To add a language, update the server list and the relevant formatter, linter
 and tool lists in `plugins/lsp.lua`. Each plugin keeps its options together.
 
@@ -153,6 +161,10 @@ LSP keys stay conventional: `gd` for definitions, `K` for hover, `grn` for renam
 the details instead of displaying messages beside the code. Files and diagnostics
 share the Snacks picker. In the file browser, `h` collapses directories, and
 `o` / `l` / `<CR>` expand directories or open files in the Neovim editor window.
+
+In Markdown, `gO` opens the native heading outline on the right. Its width fits
+the headings up to half the screen; longer headings still wrap. Press `<CR>` on
+a heading to jump to it; `:q` closes the outline.
 
 The file browser keeps the former tree shortcuts: `u` goes up, `C` roots the tree
 at the selected directory (or a file's parent), and `?` toggles help. Use `R` to
