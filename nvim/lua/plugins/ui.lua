@@ -62,7 +62,6 @@ return {
 		"folke/which-key.nvim",
 		event = "VimEnter",
 		opts = {
-			delay = 300,
 			spec = {
 				{ "<leader>a", group = "AI", mode = { "n", "x" } },
 				{ "<leader>b", group = "Buffers" },

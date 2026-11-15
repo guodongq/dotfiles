@@ -104,7 +104,7 @@ no dashboard, buffer tabs or notification popups.
 
 LSP support covers C/C++, Go, Python, Markdown and JavaScript/TypeScript.
 Diagnostics combine language-server checks with Ruff, ESLint, Revive and
-Markdownlint.
+Markdownlint. Both C and C++ format with `clang_format` on save.
 
 Formatting uses CLI tools first, with LSP fallback on save and `<leader>f`.
 Go runs `goimports` before `gofumpt`. To add a language, update the server,
