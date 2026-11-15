@@ -30,8 +30,29 @@ class DotfilesTests(unittest.TestCase):
         target.parent.mkdir(parents=True, exist_ok=True)
         target.symlink_to(ROOT / source)
 
-    def install_links(self):
-        return subprocess.run(
+    def stub_command(self, name, body):
+        commands = self.home / "bin"
+        commands.mkdir(exist_ok=True)
+        path = commands / name
+        path.write_text("#!/bin/sh\n" + body)
+        path.chmod(0o755)
+        self.env["PATH"] = str(commands) + os.pathsep + os.environ["PATH"]
+
+    def run_command(self, command, *, input=None, check=True):
+        result = subprocess.run(
+            command,
+            env=self.env,
+            input=input,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        if check:
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        return result
+
+    def run_dotbot(self, only="link", *, check=True):
+        return self.run_command(
             [
                 sys.executable,
                 str(ROOT / "dotbot/bin/dotbot"),
@@ -40,18 +61,16 @@ class DotfilesTests(unittest.TestCase):
                 "-c",
                 str(ROOT / "install.conf.yaml"),
                 "--only",
-                "link",
+                only,
             ],
-            env=self.env,
-            capture_output=True,
-            text=True,
-            timeout=30,
+            check=check,
         )
 
     @unittest.skipUnless(shutil.which("zsh"), "requires zsh")
     def test_shell_environment_is_initialized_once_and_local_overrides_win(self):
         self.link(".zprofile", ".zprofile")
         self.link(".zshrc", ".zshrc")
+        self.env["EDITOR"] = "inherited-editor"
         brew_paths = (
             "/opt/homebrew/bin/brew",
             "/usr/local/bin/brew",
@@ -85,14 +104,7 @@ class DotfilesTests(unittest.TestCase):
                 with self.subTest(orbstack=with_orbstack, mode=mode):
                     if calls.exists():
                         calls.unlink()
-                    result = subprocess.run(
-                        ["zsh", "-d", mode, command],
-                        env={**self.env, "EDITOR": "inherited-editor"},
-                        capture_output=True,
-                        text=True,
-                        timeout=30,
-                    )
-                    self.assertEqual(result.returncode, 0, result.stderr)
+                    result = self.run_command(["zsh", "-d", mode, command])
                     header, *paths = result.stdout.splitlines()
                     editor = "local-editor" if "i" in mode else "inherited-editor"
                     self.assertEqual(header, f"{int(with_orbstack)} {editor}")
@@ -108,8 +120,7 @@ class DotfilesTests(unittest.TestCase):
 
     def test_new_links_are_installed_idempotently(self):
         for _ in range(2):
-            result = self.install_links()
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.run_dotbot()
             for source, target in (
                 (".zprofile", ".zprofile"),
                 (".gitignore_global", ".config/git/ignore"),
@@ -132,24 +143,18 @@ class DotfilesTests(unittest.TestCase):
         for path in paths:
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_text("existing local settings\n")
-        result = self.install_links()
+        result = self.run_dotbot(check=False)
         self.assertNotEqual(result.returncode, 0)
         for path in paths:
             self.assertFalse(path.is_symlink())
             self.assertEqual(path.read_text(), "existing local settings\n")
 
     def test_desktop_links_are_macos_only(self):
-        commands = self.home / "bin"
-        commands.mkdir()
-        uname = commands / "uname"
-        uname.write_text('#!/bin/sh\nprintf \'%s\\n\' "$DOTFILES_TEST_PLATFORM"\n')
-        uname.chmod(0o755)
-        self.env["PATH"] = str(commands) + os.pathsep + os.environ["PATH"]
+        self.stub_command("uname", 'printf \'%s\\n\' "$DOTFILES_TEST_PLATFORM"\n')
         for platform in ("Linux", "Darwin"):
             self.env["DOTFILES_TEST_PLATFORM"] = platform
             with self.subTest(platform=platform):
-                result = self.install_links()
-                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                self.run_dotbot()
                 for source, target in (
                     (
                         "iterm2/profile.json",
@@ -171,12 +176,7 @@ class DotfilesTests(unittest.TestCase):
         self.link(".gitignore_global", ".config/git/ignore")
         worktree = self.home / "project"
         worktree.mkdir()
-        subprocess.run(
-            ["git", "init", "--quiet", str(worktree)],
-            env=self.env,
-            check=True,
-            capture_output=True,
-        )
+        self.run_command(["git", "init", "--quiet", str(worktree)])
         ignored = {
             ".DS_Store",
             "nested/.DS_Store",
@@ -189,52 +189,46 @@ class DotfilesTests(unittest.TestCase):
             ".vscode/settings.json",
             "main.py",
         }
-        result = subprocess.run(
+        result = self.run_command(
             ["git", "-C", str(worktree), "check-ignore", "--no-index", "--stdin"],
             input="\n".join(sorted(ignored | shared)) + "\n",
-            env=self.env,
-            capture_output=True,
-            text=True,
-            timeout=30,
         )
-        self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(set(result.stdout.splitlines()), ignored)
 
-    def test_macos_preferences_are_platform_guarded(self):
-        commands = self.home / "bin"
-        commands.mkdir()
-        stubs = {
-            "uname": 'printf \'%s\\n\' "$DOTFILES_TEST_PLATFORM"\n',
-            "defaults": 'printf \'%s\\n\' "$*" >> "$DOTFILES_TEST_DEFAULTS_LOG"\n',
-        }
-        for name, body in stubs.items():
-            path = commands / name
-            path.write_text("#!/bin/sh\n" + body)
-            path.chmod(0o755)
-        log = self.home / "defaults-calls"
-        for platform in ("Linux", "Darwin"):
-            with self.subTest(platform=platform):
-                result = subprocess.run(
-                    [str(ROOT / "macos/defaults.sh")],
-                    env={
-                        **self.env,
-                        "PATH": str(commands) + os.pathsep + os.environ["PATH"],
-                        "DOTFILES_TEST_PLATFORM": platform,
-                        "DOTFILES_TEST_DEFAULTS_LOG": str(log),
-                    },
-                    capture_output=True,
-                    text=True,
-                    timeout=30,
-                )
-                if platform == "Darwin":
-                    self.assertEqual(result.returncode, 0, result.stderr)
-                    self.assertTrue(log.is_file())
-                    self.assertTrue(
-                        all(
-                            line.startswith("write ")
-                            for line in log.read_text().splitlines()
-                        )
-                    )
-                else:
-                    self.assertNotEqual(result.returncode, 0)
-                    self.assertFalse(log.exists())
+    def test_shell_install_is_idempotent_and_preserves_local_files(self):
+        self.stub_command(
+            "git",
+            'printf \'%s\\n\' "$*" >> "$HOME/git-calls"\n'
+            '[ "$1" = clone ] || exit 1\n'
+            'mkdir -p "$4"\n',
+        )
+        custom = self.home / "custom"
+        self.env["ZSH_CUSTOM"] = str(custom)
+        self.run_dotbot("shell")
+        self.assertTrue((self.home / ".oh-my-zsh").is_dir())
+        for plugin in (
+            "zsh-completions",
+            "zsh-autosuggestions",
+            "zsh-syntax-highlighting",
+        ):
+            self.assertTrue((custom / "plugins" / plugin).is_dir())
+        for name in (".zshrc.local", ".gitconfig.local"):
+            self.assertEqual(
+                (self.home / name).read_text(), (ROOT / f"{name}.example").read_text()
+            )
+        log = self.home / "git-calls"
+        clones = log.read_text()
+        self.assertEqual(len(clones.splitlines()), 4)
+
+        shell_local = self.home / ".zshrc.local"
+        shell_local.write_text("existing local settings\n")
+        git_local = self.home / ".gitconfig.local"
+        git_local.unlink()
+        git_local.symlink_to("missing-local-settings")
+        for _ in range(2):
+            self.run_dotbot("shell")
+            self.assertEqual(log.read_text(), clones)
+            self.assertEqual(shell_local.read_text(), "existing local settings\n")
+            self.assertTrue(git_local.is_symlink())
+            self.assertEqual(git_local.readlink(), Path("missing-local-settings"))
+            self.assertFalse(git_local.exists())

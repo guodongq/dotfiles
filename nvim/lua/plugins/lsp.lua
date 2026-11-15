@@ -1,4 +1,4 @@
--- Language support: LSP, formatting, linting and completion.
+-- Language support: LSP, formatting and linting.
 
 -- LSP servers, keyed by nvim-lspconfig name. Values are passed to vim.lsp.config().
 local servers = {
@@ -115,25 +115,5 @@ return {
 				callback = function() lint.try_lint() end,
 			})
 		end,
-	},
-
-	-- Completion
-	{
-		"saghen/blink.cmp",
-		version = "1.*",
-		event = { "InsertEnter", "CmdlineEnter" },
-		opts = {
-			keymap = {
-				["<CR>"] = { "accept", "fallback" },
-				-- Snippet jump first, then Sidekick's next edit suggestion, then a literal <Tab>.
-				["<Tab>"] = {
-					"snippet_forward",
-					function() return require("sidekick").nes_jump_or_apply() end,
-					"fallback",
-				},
-			},
-			completion = { documentation = { auto_show = true, auto_show_delay_ms = 200 } },
-			signature = { enabled = true },
-		},
 	},
 }

@@ -1,4 +1,4 @@
--- Syntax, autopairs, icons and indentation.
+-- Editing: syntax, autopairs, icons, indentation and completion.
 return {
 	-- Treesitter: highlighting and folds. A missing parser is installed the
 	-- first time a file of that type is opened.
@@ -8,14 +8,15 @@ return {
 		lazy = false,
 		build = ":TSUpdate",
 		config = function()
+			local treesitter = require("nvim-treesitter")
 			vim.api.nvim_create_autocmd("FileType", {
 				group = vim.api.nvim_create_augroup("treesitter-highlight", { clear = true }),
 				callback = function(event)
 					local lang = vim.treesitter.language.get_lang(event.match) or event.match
 					if vim.treesitter.language.add(lang) then
 						vim.treesitter.start(event.buf, lang)
-					elseif vim.list_contains(require("nvim-treesitter").get_available(), lang) then
-						require("nvim-treesitter").install(lang):await(function()
+					elseif vim.list_contains(treesitter.get_available(), lang) then
+						treesitter.install(lang):await(function()
 							vim.schedule(function() pcall(vim.treesitter.start, event.buf, lang) end)
 						end)
 					end
@@ -36,4 +37,24 @@ return {
 
 	-- Detect indentation from the file's contents
 	{ "NMAC427/guess-indent.nvim", event = { "BufReadPost", "BufNewFile" }, opts = {} },
+
+	-- Completion
+	{
+		"saghen/blink.cmp",
+		version = "1.*",
+		event = { "InsertEnter", "CmdlineEnter" },
+		opts = {
+			keymap = {
+				["<CR>"] = { "accept", "fallback" },
+				-- Snippet jump first, then Sidekick's next edit suggestion, then a literal <Tab>.
+				["<Tab>"] = {
+					"snippet_forward",
+					function() return require("sidekick").nes_jump_or_apply() end,
+					"fallback",
+				},
+			},
+			completion = { documentation = { auto_show = true, auto_show_delay_ms = 200 } },
+			signature = { enabled = true },
+		},
+	},
 }

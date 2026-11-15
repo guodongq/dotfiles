@@ -15,8 +15,6 @@
     ~/.config/git/ignore: .gitignore_global
     ~/.config/gh/config.yml: gh/config.yml
     ~/.config/nvim: nvim
-
-- link:
     ~/Library/Application Support/iTerm2/DynamicProfiles/dotfiles.json:
       path: iterm2/profile.json
       if: '[ "$(uname -s)" = Darwin ]'
@@ -26,18 +24,25 @@
 
 - shell:
     - description: Installing Oh My Zsh
-      command: "[ -d ~/.oh-my-zsh ] || git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git ~/.oh-my-zsh"
+      command: |
+        if [ ! -d "$HOME/.oh-my-zsh" ]; then
+          git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
+        fi
     - description: Installing zsh plugins
       command: |
         set -e
         plugins="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins"
         mkdir -p "$plugins"
         for plugin in zsh-completions zsh-autosuggestions zsh-syntax-highlighting; do
-          [ -d "$plugins/$plugin" ] ||
+          if [ ! -d "$plugins/$plugin" ]; then
             git clone --depth=1 "https://github.com/zsh-users/$plugin.git" "$plugins/$plugin"
+          fi
         done
     - description: Creating ~/.zshrc.local and ~/.gitconfig.local
       command: |
         set -e
-        [ -e ~/.zshrc.local ] || [ -L ~/.zshrc.local ] || cp .zshrc.local.example ~/.zshrc.local
-        [ -e ~/.gitconfig.local ] || [ -L ~/.gitconfig.local ] || cp .gitconfig.local.example ~/.gitconfig.local
+        for file in .zshrc.local .gitconfig.local; do
+          if [ ! -e "$HOME/$file" ] && [ ! -L "$HOME/$file" ]; then
+            cp "$file.example" "$HOME/$file"
+          fi
+        done
