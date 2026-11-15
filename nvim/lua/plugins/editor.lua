@@ -16,9 +16,8 @@ return {
 					if vim.treesitter.language.add(lang) then
 						vim.treesitter.start(event.buf, lang)
 					elseif vim.list_contains(treesitter.get_available(), lang) then
-						treesitter.install(lang):await(function()
-							vim.schedule(function() pcall(vim.treesitter.start, event.buf, lang) end)
-						end)
+						local highlight = vim.schedule_wrap(function() pcall(vim.treesitter.start, event.buf, lang) end)
+						treesitter.install(lang):await(highlight)
 					end
 				end,
 			})

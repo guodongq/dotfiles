@@ -1,4 +1,13 @@
 -- Theme, file browsing, pickers, indent guides and key hints.
+
+-- Preserve tree keys: Snacks' o/u defaults open externally/refresh.
+local explorer_keys = {
+	o = "confirm",
+	u = "explorer_up",
+	C = "explorer_focus",
+	R = "explorer_update",
+}
+
 return {
 	-- Colorscheme
 	{
@@ -21,21 +30,7 @@ return {
 			indent = { enabled = true },
 			picker = {
 				enabled = true,
-				sources = {
-					explorer = {
-						win = {
-							list = {
-								-- Preserve tree keys: Snacks' o/u defaults open externally/refresh.
-								keys = {
-									["o"] = "confirm",
-									["u"] = "explorer_up",
-									["C"] = "explorer_focus",
-									["R"] = "explorer_update",
-								},
-							},
-						},
-					},
-				},
+				sources = { explorer = { win = { list = { keys = explorer_keys } } } },
 			},
 		},
 		keys = {

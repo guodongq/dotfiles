@@ -66,6 +66,38 @@ class DotfilesTests(unittest.TestCase):
             check=check,
         )
 
+    def run_nvim(self, script, *plugins, args=()):
+        nvim = shutil.which("nvim")
+        if not nvim:
+            self.skipTest("requires Neovim")
+        data_home = Path(os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share"))
+        app_name = os.environ.get("NVIM_APPNAME", "nvim")
+        paths = [data_home / app_name / "lazy" / plugin for plugin in plugins]
+        for path in paths:
+            if not path.is_dir():
+                self.skipTest(f"requires installed {path.name}")
+        for key, directory in (
+            ("XDG_DATA_HOME", "data"),
+            ("XDG_CACHE_HOME", "cache"),
+            ("XDG_STATE_HOME", "state"),
+        ):
+            self.env[key] = str(self.home / directory)
+        return self.run_command(
+            [
+                nvim,
+                "--headless",
+                "-u",
+                "NONE",
+                "-i",
+                "NONE",
+                "-l",
+                str(ROOT / "tests" / script),
+                str(ROOT),
+                *(str(path) for path in paths),
+                *args,
+            ]
+        )
+
     @unittest.skipUnless(shutil.which("zsh"), "requires zsh")
     def test_shell_environment_is_initialized_once_and_local_overrides_win(self):
         self.link(".zprofile", ".zprofile")
@@ -91,9 +123,7 @@ class DotfilesTests(unittest.TestCase):
         (self.home / ".zshrc.local").write_text(
             'export EDITOR=local-editor\npath=("$HOME/custom-bin" $path)\n'
         )
-        command = (
-            'print -r -- "${EDITOR:-unset}"; print -l -- "${path[@]}"'
-        )
+        command = 'print -r -- "${EDITOR:-unset}"; print -l -- "${path[@]}"'
         for mode in ("-lc", "-lic", "-ic"):
             with self.subTest(mode=mode):
                 if calls.exists():
@@ -227,32 +257,13 @@ class DotfilesTests(unittest.TestCase):
             self.assertEqual(git_local.readlink(), Path("missing-local-settings"))
             self.assertFalse(git_local.exists())
 
-    @unittest.skipUnless(shutil.which("nvim"), "requires Neovim")
     def test_nvim_explorer_navigation_shortcuts(self):
-        data_home = Path(
-            os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share")
-        )
-        app_name = os.environ.get("NVIM_APPNAME", "nvim")
-        snacks = data_home / app_name / "lazy" / "snacks.nvim"
-        if not (snacks / "lua/snacks/init.lua").is_file():
-            self.skipTest("requires installed Snacks")
-        for key, directory in (
-            ("XDG_DATA_HOME", "data"),
-            ("XDG_CACHE_HOME", "cache"),
-            ("XDG_STATE_HOME", "state"),
-        ):
-            self.env[key] = str(self.home / directory)
-        self.run_command(
-            [
-                "nvim",
-                "--headless",
-                "-u",
-                "NONE",
-                "-i",
-                "NONE",
-                "-l",
-                str(ROOT / "tests/nvim_explorer.lua"),
-                str(ROOT),
-                str(snacks),
-            ]
-        )
+        self.run_nvim("nvim_explorer.lua", "snacks.nvim")
+
+    def test_nvim_completion_and_tab_priorities(self):
+        for event in ("InsertEnter", "CmdlineEnter"):
+            with self.subTest(event=event):
+                result = self.run_nvim(
+                    "nvim_completion.lua", "lazy.nvim", "blink.cmp", args=(event,)
+                )
+                self.assertIn("Completion checks passed", result.stdout)

@@ -16,8 +16,8 @@ map("n", "<C-k>", "<C-w>k", { desc = "Focus upper window" })
 map("n", "<C-l>", "<C-w>l", { desc = "Focus right window" })
 
 -- Buffers
-map("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
-map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+map("n", "H", "<cmd>bprevious<cr>", { desc = "Previous buffer" })
+map("n", "L", "<cmd>bnext<cr>", { desc = "Next buffer" })
 
 -- Editing
 map("x", "p", "P", { desc = "Paste without yanking the selection" })

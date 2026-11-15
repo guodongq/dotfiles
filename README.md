@@ -124,7 +124,14 @@ formatter, linter and tool lists in `plugins/lsp.lua`.
 | `<C-/>` | Terminal |
 | `<leader>ac` | Copilot CLI |
 | `<leader>ap` | AI prompts / file / selection context |
-| `<Tab>` | Apply the next edit suggestion |
+| `<Tab>` (normal mode) | Jump to / apply the next edit suggestion |
+
+Completion uses `blink.cmp` in insert and command-line modes. In insert mode,
+`<CR>` accepts the selected completion, or inserts a newline when none is selected.
+`<Tab>` jumps to the next snippet field first, then tries an AI edit suggestion,
+then falls back to the original key behavior; it does not select completions.
+`<C-n>` / `<C-p>` select completion items. Command-line completion keeps Blink's
+default keys, including `<Tab>` to show or cycle completions.
 
 Use native `:w`, `:q` / `:qa` and `<C-w>` window commands.
 LSP keys are `gd` for definitions, `K` for hover, `grn` for rename, `gra` for
@@ -151,4 +158,6 @@ python3 -m unittest discover -s tests -v
 Tests use temporary home directories and stub Git clones without network access,
 covering shell startup, local overrides, idempotent installation, macOS-only links,
 preservation of regular files and dangling local symlinks, and Git ignore rules.
-The explorer shortcut regression check runs when Neovim and Snacks are installed.
+Neovim checks cover explorer shortcuts, completion loading and Enter/Tab priority.
+They use installed plugins and temporary data directories without downloads or
+AI requests, and skip when Neovim or the required plugins are missing.
