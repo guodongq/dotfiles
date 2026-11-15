@@ -32,10 +32,7 @@ vim.o.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.o.foldlevel = 99 -- open all folds by default
 
 -- Filetypes
-vim.filetype.add({
-	extension = { mdx = "markdown", mjml = "html", kicad_mod = "scheme" },
-	filename = { ["yup.lock"] = "yaml" },
-})
+vim.filetype.add({ extension = { mdx = "markdown" } })
 
 -- Diagnostics
 vim.diagnostic.config({

@@ -91,32 +91,26 @@ class DotfilesTests(unittest.TestCase):
         (self.home / ".zshrc.local").write_text(
             'export EDITOR=local-editor\npath=("$HOME/custom-bin" $path)\n'
         )
-        integration = self.home / ".orbstack/shell/init.zsh"
-        integration.parent.mkdir(parents=True)
         command = (
-            'print -r -- "${DOTFILES_TEST_ORBSTACK_COUNT:-0}" "${EDITOR:-unset}"; '
-            'print -l -- "${path[@]}"'
+            'print -r -- "${EDITOR:-unset}"; print -l -- "${path[@]}"'
         )
-        for with_orbstack in (False, True):
-            if with_orbstack:
-                integration.write_text("(( DOTFILES_TEST_ORBSTACK_COUNT += 1 ))\n")
-            for mode in ("-lc", "-lic", "-ic"):
-                with self.subTest(orbstack=with_orbstack, mode=mode):
-                    if calls.exists():
-                        calls.unlink()
-                    result = self.run_command(["zsh", "-d", mode, command])
-                    header, *paths = result.stdout.splitlines()
-                    editor = "local-editor" if "i" in mode else "inherited-editor"
-                    self.assertEqual(header, f"{int(with_orbstack)} {editor}")
-                    actual_calls = (
-                        len(calls.read_text().splitlines()) if calls.exists() else 0
-                    )
-                    self.assertEqual(actual_calls, expected_brew_calls)
-                    self.assertEqual(len(paths), len(set(paths)))
-                    for directory in (".npm-global/bin", ".local/bin"):
-                        self.assertIn(str(self.home / directory), paths)
-                    if "i" in mode:
-                        self.assertEqual(paths[0], str(self.home / "custom-bin"))
+        for mode in ("-lc", "-lic", "-ic"):
+            with self.subTest(mode=mode):
+                if calls.exists():
+                    calls.unlink()
+                result = self.run_command(["zsh", "-d", mode, command])
+                header, *paths = result.stdout.splitlines()
+                editor = "local-editor" if "i" in mode else "inherited-editor"
+                self.assertEqual(header, editor)
+                actual_calls = (
+                    len(calls.read_text().splitlines()) if calls.exists() else 0
+                )
+                self.assertEqual(actual_calls, expected_brew_calls)
+                self.assertEqual(len(paths), len(set(paths)))
+                for directory in (".npm-global/bin", ".local/bin"):
+                    self.assertIn(str(self.home / directory), paths)
+                if "i" in mode:
+                    self.assertEqual(paths[0], str(self.home / "custom-bin"))
 
     def test_new_links_are_installed_idempotently(self):
         for _ in range(2):
@@ -232,3 +226,33 @@ class DotfilesTests(unittest.TestCase):
             self.assertTrue(git_local.is_symlink())
             self.assertEqual(git_local.readlink(), Path("missing-local-settings"))
             self.assertFalse(git_local.exists())
+
+    @unittest.skipUnless(shutil.which("nvim"), "requires Neovim")
+    def test_nvim_explorer_navigation_shortcuts(self):
+        data_home = Path(
+            os.environ.get("XDG_DATA_HOME", Path.home() / ".local/share")
+        )
+        app_name = os.environ.get("NVIM_APPNAME", "nvim")
+        snacks = data_home / app_name / "lazy" / "snacks.nvim"
+        if not (snacks / "lua/snacks/init.lua").is_file():
+            self.skipTest("requires installed Snacks")
+        for key, directory in (
+            ("XDG_DATA_HOME", "data"),
+            ("XDG_CACHE_HOME", "cache"),
+            ("XDG_STATE_HOME", "state"),
+        ):
+            self.env[key] = str(self.home / directory)
+        self.run_command(
+            [
+                "nvim",
+                "--headless",
+                "-u",
+                "NONE",
+                "-i",
+                "NONE",
+                "-l",
+                str(ROOT / "tests/nvim_explorer.lua"),
+                str(ROOT),
+                str(snacks),
+            ]
+        )

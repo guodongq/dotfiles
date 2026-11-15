@@ -15,13 +15,11 @@ fpath+=("${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-completions/src") # before compi
 
 # Environment
 export EDITOR=nvim VISUAL=nvim
-export HERMES_TUI=1
 
 # Aliases
 alias vim=nvim vi=nvim
 alias python=python3 pip=pip3
 alias k=kubectl
-[[ -f /etc/wsl.conf ]] && alias open=explorer.exe
 
 # Last, so local settings win
 if [[ -r "$HOME/.zshrc.local" ]]; then

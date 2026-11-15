@@ -41,20 +41,17 @@ return {
 			},
 		},
 		config = function()
-			-- Keep native LSP mappings; add only the navigation aliases below.
+			-- Keep native LSP mappings; add only the conventional definition shortcut.
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
 				callback = function(event)
 					local client = vim.lsp.get_client_by_id(event.data.client_id)
-					local function map(lhs, rhs, desc, method)
-						if client and client:supports_method(method, event.buf) then
-							vim.keymap.set("n", lhs, rhs, { buffer = event.buf, desc = "LSP: " .. desc })
-						end
+					if client and client:supports_method("textDocument/definition", event.buf) then
+						vim.keymap.set("n", "gd", vim.lsp.buf.definition, {
+							buffer = event.buf,
+							desc = "LSP: Go to definition",
+						})
 					end
-					map("gd", vim.lsp.buf.definition, "[G]oto [D]efinition", "textDocument/definition")
-					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration", "textDocument/declaration")
-					map("gK", vim.lsp.buf.signature_help, "Signature Help", "textDocument/signatureHelp")
-					map("grw", vim.lsp.buf.workspace_symbol, "Workspace Symbols", "workspace/symbol")
 				end,
 			})
 

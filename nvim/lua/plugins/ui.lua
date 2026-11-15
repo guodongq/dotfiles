@@ -25,6 +25,7 @@ return {
 					explorer = {
 						win = {
 							list = {
+								-- Preserve tree keys: Snacks' o/u defaults open externally/refresh.
 								keys = {
 									["o"] = "confirm",
 									["u"] = "explorer_up",

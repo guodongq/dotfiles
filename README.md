@@ -58,9 +58,10 @@ Machine-specific settings go in `~/.zshrc.local` and `~/.gitconfig.local`.
 They load last and are never overwritten, including dangling symlinks.
 New files start as commented examples; fill in your Git identity before committing.
 
-`.zprofile` initializes Homebrew, a unique PATH, GNU sed, npm/pipx executables and
-optional OrbStack integration. `.zshrc` sets the editor, aliases and shell plugins.
+`.zprofile` initializes Homebrew, a unique PATH and npm/pipx executables.
+`.zshrc` sets the editor, aliases and shell plugins.
 It loads `.zprofile` only for non-login shells, avoiding duplicate initialization.
+Application-specific exports and integrations belong in `~/.zshrc.local`.
 
 GitHub CLI adds only `gh co` for pull request checkout. Authentication, SSH hosts,
 CLI login or trust state, shell history and caches stay local.
@@ -70,13 +71,13 @@ CLI login or trust state, shell history and caches stay local.
 `./install` sets up shell plugins, not development tools. Homebrew is optional:
 
 ```sh
-brew install neovim ripgrep fd tree-sitter-cli buf git-lfs gnu-sed gh
+brew install neovim ripgrep fd tree-sitter-cli buf git-lfs gh
 ```
 
 `tree-sitter-cli` builds parsers; `tree-sitter` alone is only the library.
-`buf` formats Protobuf, `git-lfs` supports Git filters, and `gnu-sed` supplies the
-preferred `sed`. `fd` and `ripgrep` support search. Mason installs the other
-configured language servers, formatters and linters.
+`buf` formats Protobuf, `git-lfs` supports Git filters, and `fd` and `ripgrep`
+support search. Mason installs the other configured language servers,
+formatters and linters.
 Install project-specific tools and GUI applications only as needed.
 
 ## Desktop preferences
@@ -92,8 +93,7 @@ linked. Merge wanted keys in the user settings editor instead of overwriting
 local paths and provider settings. On a new machine, use it as initial settings.
 
 Go snippets are `pln` for `fmt.Println` and `plf` for `fmt.Printf`.
-Install Hack Nerd Font and the VS Code icon extension
-`chadalen.vscode-jetbrains-icon-theme` where needed; neither is bundled.
+Install Hack Nerd Font where needed; it is not bundled.
 
 ## Neovim
 
@@ -133,11 +133,11 @@ code actions, `grr` for references and `gO` for document symbols.
 and underlines rather than messages beside the code.
 
 The Snacks file browser uses `h` to collapse and `o` / `l` / `<CR>` to expand or
-open. `u` goes up, `C` roots at the selection (or a file's parent), `R` refreshes
-and `?` shows help. These keys are local to the browser.
+open in Neovim. `u` goes up, `C` roots at the selection (or a file's parent),
+`R` refreshes and `?` shows help. These shortcuts are local to the browser.
 
-In Markdown, `gO` opens the native heading outline on the right, sized up to half
-the screen. `<CR>` jumps to a heading; `:q` closes it. Longer headings wrap.
+In Markdown, `gO` opens the native heading outline.
+`<CR>` jumps to a heading; `:q` closes it.
 
 Sign in with `:LspCopilotSignIn`; use `:Sidekick cli select` for other AI tools.
 `:Lazy sync` updates plugins; `:checkhealth` reports missing tools.
@@ -151,3 +151,4 @@ python3 -m unittest discover -s tests -v
 Tests use temporary home directories and stub Git clones without network access,
 covering shell startup, local overrides, idempotent installation, macOS-only links,
 preservation of regular files and dangling local symlinks, and Git ignore rules.
+The explorer shortcut regression check runs when Neovim and Snacks are installed.

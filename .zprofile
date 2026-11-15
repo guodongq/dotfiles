@@ -6,11 +6,4 @@ for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbr
 done
 unset _brew
 
-if [[ -n ${HOMEBREW_PREFIX:-} && -d "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin" ]]; then
-  path=("$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin" $path)
-fi
 path+=("$HOME/.npm-global/bin" "$HOME/.local/bin")
-
-if [[ -r "$HOME/.orbstack/shell/init.zsh" ]]; then
-  source "$HOME/.orbstack/shell/init.zsh"
-fi
