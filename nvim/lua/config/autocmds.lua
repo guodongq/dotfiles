@@ -26,7 +26,7 @@ vim.api.nvim_create_autocmd("BufReadPost", {
 })
 
 vim.api.nvim_create_autocmd("TermOpen", {
-	desc = "Start terminals in insert mode",
+	desc = "Start bare terminals in insert mode (Snacks handles its own)",
 	group = group,
 	callback = function(event)
 		if event.buf == vim.api.nvim_get_current_buf() then

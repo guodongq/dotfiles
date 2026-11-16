@@ -17,10 +17,10 @@ focused, and leave machine-specific settings and credentials outside Git.
 ├── nvim/
 │   ├── init.lua            startup
 │   └── lua/
-│       ├── config/         options, keymaps, autocmds
+│       ├── config/         options, keymaps, autocmds, lazy bootstrap
 │       └── plugins/
-│           ├── ui.lua      theme, pickers, key hints
-│           ├── editor.lua  syntax, typing, completion
+│           ├── ui.lua      theme, browser, pickers, indent, key hints
+│           ├── editor.lua  syntax, pairs, icons, indent, completion
 │           ├── lsp.lua     servers, formatting, linting
 │           └── ai.lua      Copilot suggestions and CLIs
 ├── tests/                  isolated behavior tests
@@ -46,20 +46,20 @@ The complete link list and shell setup live in `install.conf.yaml`; `install`
 only bootstraps Dotbot. Links cover the shell, Git, npm, GitHub CLI and Neovim.
 On macOS, the iTerm2 profile and Go snippets are also linked.
 
-Existing symlinks may be replaced; regular files and directories are not.
-Move conflicting paths aside and run `./install` again. Unrelated links,
-application folders, other profiles and other snippets are left alone.
+Existing symlinks may be replaced; regular files and directories are kept —
+move conflicts aside and rerun `./install`. Unrelated links and application
+files are left alone.
 
-Oh My Zsh and three zsh plugins are installed only when their directories are
-missing, never updated automatically. Plugins use `~/.oh-my-zsh/custom/plugins`,
-or `$ZSH_CUSTOM/plugins` when set.
+Oh My Zsh and three zsh plugins install only when missing and are never
+auto-updated.
 
 Machine-specific settings go in `~/.zshrc.local` and `~/.gitconfig.local`.
 They load last and are never overwritten, including dangling symlinks.
 New files start as commented examples; fill in your Git identity before committing.
 
 `.zprofile` initializes Homebrew, a unique PATH and npm/pipx executables.
-`.zshrc` sets the editor, aliases and shell plugins.
+`.zshrc` sets the editor, aliases (`vim`/`vi` → nvim, `python` → python3,
+`k` → kubectl) and shell plugins.
 It loads `.zprofile` only for non-login shells, avoiding duplicate initialization.
 Application-specific exports and integrations belong in `~/.zshrc.local`.
 
@@ -78,19 +78,20 @@ brew install neovim ripgrep fd tree-sitter-cli buf git-lfs gh
 `buf` formats Protobuf, `git-lfs` supports Git filters, and `fd` and `ripgrep`
 support search. Mason installs the other configured language servers,
 formatters and linters.
+
 Install project-specific tools and GUI applications only as needed.
 
 ## Desktop preferences
 
 **iTerm2:** the [dynamic profile](https://iterm2.com/documentation-dynamic-profiles.html)
-adds a `Dotfiles` profile with Hack Nerd Font at 16 pt. Other values inherit the
-local default profile. Select it from the Profiles menu; installation does not
-switch the active or default profile. Edit `iterm2/profile.json` to keep changes
-in Git, and reopen iTerm2 if it does not notice a symlinked change.
+adds a `Dotfiles` profile with Hack Nerd Font at 16 pt; other values inherit
+the local default. Select it from the Profiles menu — installation never
+switches your active profile. Edit `iterm2/profile.json` to keep changes in
+Git; reopen iTerm2 to pick up symlinked edits.
 
-**VS Code:** `vscode/settings.json` is a portable baseline, not automatically
-linked. Merge wanted keys in the user settings editor instead of overwriting
-local paths and provider settings. On a new machine, use it as initial settings.
+**VS Code:** `vscode/settings.json` is a portable baseline, not linked
+automatically. Merge wanted keys in the settings editor rather than
+overwriting local paths; on a new machine, use it as the starting point.
 
 Go snippets are `pln` for `fmt.Println` and `plf` for `fmt.Printf`.
 Install Hack Nerd Font where needed; it is not bundled.
@@ -120,20 +121,22 @@ formatter, linter and tool lists in `plugins/lsp.lua`.
 | `<leader>sh` / `<leader>sk` | Search help / current keymaps |
 | `<leader>e` | File browser |
 | `H` / `L` | Previous / next buffer |
+| `<C-h/j/k/l>` | Focus left / lower / upper / right window |
+| `jk` (insert mode) | Leave insert mode |
 | `<leader>f` | Format (also runs on save) |
 | `<C-/>` | Terminal |
+| `<Esc><Esc>` (terminal mode) | Leave terminal mode |
 | `<leader>ac` | Copilot CLI |
 | `<leader>ap` | AI prompts / file / selection context |
 | `<Tab>` (normal mode) | Jump to / apply the next edit suggestion |
 
-Completion uses `blink.cmp` in insert and command-line modes. In insert mode,
-`<CR>` accepts the selected completion, or inserts a newline when none is selected.
-`<Tab>` jumps to the next snippet field first, then tries an AI edit suggestion,
-then falls back to the original key behavior; it does not select completions.
-`<C-n>` / `<C-p>` select completion items. Command-line completion keeps Blink's
-default keys, including `<Tab>` to show or cycle completions.
+Completion uses `blink.cmp` in insert and command-line modes. `<CR>` accepts
+the selected item or inserts a newline; `<C-n>` / `<C-p>` cycle items. `<Tab>`
+prefers snippet jumps, then AI edit suggestions, then its normal behavior — it
+never selects completions. Command-line keys stay at Blink's defaults.
 
-Use native `:w`, `:q` / `:qa` and `<C-w>` window commands.
+Use native `:w`, `:q` / `:qa` and `<C-w>` split commands; `<C-h/j/k/l>` only
+moves window focus.
 LSP keys are `gd` for definitions, `K` for hover, `grn` for rename, `gra` for
 code actions, `grr` for references and `gO` for document symbols.
 `[d` / `]d` jump between diagnostics and open details; diagnostics use signs
@@ -155,9 +158,9 @@ Sign in with `:LspCopilotSignIn`; use `:Sidekick cli select` for other AI tools.
 python3 -m unittest discover -s tests -v
 ```
 
-Tests use temporary home directories and stub Git clones without network access,
-covering shell startup, local overrides, idempotent installation, macOS-only links,
-preservation of regular files and dangling local symlinks, and Git ignore rules.
-Neovim checks cover explorer shortcuts, completion loading and Enter/Tab priority.
-They use installed plugins and temporary data directories without downloads or
-AI requests, and skip when Neovim or the required plugins are missing.
+Tests use temporary home directories and stub Git clones without network
+access, covering shell startup, local overrides, idempotent installation,
+macOS-only links, regular-file preservation, dangling local symlinks, Git
+ignore rules, and Neovim explorer shortcuts and completion priority. Neovim
+checks use installed plugins with temporary data directories, skipping when
+Neovim or plugins are missing.

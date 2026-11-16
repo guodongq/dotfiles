@@ -16,8 +16,8 @@ vim.o.undofile = true
 vim.o.confirm = true
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
--- Deferred because loading the clipboard provider slows startup.
-vim.schedule(function() vim.o.clipboard = "unnamedplus" end)
+-- The clipboard provider loads lazily on first register access (Nvim 0.11+).
+vim.o.clipboard = "unnamedplus"
 
 -- Search: ignore case unless the pattern contains capitals.
 vim.o.ignorecase = true
