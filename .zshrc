@@ -6,9 +6,9 @@ fi
 
 # Oh My Zsh
 export ZSH="$HOME/.oh-my-zsh"
-export ZSH_COMPDUMP="$HOME/.zcompdump" # the default name contains the hostname, which macOS changes
+export ZSH_COMPDUMP="$HOME/.zcompdump" # one file, not one per host and zsh version
 ZSH_THEME="bira"
-# Keep history search after highlighting so its Up/Down bindings win.
+# history-substring-search must load after zsh-syntax-highlighting.
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting history-substring-search)
 fpath+=("${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-completions/src") # before compinit
 [[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"

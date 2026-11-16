@@ -1,35 +1,7 @@
 # Dotfiles
 
-Small configurations for everyday use. Prefer native defaults, keep each file
-focused, and leave machine-specific settings and credentials outside Git.
-
-## Layout
-
-```text
-.
-├── install                 Dotbot bootstrap
-├── install.conf.yaml       links and shell setup
-├── .zprofile / .zshrc       login environment / interactive shell
-├── .gitconfig / .npmrc      Git and npm preferences
-├── gh/                     GitHub CLI alias
-├── iterm2/                 dynamic terminal profile
-├── vscode/                 settings baseline and Go snippets
-├── nvim/
-│   ├── init.lua            startup
-│   └── lua/
-│       ├── config/         options, keymaps, autocmds, lazy bootstrap
-│       └── plugins/
-│           ├── ui.lua      theme, browser, pickers, indent, key hints
-│           ├── editor.lua  syntax, pairs, icons, indent, completion
-│           ├── lsp.lua     servers, formatting, linting
-│           └── ai.lua      Copilot suggestions and CLIs
-├── tests/                  isolated behavior tests
-└── dotbot/                 installer submodule
-```
-
-Git's global ignore file, `.gitignore_global`, filters Finder files, editor
-temporary files and private Claude settings. Shared project `.vscode/`, `.idea/`
-and Claude settings are not globally ignored.
+Small configuration for zsh, Git, Neovim and a few desktop apps. Native
+defaults come first; machine-specific settings and credentials stay out of Git.
 
 ## Install
 
@@ -41,126 +13,121 @@ cd ~/.dotfiles
 ./install
 ```
 
-[Dotbot](https://github.com/anishathalye/dotbot) handles installation.
-The complete link list and shell setup live in `install.conf.yaml`; `install`
-only bootstraps Dotbot. Links cover the shell, Git, npm, GitHub CLI and Neovim.
-On macOS, the iTerm2 profile and Go snippets are also linked.
+`./install` runs [Dotbot](https://github.com/anishathalye/dotbot) with
+`install.conf.yaml` and is safe to rerun. It:
 
-Existing symlinks may be replaced; regular files and directories are kept —
-move conflicts aside and rerun `./install`. Unrelated links and application
-files are left alone.
+- links the shell, Git, npm, GitHub CLI and Neovim configs, plus the iTerm2
+  profile and VS Code Go snippets on macOS;
+- clones Oh My Zsh and three zsh plugins when missing (it never updates them);
+- copies the examples to `~/.zshrc.local` and `~/.gitconfig.local` if missing.
 
-Oh My Zsh and three zsh plugins install only when missing and are never
-auto-updated.
+Existing symlinks are replaced; regular files and directories are never
+overwritten, so move them aside and rerun.
+
+## Local settings
 
 Machine-specific settings go in `~/.zshrc.local` and `~/.gitconfig.local`.
-They load last and are never overwritten, including dangling symlinks.
-New files start as commented examples; fill in your Git identity before committing.
+They load last, so they win, and `./install` never touches them once they
+exist. Set your Git name and email in `~/.gitconfig.local`.
 
-`.zprofile` initializes Homebrew, a unique PATH and npm/pipx executables.
-`.zshrc` sets the editor, aliases (`vim`/`vi` → nvim, `python` → python3,
-`k` → kubectl) and shell plugins.
-It loads `.zprofile` only for non-login shells, avoiding duplicate initialization.
-Application-specific exports and integrations belong in `~/.zshrc.local`.
+## Layout
 
-GitHub CLI adds only `gh co` for pull request checkout. Authentication, SSH hosts,
-CLI login or trust state, shell history and caches stay local.
+```text
+.
+├── install                 Dotbot bootstrap
+├── install.conf.yaml       links and setup steps
+├── .zprofile               login environment: Homebrew, PATH
+├── .zshrc                  interactive shell: Oh My Zsh, editor, aliases
+├── .gitconfig              Git preferences
+├── .gitignore_global       OS/editor noise and private Claude settings
+├── .npmrc                  npm global prefix and registry
+├── gh/                     GitHub CLI: `gh co` checks out a PR
+├── iterm2/                 iTerm2 profile
+├── vscode/                 VS Code settings and Go snippets
+├── nvim/                   Neovim, see below
+├── tests/                  behavior tests
+└── dotbot/                 installer submodule
+```
 
 ## Tools
 
-`./install` sets up shell plugins, not development tools. Homebrew is optional:
+`./install` sets up the shell, not development tools. With Homebrew:
 
 ```sh
 brew install neovim ripgrep fd tree-sitter-cli buf git-lfs gh
 ```
 
-`tree-sitter-cli` builds parsers; `tree-sitter` alone is only the library.
-`buf` formats Protobuf, `git-lfs` supports Git filters, and `fd` and `ripgrep`
-support search. Mason installs the other configured language servers,
+`fd` and `ripgrep` power file and text search, `tree-sitter-cli` builds parsers
+(`tree-sitter` is only the library), `buf` formats Protobuf and `git-lfs` backs
+the LFS filter in `.gitconfig`. Mason installs the other language servers,
 formatters and linters.
 
-Install project-specific tools and GUI applications only as needed.
+## Desktop apps
 
-## Desktop preferences
-
-**iTerm2:** the [dynamic profile](https://iterm2.com/documentation-dynamic-profiles.html)
-adds a `Dotfiles` profile with Hack Nerd Font at 16 pt; other values inherit
-the local default. Select it from the Profiles menu — installation never
-switches your active profile. Edit `iterm2/profile.json` to keep changes in
-Git; reopen iTerm2 to pick up symlinked edits.
-
-**VS Code:** `vscode/settings.json` is a portable baseline, not linked
-automatically. Merge wanted keys in the settings editor rather than
-overwriting local paths; on a new machine, use it as the starting point.
-
-Go snippets are `pln` for `fmt.Println` and `plf` for `fmt.Printf`.
-Install Hack Nerd Font where needed; it is not bundled.
+- **iTerm2:** a [dynamic profile](https://iterm2.com/documentation-dynamic-profiles.html)
+  named `Dotfiles` with Hack Nerd Font 16 pt (install the font yourself); other
+  settings come from your default profile. Select it from the Profiles menu,
+  and restart iTerm2 after editing `iterm2/profile.json`.
+- **VS Code:** `vscode/settings.json` is a baseline to merge into your user
+  settings by hand; it is not linked because local settings hold machine paths.
+  Go snippets: `pln` for `fmt.Println`, `plf` for `fmt.Printf`.
 
 ## Neovim
 
-Requires Neovim 0.12+ and a [Nerd Font](https://www.nerdfonts.com).
-Plugins and Treesitter parsers install themselves on first use.
-The UI keeps native statusline, line numbers, indent guides and on-demand pickers;
-no dashboard, buffer tabs or notification popups.
+Requires Neovim 0.12+ and a [Nerd Font](https://www.nerdfonts.com). Plugins and
+Treesitter parsers install themselves on first use.
 
-LSP support covers C/C++, Go, Python, Markdown and JavaScript/TypeScript.
-Diagnostics combine language-server checks with Ruff, ESLint, Revive and
-Markdownlint. Both C and C++ format with `clang_format` on save.
+```text
+nvim/
+├── init.lua                load order
+└── lua/
+    ├── config/             options, keymaps, autocmds, lazy.nvim bootstrap
+    └── plugins/
+        ├── ui.lua          theme, explorer, pickers, indent guides, key hints
+        ├── editor.lua      Treesitter, pairs, icons, indentation, completion
+        ├── lsp.lua         language servers, formatting, linting
+        └── ai.lua          Copilot suggestions and CLI
+```
 
-Formatting uses CLI tools first, with LSP fallback on save and `<leader>f`.
-Go runs `goimports` before `gofumpt`. To add a language, update the server,
-formatter, linter and tool lists in `plugins/lsp.lua`.
+- Languages: C/C++, Go, Python, Markdown and JavaScript/TypeScript. To add one,
+  update the lists in `plugins/lsp.lua`.
+- Formatting runs on save (CLI tools, LSP fallback); linting on open and save.
+- Diagnostics show as signs and underlines; `[d` / `]d` jump and show details.
+- Run `:LspCopilotSignIn` once; `:Sidekick cli select` picks another AI CLI.
+- `:Lazy sync` updates plugins; `:checkhealth` finds missing tools.
 
 | Key | Action |
 | --- | --- |
-| `<Space>` | Leader; shows available keys |
+| `<Space>` | Leader; pause to see available keys |
 | `<leader>sf` / `<leader>sg` | Find files / search text |
-| `<leader>sw` | Search selection / current word |
+| `<leader>sw` | Search selection or current word |
 | `<leader>sb` / `<leader>bd` | Find / close a buffer |
-| `<leader>sd` | Diagnostics picker |
-| `<leader>sh` / `<leader>sk` | Search help / current keymaps |
-| `<leader>e` | File browser |
+| `<leader>sd` | Diagnostics |
+| `<leader>sh` / `<leader>sk` | Search help / keymaps |
+| `<leader>e` | File explorer |
+| `<leader>f` | Format |
 | `H` / `L` | Previous / next buffer |
 | `<C-h/j/k/l>` | Focus left / lower / upper / right window |
 | `jk` (insert mode) | Leave insert mode |
-| `<leader>f` | Format (also runs on save) |
-| `<C-/>` | Terminal |
+| `<C-/>` | Toggle terminal |
 | `<Esc><Esc>` (terminal mode) | Leave terminal mode |
-| `<leader>ac` | Copilot CLI |
-| `<leader>ap` | AI prompts / file / selection context |
-| `<Tab>` (normal mode) | Jump to / apply the next edit suggestion |
+| `<leader>ac` / `<leader>ap` | Copilot CLI / AI prompt with context |
+| `gd` / `K` | Go to definition / hover |
+| `grn` / `gra` / `grr` / `gO` | Rename / code action / references / symbols |
 
-Completion uses `blink.cmp` in insert and command-line modes. `<CR>` accepts
-the selected item or inserts a newline; `<C-n>` / `<C-p>` cycle items. `<Tab>`
-prefers snippet jumps, then AI edit suggestions, then its normal behavior — it
-never selects completions. Command-line keys stay at Blink's defaults.
+**Completion** (blink.cmp): `<CR>` accepts the selected item and `<C-n>` /
+`<C-p>` move through items; command-line keys stay at Blink's defaults.
+`<Tab>` never selects items: it jumps to the next snippet field (insert mode),
+else jumps to or applies the next AI edit suggestion, else acts as usual.
 
-Use native `:w`, `:q` / `:qa` and `<C-w>` split commands; `<C-h/j/k/l>` only
-moves window focus.
-LSP keys are `gd` for definitions, `K` for hover, `grn` for rename, `gra` for
-code actions, `grr` for references and `gO` for document symbols.
-`[d` / `]d` jump between diagnostics and open details; diagnostics use signs
-and underlines rather than messages beside the code.
+**Explorer** (NERDTree-style): `o` / `l` / `<CR>` open, `h` collapses, `u` goes
+up, `C` roots the tree at the selection, `R` refreshes and `?` lists all keys.
 
-The Snacks file browser uses `h` to collapse and `o` / `l` / `<CR>` to expand or
-open in Neovim. `u` goes up, `C` roots at the selection (or a file's parent),
-`R` refreshes and `?` shows help. These shortcuts are local to the browser.
-
-In Markdown, `gO` opens the native heading outline.
-`<CR>` jumps to a heading; `:q` closes it.
-
-Sign in with `:LspCopilotSignIn`; use `:Sidekick cli select` for other AI tools.
-`:Lazy sync` updates plugins; `:checkhealth` reports missing tools.
-
-## Checks
+## Tests
 
 ```sh
 python3 -m unittest discover -s tests -v
 ```
 
-Tests use temporary home directories and stub Git clones without network
-access, covering shell startup, local overrides, idempotent installation,
-macOS-only links, regular-file preservation, dangling local symlinks, Git
-ignore rules, and Neovim explorer shortcuts and completion priority. Neovim
-checks use installed plugins with temporary data directories, skipping when
-Neovim or plugins are missing.
+Tests run in a temporary home directory without network access. Neovim tests
+use your installed plugins and are skipped when those are missing.

@@ -1,6 +1,6 @@
 -- Theme, file browsing, pickers, indent guides and key hints.
 
--- Preserve tree keys: Snacks' o/u defaults open externally/refresh.
+-- NERDTree-style explorer keys. Snacks' defaults: o opens externally, u refreshes.
 local explorer_keys = {
 	o = "confirm",
 	u = "explorer_up",

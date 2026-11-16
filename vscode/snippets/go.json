@@ -1,12 +1,10 @@
 {
   "println": {
     "prefix": "pln",
-    "body": "fmt.Println($0)",
-    "description": "println"
+    "body": "fmt.Println($0)"
   },
   "printf": {
     "prefix": "plf",
-    "body": "fmt.Printf(\"$0\")",
-    "description": "printf"
+    "body": "fmt.Printf(\"$0\")"
   }
 }

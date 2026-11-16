@@ -29,11 +29,11 @@ return {
 				opts = {
 					ensure_installed = {
 						"clang-format",
-						"eslint_d",
+						"prettier",
 						"gofumpt",
 						"goimports",
+						"eslint_d",
 						"markdownlint",
-						"prettier",
 						"revive",
 						"ruff",
 					},
@@ -75,7 +75,7 @@ return {
 		},
 		opts = {
 			default_format_opts = { lsp_format = "fallback" },
-			format_on_save = { timeout_ms = 1000 },
+			format_on_save = true,
 			formatters_by_ft = {
 				c = { "clang_format" },
 				cpp = { "clang_format" },

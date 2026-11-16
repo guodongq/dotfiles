@@ -1,3 +1,4 @@
+# gh drops its built-in co alias once hosts.yml exists, so define it here.
 version: 1
 aliases:
   co: pr checkout

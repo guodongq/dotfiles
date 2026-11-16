@@ -1,0 +1,2 @@
+# Keep one-line functions; everything else uses StyLua defaults.
+collapse_simple_statement = "FunctionOnly"

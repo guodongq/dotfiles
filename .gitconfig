@@ -3,7 +3,6 @@
 	pager = less -FRSX
 
 [push]
-	default = upstream
 	autoSetupRemote = true
 
 [pull]
@@ -14,10 +13,11 @@
 
 [diff]
 	colorMoved = default
-	tool = nvimdiff
 	algorithm = histogram
 
 [merge]
+	# git difftool falls back to this too.
+	tool = nvimdiff
 	conflictstyle = zdiff3
 
 [rerere]
