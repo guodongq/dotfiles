@@ -34,3 +34,20 @@ vim.api.nvim_create_autocmd("TermOpen", {
 		end
 	end,
 })
+
+vim.api.nvim_create_autocmd("FileType", {
+	desc = "Show location lists, like the gO outline, on the right; q closes list windows",
+	group = group,
+	pattern = "qf",
+	callback = function(event)
+		vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, desc = "Close list" })
+		local win = vim.api.nvim_get_current_win()
+		-- FileType fires again whenever the list refreshes; move each window once, keeping manual resizes.
+		if vim.fn.win_gettype(win) == "loclist" and not vim.w[win].sidebar then
+			vim.w[win].sidebar = true
+			vim.cmd.wincmd("L")
+			vim.api.nvim_win_set_width(win, 40)
+			vim.wo[win].winfixwidth = true
+		end
+	end,
+})

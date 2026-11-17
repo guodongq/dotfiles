@@ -12,34 +12,9 @@ local servers = {
 			},
 		},
 	},
-	lua_ls = {
-		settings = {
-			Lua = {
-				runtime = { version = "LuaJIT" },
-				workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } },
-			},
-		},
-	},
 	marksman = {}, -- Markdown links, outline and table of contents
-	-- Markdown browser preview (<leader>pp). PlantUML goes to a local server, not the public one.
-	mpls = {
-		cmd = {
-			"mpls",
-			"--no-auto",
-			"--theme",
-			"dark",
-			"--plantuml-server",
-			"127.0.0.1:8080",
-			"--plantuml-disable-tls",
-		},
-	},
 	pyright = {},
-	vtsls = {},
 }
--- On Linux mpls opens previews with xdg-open, which WSL lacks; use the Windows browser.
-if vim.fn.has("wsl") == 1 then
-	vim.list_extend(servers.mpls.cmd, { "--browser", "explorer.exe" })
-end
 
 return {
 	-- LSP
@@ -58,10 +33,7 @@ return {
 						"prettier",
 						"gofumpt",
 						"goimports",
-						"stylua",
-						"eslint_d",
 						"markdownlint",
-						"revive",
 						"ruff",
 					},
 				},
@@ -106,16 +78,10 @@ return {
 			formatters_by_ft = {
 				c = { "clang_format" },
 				cpp = { "clang_format" },
-				css = { "prettier" },
 				go = { "goimports", "gofumpt" },
-				javascript = { "prettier" },
-				javascriptreact = { "prettier" },
-				lua = { "stylua" },
 				markdown = { "prettier" },
 				proto = { "buf" }, -- from Homebrew
 				python = { "ruff_format" },
-				typescript = { "prettier" },
-				typescriptreact = { "prettier" },
 			},
 		},
 	},
@@ -127,13 +93,8 @@ return {
 		config = function()
 			local lint = require("lint")
 			lint.linters_by_ft = {
-				go = { "revive" },
-				javascript = { "eslint_d" },
-				javascriptreact = { "eslint_d" },
 				markdown = { "markdownlint" },
 				python = { "ruff" },
-				typescript = { "eslint_d" },
-				typescriptreact = { "eslint_d" },
 			}
 			vim.api.nvim_create_autocmd({ "BufReadPost", "BufWritePost" }, {
 				group = vim.api.nvim_create_augroup("nvim-lint", { clear = true }),

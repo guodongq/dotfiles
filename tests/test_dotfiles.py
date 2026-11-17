@@ -422,6 +422,9 @@ class DotfilesTests(unittest.TestCase):
     def test_nvim_explorer_navigation_shortcuts(self):
         self.run_nvim("nvim_explorer.lua", "snacks.nvim")
 
+    def test_nvim_outline_opens_on_the_right_and_q_closes_lists(self):
+        self.run_nvim("nvim_outline.lua")
+
     def test_nvim_completion_and_tab_priorities(self):
         for event in ("InsertEnter", "CmdlineEnter"):
             with self.subTest(event=event):
@@ -435,16 +438,3 @@ class DotfilesTests(unittest.TestCase):
             "nvim_lsp.lua", "lazy.nvim", "blink.cmp", "nvim-lspconfig"
         )
         self.assertIn("LSP checks passed", result.stdout)
-
-    def test_nvim_notebook_preview_reuses_one_jupyterlab_per_project(self):
-        self.stub_command(
-            "jupyter",
-            'pwd >> "$HOME/jupyter-starts"\n'
-            'case "$PWD" in */broken) exit 3 ;; esac\n'
-            "printf 'Running at http://127.0.0.1:9999/la' >&2\n"
-            "sleep 0.3\n"
-            "printf 'b?token=abc\\n' >&2\n"
-            "exec sleep 30\n",
-        )
-        result = self.run_nvim("nvim_preview.lua")
-        self.assertIn("Preview checks passed", result.stdout)

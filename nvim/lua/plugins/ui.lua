@@ -11,13 +11,10 @@ local explorer_keys = {
 return {
 	-- Colorscheme
 	{
-		"folke/tokyonight.nvim",
+		"dracula/vim",
+		name = "dracula", -- the repository is named "vim"
 		priority = 1000,
-		opts = { styles = { comments = { italic = false } } },
-		config = function(_, opts)
-			require("tokyonight").setup(opts)
-			vim.cmd.colorscheme("tokyonight")
-		end,
+		config = function() vim.cmd.colorscheme("dracula") end,
 	},
 
 	-- One picker for files, search and diagnostics.
@@ -65,7 +62,6 @@ return {
 			spec = {
 				{ "<leader>a", group = "AI", mode = { "n", "x" } },
 				{ "<leader>b", group = "Buffers" },
-				{ "<leader>p", group = "Preview" },
 				{ "<leader>s", group = "Search", mode = { "n", "x" } },
 			},
 		},

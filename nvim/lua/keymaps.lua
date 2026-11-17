@@ -3,8 +3,6 @@ local map = vim.keymap.set
 
 -- General
 map("n", "<Esc>", "<cmd>nohlsearch<cr>", { desc = "Clear search highlight" })
-map("n", "<leader>pp", function() require("preview").open() end, { desc = "Preview in browser" })
-map("n", "<leader>pt", function() require("preview").toc() end, { desc = "Markdown table of contents" })
 
 -- Insert and terminal mode
 map("i", "jk", "<Esc>")

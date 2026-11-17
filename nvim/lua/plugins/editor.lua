@@ -9,6 +9,8 @@ return {
 		build = ":TSUpdate",
 		config = function()
 			local treesitter = require("nvim-treesitter")
+			-- Not a filetype, so install it up front: highlights regexes in Go/Python strings and picker searches.
+			treesitter.install({ "regex" })
 			vim.api.nvim_create_autocmd("FileType", {
 				group = vim.api.nvim_create_augroup("treesitter-highlight", { clear = true }),
 				callback = function(event)

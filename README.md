@@ -70,7 +70,6 @@ Both use the same files. The differences:
   Wayland (`sudo apt install wl-clipboard` on WSLg) or X11 when available, and
   otherwise `clip.exe` / `powershell.exe` with Unicode and line endings handled;
   this needs WSL interoperability. An explicit `g:clipboard` always wins.
-- **Browser:** Neovim previews open in the Windows browser on WSL.
 - **Git over HTTPS:** macOS uses the Keychain; on WSL, enable the GitHub CLI
   helper in `~/.gitconfig.local` (see `.gitconfig.local.example`).
 - **Desktop apps:** the iTerm2 profile and VS Code snippets are linked on macOS
@@ -105,7 +104,6 @@ on macOS and WSL with [Homebrew](https://brew.sh/):
 
 ```sh
 brew install neovim ripgrep fd tree-sitter-cli buf git-lfs gh node go
-brew install jupyterlab   # optional, for notebook previews
 ```
 
 `ripgrep` and `fd` power search, `tree-sitter-cli` (not `tree-sitter`, the
@@ -138,8 +136,7 @@ nvim/
 └── lua/
     ├── options.lua         editor options and WSL clipboard fallback
     ├── keymaps.lua         editor keymaps
-    ├── autocmds.lua        yank highlight, cursor restore, terminal mode
-    ├── preview.lua         browser previews for Markdown and notebooks
+    ├── autocmds.lua        yank highlight, cursor restore, terminals, outline
     └── plugins/
         ├── ui.lua          theme, explorer, pickers, indent guides, key hints
         ├── editor.lua      Treesitter, pairs, icons, indentation, completion
@@ -147,13 +144,12 @@ nvim/
         └── ai.lua          Copilot suggestions and CLI
 ```
 
-- Languages: C/C++, Go, Lua, Python, Markdown and JavaScript/TypeScript. To add
-  one, update the lists in `plugins/lsp.lua`.
+- Languages: C/C++, Go, Python and Markdown. To add one, update the lists in
+  `plugins/lsp.lua`.
 - Formatting runs on save (CLI tools, LSP fallback); linting on open and save.
 - Diagnostics show as signs and underlines; `[d` / `]d` jump and show details.
-- Previews: Markdown through mpls; PlantUML diagrams use a local server at
-  `127.0.0.1:8080`, never the public one. Notebooks open in JupyterLab: one
-  server per project, stopped when Neovim exits. Save before previewing.
+- `gO` shows an outline on the right: LSP symbols, or headings in Markdown and
+  help. Other location lists open there too; `q` closes list windows.
 - Run `:LspCopilotSignIn` once; `:Sidekick cli select` picks another AI CLI.
 - `:Lazy sync` updates plugins; `:checkhealth` finds missing tools.
 
@@ -167,7 +163,6 @@ nvim/
 | `<leader>sh` / `<leader>sk` | Search help / keymaps |
 | `<leader>e` | File explorer |
 | `<leader>f` | Format |
-| `<leader>pp` / `<leader>pt` | Preview in browser / Markdown table of contents |
 | `H` / `L` | Previous / next buffer |
 | `<C-h/j/k/l>` | Focus left / lower / upper / right window |
 | `jk` (insert mode) | Leave insert mode |
@@ -175,7 +170,8 @@ nvim/
 | `<Esc><Esc>` (terminal mode) | Leave terminal mode |
 | `<leader>ac` / `<leader>ap` | Copilot CLI / AI prompt with context |
 | `gd` / `K` | Go to definition / hover |
-| `grn` / `gra` / `grr` / `gO` | Rename / code action / references / symbols |
+| `grn` / `gra` / `grr` / `gO` | Rename / code action / references / outline |
+| `q` (quickfix or location list) | Close the list |
 
 **Completion** (blink.cmp): `<CR>` accepts the selected item and `<C-n>` /
 `<C-p>` move through items; command-line keys stay at Blink's defaults.
@@ -191,7 +187,7 @@ up, `C` roots the tree at the selection, `R` refreshes and `?` lists all keys.
 python3 -m unittest discover -s tests -v
 ```
 
-Tests use temporary home directories and stub the network, browser and Windows
+Tests use temporary home directories and stub the network and Windows
 commands, so they never touch your real clipboard. Neovim tests use the
 installed plugins and are skipped when those are missing; the PowerShell check
 runs only where `powershell.exe` exists.
