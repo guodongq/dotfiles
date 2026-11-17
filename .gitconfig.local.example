@@ -3,3 +3,7 @@
 # [user]
 #	name = Your Name
 #	email = you@example.com
+
+# On WSL, reuse GitHub CLI's login for HTTPS (macOS uses the Keychain):
+# [credential "https://github.com"]
+#	helper = !gh auth git-credential

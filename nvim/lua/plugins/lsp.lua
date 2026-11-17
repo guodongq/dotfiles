@@ -12,16 +12,42 @@ local servers = {
 			},
 		},
 	},
-	marksman = {},
+	lua_ls = {
+		settings = {
+			Lua = {
+				runtime = { version = "LuaJIT" },
+				workspace = { checkThirdParty = false, library = { vim.env.VIMRUNTIME } },
+			},
+		},
+	},
+	marksman = {}, -- Markdown links, outline and table of contents
+	-- Markdown browser preview (<leader>pp). PlantUML goes to a local server, not the public one.
+	mpls = {
+		cmd = {
+			"mpls",
+			"--no-auto",
+			"--theme",
+			"dark",
+			"--plantuml-server",
+			"127.0.0.1:8080",
+			"--plantuml-disable-tls",
+		},
+	},
 	pyright = {},
 	vtsls = {},
 }
+-- On Linux mpls opens previews with xdg-open, which WSL lacks; use the Windows browser.
+if vim.fn.has("wsl") == 1 then
+	vim.list_extend(servers.mpls.cmd, { "--browser", "explorer.exe" })
+end
 
 return {
 	-- LSP
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
+			-- Load first, so servers start with its completion capabilities.
+			"saghen/blink.cmp",
 			{ "mason-org/mason.nvim", opts = {} },
 			"mason-org/mason-lspconfig.nvim",
 			{
@@ -32,6 +58,7 @@ return {
 						"prettier",
 						"gofumpt",
 						"goimports",
+						"stylua",
 						"eslint_d",
 						"markdownlint",
 						"revive",
@@ -83,6 +110,7 @@ return {
 				go = { "goimports", "gofumpt" },
 				javascript = { "prettier" },
 				javascriptreact = { "prettier" },
+				lua = { "stylua" },
 				markdown = { "prettier" },
 				proto = { "buf" }, -- from Homebrew
 				python = { "ruff_format" },

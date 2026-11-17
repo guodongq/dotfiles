@@ -29,8 +29,6 @@
 	required = true
 
 # Name, email and machine-specific settings. Last, so they win.
+# Change them with `git config --file ~/.gitconfig.local`; --global would edit this file.
 [include]
 	path = ~/.gitconfig.local
-[user]
-	name = guodongq
-	email = goldon.qian@gmail.com

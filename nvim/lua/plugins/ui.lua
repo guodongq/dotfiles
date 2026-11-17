@@ -65,6 +65,7 @@ return {
 			spec = {
 				{ "<leader>a", group = "AI", mode = { "n", "x" } },
 				{ "<leader>b", group = "Buffers" },
+				{ "<leader>p", group = "Preview" },
 				{ "<leader>s", group = "Search", mode = { "n", "x" } },
 			},
 		},

@@ -1,21 +1,20 @@
 # Dotfiles
 
-Shared configuration for macOS (Apple Silicon and Intel) and WSL. Native
-defaults come first; machine-specific settings and credentials stay out of Git.
-There is one set of files, with platform checks only where needed.
+zsh, Git, Neovim and desktop-app configuration for macOS (Apple Silicon and
+Intel) and WSL (Ubuntu). One set of files, with platform checks only where
+needed; machine-specific settings and credentials stay out of Git.
 
 ## Install
 
-The installer requires Git and Python 3. The shell configuration is for **zsh**,
-not Bash. macOS includes zsh; on Ubuntu/Debian in WSL, install the basics first:
+You need Git, Python 3 and zsh. On macOS, run `xcode-select --install` if Git
+or a C compiler is missing. On WSL (Ubuntu/Debian):
 
 ```sh
 sudo apt update
 sudo apt install git python3 zsh build-essential curl unzip
 ```
 
-On macOS, install the Xcode command-line tools (`xcode-select --install`) if
-Git or a C compiler is missing. Then, on either platform:
+Then, on either platform:
 
 ```sh
 git clone https://github.com/guodongq/dotfiles.git ~/.dotfiles
@@ -26,50 +25,58 @@ cd ~/.dotfiles
 `./install` runs [Dotbot](https://github.com/anishathalye/dotbot) with
 `install.conf.yaml` and is safe to rerun. It:
 
-- links the shell, Git, npm, GitHub CLI and Neovim configs, plus the iTerm2
-  profile and VS Code Go snippets on macOS;
+- links the shell, Git, GitHub CLI and Neovim configs, plus the iTerm2 profile
+  and VS Code Go snippets on macOS, and removes dead links to deleted files;
 - clones Oh My Zsh and three zsh plugins when missing (it never updates them);
-- copies the local shell and Git examples if missing.
+- creates the local settings files from the examples when missing.
 
-Existing symlinks are replaced; regular files and directories are never
-overwritten, so back them up and move them aside before rerunning. For links
-only, without installing Oh My Zsh or copying examples, use `./install --only link`.
-The Dotbot submodule is still initialized if missing.
+It replaces old symlinks but never overwrites regular files or directories;
+move those aside and rerun. `./install --only link` only creates links.
 
-The default locations are `~/.config` for application configs and `~` for zsh.
-The installer also respects `XDG_CONFIG_HOME` and `ZDOTDIR`. If you customize
-them, use absolute paths and keep them exported in future sessions too;
-zsh must know `ZDOTDIR` before it looks for `.zshrc` (for example, set it in
-`~/.zshenv`). Run the installer through `./install`, which supplies the defaults.
+Configs go to `~/.config` and zsh files to `~`, or to `$XDG_CONFIG_HOME` and
+`$ZDOTDIR` when set. If you set them, use absolute paths and export them before
+zsh starts, in every session.
 
-To make zsh your default shell, run `chsh -s "$(command -v zsh)"` and reopen
-the terminal. The installer does not change your login shell. In WSL, keep
-the checkout inside the Linux filesystem, such as `~/.dotfiles`, not `/mnt/c`.
+The installer does not change your login shell: run `chsh -s "$(command -v zsh)"`
+and reopen the terminal. On WSL, keep the checkout in the Linux filesystem, such
+as `~/.dotfiles`, not under `/mnt/c`.
 
 ## Local settings
 
-Machine-specific settings go in `${ZDOTDIR:-$HOME}/.zshrc.local` and
-`~/.gitconfig.local`.
-They load last, so they win, and `./install` never touches them once they
-exist. Set your Git name and email in `~/.gitconfig.local`. Shell-local settings
-are for environment variables and aliases; Oh My Zsh has already loaded by
-then, so they are not a place to choose its plugins or theme.
+`${ZDOTDIR:-$HOME}/.zshrc.local` and `~/.gitconfig.local` hold machine-specific
+settings. They load last, so they win, and `./install` never changes them once
+they exist.
 
-Git follows `VISUAL` / `EDITOR` instead of forcing a separate editor setting.
-When Neovim is installed, zsh selects it; otherwise it preserves your existing
-editor. To choose another editor, set both variables in `.zshrc.local`, or set
-`core.editor` in `.gitconfig.local` for Git alone.
+- **Git:** set your name and email here. Use `git config --file ~/.gitconfig.local`;
+  `git config --global` would write into this repo through the `~/.gitconfig` link.
+- **Shell:** environment variables and aliases. Oh My Zsh has already loaded, so
+  this is not the place to choose its plugins or theme.
+- **Editor:** Git follows `VISUAL` / `EDITOR`. zsh sets both to Neovim when it is
+  installed and otherwise keeps your editor. Override both in `.zshrc.local`, or
+  set `core.editor` in `.gitconfig.local` for Git alone.
 
-## Compatibility choices
+## macOS and WSL
 
-| Area | Shared behavior and platform differences |
-| --- | --- |
-| Homebrew / PATH | Prefer `brew` already on PATH, then standard macOS/Linuxbrew locations. User binaries come before inherited tools; Windows PATH entries are kept for WSL interoperability. |
-| Python | Keep an existing `python` or `pip` command. Only provide aliases when missing, so virtual environments and version managers are not shadowed. |
-| npm | Use the official registry and the active Node installation's prefix. No shared `prefix` setting that conflicts with nvm/fnm/Volta. Existing `~/.npm-global/bin` stays on PATH; optional overrides are in `.zshrc.local.example`. |
-| Git | Keep common Git preferences and local overrides. Ignore macOS and Windows file-manager noise, but not shared project settings such as `.vscode/settings.json`. |
-| Neovim clipboard | macOS uses its built-in provider. WSL keeps win32yank, Wayland or X11 providers when available; otherwise it uses `clip.exe` / `powershell.exe`, handling Unicode and Windows line endings. Explicit `g:clipboard` settings are preserved. |
-| Desktop apps | iTerm2 and macOS VS Code paths are linked only on macOS. WSL does not create `~/Library` or write into Windows user directories. |
+Both use the same files. The differences:
+
+- **Homebrew and PATH:** `.zprofile` finds Homebrew on Apple Silicon, Intel or
+  Linux. `~/.local/bin` and `~/.npm-global/bin` come first; on WSL, Windows PATH
+  entries stay at the end for interoperability.
+- **Shell:** `.zshenv` stops Ubuntu's `/etc/zsh/zshrc` from running `compinit`
+  before Oh My Zsh does. Ubuntu has no `python`, so zsh aliases `python` and
+  `pip` to Python 3, but only when those commands are missing; virtual
+  environments and version managers still win.
+- **Clipboard:** macOS uses Neovim's built-in provider. WSL uses win32yank,
+  Wayland (`sudo apt install wl-clipboard` on WSLg) or X11 when available, and
+  otherwise `clip.exe` / `powershell.exe` with Unicode and line endings handled;
+  this needs WSL interoperability. An explicit `g:clipboard` always wins.
+- **Browser:** Neovim previews open in the Windows browser on WSL.
+- **Git over HTTPS:** macOS uses the Keychain; on WSL, enable the GitHub CLI
+  helper in `~/.gitconfig.local` (see `.gitconfig.local.example`).
+- **Desktop apps:** the iTerm2 profile and VS Code snippets are linked on macOS
+  only. On WSL, use Windows Terminal and VS Code's WSL extension, install the
+  Nerd Font in Windows, where the terminal runs, and keep tools and projects
+  inside WSL.
 
 ## Layout
 
@@ -77,11 +84,12 @@ editor. To choose another editor, set both variables in `.zshrc.local`, or set
 .
 ├── install                 Dotbot bootstrap
 ├── install.conf.yaml       links and setup steps
+├── .zshenv                 every zsh: skip Ubuntu's global compinit
 ├── .zprofile               login environment: Homebrew, PATH
 ├── .zshrc                  interactive shell: Oh My Zsh, editor, aliases
 ├── .gitconfig              Git preferences
-├── .gitignore_global       OS/editor noise and private Claude settings
-├── .npmrc                  npm registry; no forced global prefix
+├── .gitignore_global       OS and editor noise, private Claude settings
+├── *.local.example         templates for the local settings
 ├── gh/                     GitHub CLI: `gh co` checks out a PR
 ├── iterm2/                 iTerm2 profile
 ├── vscode/                 VS Code settings and Go snippets
@@ -92,47 +100,37 @@ editor. To choose another editor, set both variables in `.zshrc.local`, or set
 
 ## Tools
 
-`./install` sets up the shell, not development tools. For the same toolchain
-on macOS and WSL, use [Homebrew](https://brew.sh/):
+`./install` sets up configs, not development tools. Install the same toolchain
+on macOS and WSL with [Homebrew](https://brew.sh/):
 
 ```sh
 brew install neovim ripgrep fd tree-sitter-cli buf git-lfs gh node go
+brew install jupyterlab   # optional, for notebook previews
 ```
 
-`fd` and `ripgrep` power file and text search, `tree-sitter-cli` builds parsers
-(`tree-sitter` is only the library), `buf` formats Protobuf and `git-lfs` backs
-the LFS filter in `.gitconfig`. Node.js and Go are also needed by the language
-tools. Mason installs the other language servers, formatters and linters, not
-their runtimes or a C compiler.
-
-Use **Neovim 0.12+** on both systems. An older Ubuntu `apt` package will not
-support all the native APIs used here; this is a version requirement, not a WSL
-restriction. Keep one supported version rather than adding legacy API branches.
-
-For a faster clipboard on WSLg, `sudo apt install wl-clipboard` enables
-Neovim's built-in Wayland provider. Without WSLg, the Windows fallback requires
-WSL interoperability and `clip.exe` / `powershell.exe` on PATH. The configuration
-does not install Windows programs or re-enable interoperability for you.
+`ripgrep` and `fd` power search, `tree-sitter-cli` (not `tree-sitter`, the
+library) builds parsers, `buf` formats Protobuf and `git-lfs` backs the LFS
+filter in `.gitconfig`. Node.js and Go run language tools; Mason installs the
+remaining language servers, formatters and linters, but not their runtimes or a
+C compiler. npm keeps its defaults, so nvm, fnm and Volta work;
+`.zshrc.local.example` shows how to set a mirror or a global prefix.
 
 ## Desktop apps
 
 - **iTerm2:** a [dynamic profile](https://iterm2.com/documentation-dynamic-profiles.html)
   named `Dotfiles` with Hack Nerd Font 16 pt (install the font yourself); other
-  settings come from your default profile. Select it from the Profiles menu,
-  and restart iTerm2 after editing `iterm2/profile.json`.
-- **VS Code:** `vscode/settings.json` is a baseline to merge into your user
-  settings by hand; it is not linked because local settings hold machine paths.
-  Go snippets: `pln` for `fmt.Println`, `plf` for `fmt.Printf`.
-- **WSL:** use Windows Terminal and VS Code's WSL extension. Install/select a
-  Nerd Font in **Windows**, where the terminal UI runs, not just inside Linux.
-  Merge the VS Code baseline with **Preferences: Open User Settings (JSON)**;
-  import `vscode/snippets/go.json` with **Snippets: Configure Snippets**.
-  Development tools and project files stay inside WSL.
+  settings come from your default profile. Select it in the Profiles menu and
+  restart iTerm2 after editing `iterm2/profile.json`.
+- **VS Code:** merge `vscode/settings.json` into your user settings by hand
+  (**Preferences: Open User Settings (JSON)**); it is not linked because local
+  settings hold machine paths. Go snippets: `pln` for `fmt.Println`, `plf` for
+  `fmt.Printf`; on WSL, import them with **Snippets: Configure Snippets**.
 
 ## Neovim
 
-Requires Neovim 0.12+ and a [Nerd Font](https://www.nerdfonts.com). Plugins and
-Treesitter parsers install themselves on first use.
+Requires Neovim 0.12+ on both systems (Ubuntu's `apt` package is too old) and a
+[Nerd Font](https://www.nerdfonts.com). Plugins, language tools and Treesitter
+parsers install themselves on first use.
 
 ```text
 nvim/
@@ -141,6 +139,7 @@ nvim/
     ├── options.lua         editor options and WSL clipboard fallback
     ├── keymaps.lua         editor keymaps
     ├── autocmds.lua        yank highlight, cursor restore, terminal mode
+    ├── preview.lua         browser previews for Markdown and notebooks
     └── plugins/
         ├── ui.lua          theme, explorer, pickers, indent guides, key hints
         ├── editor.lua      Treesitter, pairs, icons, indentation, completion
@@ -148,10 +147,13 @@ nvim/
         └── ai.lua          Copilot suggestions and CLI
 ```
 
-- Languages: C/C++, Go, Python, Markdown and JavaScript/TypeScript. To add one,
-  update the lists in `plugins/lsp.lua`.
+- Languages: C/C++, Go, Lua, Python, Markdown and JavaScript/TypeScript. To add
+  one, update the lists in `plugins/lsp.lua`.
 - Formatting runs on save (CLI tools, LSP fallback); linting on open and save.
 - Diagnostics show as signs and underlines; `[d` / `]d` jump and show details.
+- Previews: Markdown through mpls; PlantUML diagrams use a local server at
+  `127.0.0.1:8080`, never the public one. Notebooks open in JupyterLab: one
+  server per project, stopped when Neovim exits. Save before previewing.
 - Run `:LspCopilotSignIn` once; `:Sidekick cli select` picks another AI CLI.
 - `:Lazy sync` updates plugins; `:checkhealth` finds missing tools.
 
@@ -165,6 +167,7 @@ nvim/
 | `<leader>sh` / `<leader>sk` | Search help / keymaps |
 | `<leader>e` | File explorer |
 | `<leader>f` | Format |
+| `<leader>pp` / `<leader>pt` | Preview in browser / Markdown table of contents |
 | `H` / `L` | Previous / next buffer |
 | `<C-h/j/k/l>` | Focus left / lower / upper / right window |
 | `jk` (insert mode) | Leave insert mode |
@@ -188,11 +191,7 @@ up, `C` roots the tree at the selection, `R` refreshes and `?` lists all keys.
 python3 -m unittest discover -s tests -v
 ```
 
-Tests use temporary home directories and stub network operations. They cover
-both desktop platform branches, custom config directories, shell startup modes,
-npm defaults, Git overrides and WSL clipboard Unicode/newline handling. They do
-not read or write your real clipboard; the optional PowerShell check replaces
-`Get-Clipboard` with a test function.
-
-Neovim plugin tests use already-installed plugins and are skipped when those
-are missing. Platform simulation is not a substitute for testing on a real Mac.
+Tests use temporary home directories and stub the network, browser and Windows
+commands, so they never touch your real clipboard. Neovim tests use the
+installed plugins and are skipped when those are missing; the PowerShell check
+runs only where `powershell.exe` exists.

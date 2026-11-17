@@ -7,10 +7,12 @@
       stdout: true
       stderr: true
 
+- clean: ["~"] # remove dead links left by files deleted from this repo
+
 - link:
+    $ZDOTDIR/.zshenv: .zshenv
     $ZDOTDIR/.zprofile: .zprofile
     $ZDOTDIR/.zshrc: .zshrc
-    ~/.npmrc: .npmrc
     ~/.gitconfig: .gitconfig
     $XDG_CONFIG_HOME/git/ignore: .gitignore_global
     $XDG_CONFIG_HOME/gh/config.yml: gh/config.yml

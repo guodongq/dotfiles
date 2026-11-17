@@ -1,12 +1,11 @@
 import json
 import os
-from pathlib import Path
 import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
-
+from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -52,6 +51,7 @@ class DotfilesTests(unittest.TestCase):
             capture_output=True,
             text=text,
             timeout=30,
+            check=False,
         )
         if check:
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
@@ -111,7 +111,7 @@ class DotfilesTests(unittest.TestCase):
         self.env["EDITOR"] = "inherited-editor"
         self.stub_command(
             "brew",
-            'printf \'call\\n\' >> "$HOME/homebrew-calls"\n'
+            "printf 'call\\n' >> \"$HOME/homebrew-calls\"\n"
             'printf \'export HOMEBREW_PREFIX="%s/brew"; '
             'export PATH="%s/brew/bin:$PATH"\\n\' "$HOME" "$HOME"\n',
         )
@@ -164,12 +164,12 @@ class DotfilesTests(unittest.TestCase):
         self.link(".zprofile", ".zprofile")
         self.link(".zshrc", ".zshrc")
         self.stub_command("brew", "exit 0\n")
-        self.stub_command("python3", 'printf \'python3: %s\\n\' "$*"\n')
+        self.stub_command("python3", "printf 'python3: %s\\n' \"$*\"\n")
         for managed in (False, True):
             with self.subTest(managed=managed):
                 if managed:
-                    self.stub_command("python", 'printf \'managed python\\n\'\n')
-                    self.stub_command("pip", 'printf \'managed pip\\n\'\n')
+                    self.stub_command("python", "printf 'managed python\\n'\n")
+                    self.stub_command("pip", "printf 'managed pip\\n'\n")
                 self.env["PATH"] = str(self.home / "bin")
                 result = self.run_command(
                     [
@@ -190,6 +190,7 @@ class DotfilesTests(unittest.TestCase):
         for _ in range(2):
             self.run_dotbot()
             for source, target in (
+                (".zshenv", ".zshenv"),
                 (".zprofile", ".zprofile"),
                 (".gitignore_global", ".config/git/ignore"),
                 ("gh/config.yml", ".config/gh/config.yml"),
@@ -238,7 +239,9 @@ class DotfilesTests(unittest.TestCase):
             local.write_text("export EDITOR=custom-editor\n")
             for mode in ("-lic", "-ic"):
                 with self.subTest(mode=mode):
-                    result = self.run_command(["zsh", "-d", mode, "print -r -- $EDITOR"])
+                    result = self.run_command(
+                        ["zsh", "-d", mode, "print -r -- $EDITOR"]
+                    )
                     self.assertEqual(result.stdout.strip(), "custom-editor")
 
     def test_install_preserves_existing_regular_files(self):
@@ -261,7 +264,7 @@ class DotfilesTests(unittest.TestCase):
             self.assertEqual(path.read_text(), "existing local settings\n")
 
     def test_desktop_links_are_macos_only(self):
-        self.stub_command("uname", 'printf \'%s\\n\' "$DOTFILES_TEST_PLATFORM"\n')
+        self.stub_command("uname", "printf '%s\\n' \"$DOTFILES_TEST_PLATFORM\"\n")
         for platform in ("Linux", "Darwin"):
             self.env["DOTFILES_TEST_PLATFORM"] = platform
             with self.subTest(platform=platform):
@@ -319,7 +322,9 @@ class DotfilesTests(unittest.TestCase):
         self.env["VISUAL"] = "shell-editor"
         result = self.run_command(["git", "var", "GIT_EDITOR"], cwd=self.home)
         self.assertEqual(result.stdout.strip(), "shell-editor")
-        (self.home / ".gitconfig.local").write_text("[core]\n\teditor = machine-editor\n")
+        (self.home / ".gitconfig.local").write_text(
+            "[core]\n\teditor = machine-editor\n"
+        )
         result = self.run_command(["git", "var", "GIT_EDITOR"], cwd=self.home)
         self.assertEqual(result.stdout.strip(), "machine-editor")
 
@@ -361,33 +366,6 @@ class DotfilesTests(unittest.TestCase):
             self.assertEqual(git_local.readlink(), Path("missing-local-settings"))
             self.assertFalse(git_local.exists())
 
-    @unittest.skipUnless(shutil.which("npm"), "requires npm")
-    def test_npm_keeps_standard_registry_and_node_prefix(self):
-        for key in list(self.env):
-            if key.upper().startswith("NPM_CONFIG_"):
-                self.env.pop(key)
-        empty = self.home / "empty.npmrc"
-        empty.touch()
-        for setting in ("prefix", "registry"):
-            with self.subTest(setting=setting):
-                values = [
-                    self.run_command(
-                        [
-                            "npm",
-                            "--userconfig",
-                            str(config),
-                            "--globalconfig",
-                            os.devnull,
-                            "config",
-                            "get",
-                            setting,
-                        ],
-                        cwd=self.home,
-                    ).stdout.strip()
-                    for config in (empty, ROOT / ".npmrc")
-                ]
-                self.assertEqual(values[0], values[1])
-
     def test_nvim_wsl_clipboard_and_native_provider_selection(self):
         self.stub_command(
             "clip.exe",
@@ -425,8 +403,10 @@ class DotfilesTests(unittest.TestCase):
             ("$null", ""),
             ("'no extra newline'", "no extra newline"),
             (
-                '[string][char]0x4E2D + [char]0x6587 + '
-                '[char]::ConvertFromUtf32(0x1F680) + "`r`nnext`r`n"',
+                (
+                    "[string][char]0x4E2D + [char]0x6587 + "
+                    '[char]::ConvertFromUtf32(0x1F680) + "`r`nnext`r`n"'
+                ),
                 "\u4e2d\u6587\U0001f680\nnext\n",
             ),
         ):
@@ -449,3 +429,22 @@ class DotfilesTests(unittest.TestCase):
                     "nvim_completion.lua", "lazy.nvim", "blink.cmp", args=(event,)
                 )
                 self.assertIn("Completion checks passed", result.stdout)
+
+    def test_nvim_lsp_servers_start_with_completion_capabilities(self):
+        result = self.run_nvim(
+            "nvim_lsp.lua", "lazy.nvim", "blink.cmp", "nvim-lspconfig"
+        )
+        self.assertIn("LSP checks passed", result.stdout)
+
+    def test_nvim_notebook_preview_reuses_one_jupyterlab_per_project(self):
+        self.stub_command(
+            "jupyter",
+            'pwd >> "$HOME/jupyter-starts"\n'
+            'case "$PWD" in */broken) exit 3 ;; esac\n'
+            "printf 'Running at http://127.0.0.1:9999/la' >&2\n"
+            "sleep 0.3\n"
+            "printf 'b?token=abc\\n' >&2\n"
+            "exec sleep 30\n",
+        )
+        result = self.run_nvim("nvim_preview.lua")
+        self.assertIn("Preview checks passed", result.stdout)

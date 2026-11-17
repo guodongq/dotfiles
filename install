@@ -3,6 +3,7 @@
 set -euo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+# Used by link targets in install.conf.yaml; the same defaults zsh and XDG apps use.
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export ZDOTDIR="${ZDOTDIR:-$HOME}"
 
