@@ -1,5 +1,4 @@
 [core]
-	editor = nvim
 	pager = less -FRSX
 
 [push]
@@ -32,3 +31,6 @@
 # Name, email and machine-specific settings. Last, so they win.
 [include]
 	path = ~/.gitconfig.local
+[user]
+	name = guodongq
+	email = goldon.qian@gmail.com

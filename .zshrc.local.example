@@ -1,3 +1,9 @@
-# Machine-specific shell settings. ./install copies this file to ~/.zshrc.local.
+# Machine-specific shell settings. ./install creates this file if missing.
 # Add local environment variables and aliases here.
 # path=("$HOME/bin" $path)
+
+# Optional npm mirror.
+# export NPM_CONFIG_REGISTRY=https://registry.npmmirror.com
+
+# Optional npm prefix; do not set this when using nvm, fnm or Volta.
+# export NPM_CONFIG_PREFIX="$HOME/.npm-global"

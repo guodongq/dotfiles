@@ -19,6 +19,38 @@ vim.o.timeoutlen = 300
 -- The clipboard provider loads lazily on first register access (Nvim 0.11+).
 vim.o.clipboard = "unnamedplus"
 
+-- Prefer native providers; use Windows tools when WSL has no clipboard tool.
+if vim.fn.has("wsl") == 1 and vim.g.clipboard == nil then
+	local wayland = (vim.env.WAYLAND_DISPLAY or "") ~= ""
+	local x11 = (vim.env.DISPLAY or "") ~= ""
+	local native_clipboard = vim.fn.executable("win32yank.exe") == 1
+		or (wayland and vim.fn.executable("wl-copy") == 1 and vim.fn.executable("wl-paste") == 1)
+		or (x11 and (vim.fn.executable("xclip") == 1 or vim.fn.executable("xsel") == 1))
+	if not native_clipboard and vim.fn.executable("clip.exe") == 1 and vim.fn.executable("powershell.exe") == 1 then
+		local function copy(lines)
+			-- clip.exe needs UTF-16LE for non-ASCII text.
+			local text = vim.iconv(table.concat(lines, "\n"), "utf-8", "utf-16le")
+			local result = vim.system({ "clip.exe" }, { stdin = text }):wait()
+			assert(result.code == 0, result.stderr)
+		end
+		local paste = {
+			"powershell.exe",
+			"-NoLogo",
+			"-NoProfile",
+			"-NonInteractive",
+			"-Command",
+			"[Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false); "
+				.. '[Console]::Write(([string](Get-Clipboard -Raw)).Replace("`r`n", "`n"))',
+		}
+		vim.g.clipboard = {
+			name = "WSL",
+			copy = { ["+"] = copy, ["*"] = copy },
+			paste = { ["+"] = paste, ["*"] = paste },
+			cache_enabled = 0,
+		}
+	end
+end
+
 -- Search: ignore case unless the pattern contains capitals.
 vim.o.ignorecase = true
 vim.o.smartcase = true

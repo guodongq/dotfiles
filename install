@@ -3,7 +3,10 @@
 set -euo pipefail
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
-git -C dotbot submodule sync --quiet --recursive
-git submodule update --init --recursive dotbot
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export ZDOTDIR="${ZDOTDIR:-$HOME}"
+
+git submodule sync --quiet --recursive -- dotbot
+git submodule update --init --recursive -- dotbot
 
 exec dotbot/bin/dotbot -d "$PWD" -c install.conf.yaml "$@"

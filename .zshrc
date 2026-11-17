@@ -1,7 +1,7 @@
-# Shared shell settings. Machine-specific settings go in ~/.zshrc.local.
+# Shared shell settings. Machine-specific settings go in .zshrc.local.
 # GUI terminals can start interactive shells without reading .zprofile.
-if [[ ! -o login && -r "$HOME/.zprofile" ]]; then
-  source "$HOME/.zprofile"
+if [[ ! -o login && -r "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
 # Oh My Zsh
@@ -13,15 +13,16 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting history-substring-searc
 fpath+=("${ZSH_CUSTOM:-$ZSH/custom}/plugins/zsh-completions/src") # before compinit
 [[ -r "$ZSH/oh-my-zsh.sh" ]] && source "$ZSH/oh-my-zsh.sh"
 
-# Environment
-export EDITOR=nvim VISUAL=nvim
-
-# Aliases
-alias vim=nvim vi=nvim
-alias python=python3 pip=pip3
+# Editor and aliases
+if (( $+commands[nvim] )); then
+  export EDITOR=nvim VISUAL=nvim
+  alias vim=nvim vi=nvim
+fi
+(( $+commands[python] )) || alias python=python3
+(( $+commands[pip] )) || alias pip='python -m pip'
 alias k=kubectl
 
 # Last, so local settings win
-if [[ -r "$HOME/.zshrc.local" ]]; then
-  source "$HOME/.zshrc.local"
+if [[ -r "${ZDOTDIR:-$HOME}/.zshrc.local" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zshrc.local"
 fi
